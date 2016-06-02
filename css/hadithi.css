@@ -1,3 +1,8 @@
+
+body{
+  padding:35px;
+}
+
 div nav{
   display:block;
 }
@@ -14,7 +19,8 @@ div nav{
 /*Decoration for the header*/
 #logo #hadithiHeader{
   margin: 0;
-  font-size:35px;
+  font-size:40px;
+  font-family:"Lobster" , "cursive" !important;
   text-transform:uppercase;
   text-decoration:none;
   font-weight:500;
@@ -22,7 +28,6 @@ div nav{
   display:inline-block;
   line-height:110%;
   color:#111;
-  font-family:"futura-pt";
 }
 
 #logo #tag{
@@ -34,7 +39,7 @@ div nav{
   display:inline-block;
   line-height:110%;
   color:#111;
-  font-family:"futura-pt";
+  font-family:"Pacifico";
 }
 
 /*Eliminate the underline in the link*/
@@ -66,6 +71,9 @@ h1>a:hover{
 #banner #topNav #navBar>a{
   margin-right:20px;
   position:relative;
+  font-family: "Shadows Into Light", "cursive";
+  font-weight:bold;
+  font-size:15px;
 }
 
 /*style for the last item element in navigation bar*/
@@ -129,7 +137,7 @@ a:hover{
 .storyTitle{
   margin-top:0;
   margin-bottom:0px;
-  font-family: "futura-pt";
+  font-family: "Shadows Into Light", "cursive";
   font-size:35px;
   line-height: 1.6em;
   text-transform: uppercase;
@@ -200,6 +208,7 @@ font-family: Times;
 .readMoreBtn:hover {
   transform: translateY(1px);
   box-shadow: 0 1px 1px 0 rgba(0,0,0,0.10), 0 1px 1px 0 rgba(0,0,0,0.09);
+  color:white;
 }
 
 .readMoreBtn>a{
@@ -229,15 +238,15 @@ font-family: Times;
     text-align:center;
 }
 
-     #tweet-share #tumblr-share #facebook-share #googlePlus-share{
-        float:left;
-        padding:0px;
-        padding-top:8px;
-        text-align:center;
-        font-size:1.1em;
-        margin-right:5px;
-        width:40px;
-      }
+#tweet-share #tumblr-share #facebook-share #googlePlus-share{
+    float:left;
+    padding:0px;
+    padding-top:8px;
+    text-align:center;
+    font-size:1.1em;
+    margin-right:5px;
+    width:40px;
+  }
 
    /*Contains the share buttons*/ 
 .share-story-container{
@@ -257,8 +266,6 @@ font-family: Times;
       cursor:pointer;
     }  
    
-
-
 
 /*Contact Section*/
 #contact{
