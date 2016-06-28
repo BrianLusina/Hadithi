@@ -1,31 +1,26 @@
-
 body{
-  padding:35px;
+    margin:0px;
 }
-
-div nav{
-  display:block;
-}
-
-#banner{
-  display:block;
-  padding: 50px;
+/*-------------------------------------
+HEADER
+------------------------------------*/
+header{
+  padding: 20px;
 }
 
 #logo{
-  float:left;
+    display:inline-block;
 }
 
 /*Decoration for the header*/
-#logo #hadithiHeader{
+#hadithiHeader{
   margin: 0;
   font-size:40px;
-  font-family:"Lobster" , "cursive" !important;
+  font-family: "Lobster" , "cursive";
   text-transform:uppercase;
   text-decoration:none;
-  font-weight:500;
+  font-weight:800;
   font-style:normal;
-  display:inline-block;
   line-height:110%;
   color:#111;
 }
@@ -48,7 +43,7 @@ h1>a:hover{
 }
 
 /*Style for div containing nav bar*/
-#banner #topNav nav{
+.topNav{
   float:right;
   position:relative;
   font-weight: 400;
@@ -102,7 +97,9 @@ a:hover{
   border-bottom:none;
   margin:0px;
 }
-
+/*-------------------------------------
+SECTION
+------------------------------------*/
 /*Section for stories*/
 #stories{
   margin-top: 25px;
@@ -367,8 +364,9 @@ input[type=checkbox]:checked + label {
   color: #f00;
   font-style: normal;
 }
-
-/*Footer section  */
+/*-------------------------------------
+FOOTER
+------------------------------------*/
 #footer{
   margin-top:100px;
   display:block;
@@ -396,7 +394,7 @@ input[type=checkbox]:checked + label {
 .footer-nav{
   font-size: 15px;
   padding: 30px 0 10px 0;
-  background: #00000;
+  background: #0000;
 }
 
 .footer-nav-house{
