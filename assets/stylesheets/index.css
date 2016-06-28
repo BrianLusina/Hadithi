@@ -1,5 +1,6 @@
 body{
     margin:0px;
+    background-color:#f0f0f0;
 }
 
 /*general style for the links*/
@@ -72,28 +73,22 @@ header{
 SECTION
 ------------------------------------*/
 /*Section for stories*/
-#stories{
-  margin-top: 25px;
-  margin: 10px auto;
-  padding: 10px 75px 0px 75px;
+.stories{
+  padding: 15px 75px 0px 75px;
 }
 
 .storyContainer{
   padding:50px 0 50px 0;
   opacity:1;
-  position:relative;
-  clear:both;
 }
 
-.storyContainer .wrap{
-  width: 103%;
-  margin-left: -3%;
-  margin-top: -3%;
-  display: -webkit-inline-box;
+.wrap{
+  width: 100%;
 }
 
 .storyHeader{
     margin: 0 0 15px 0;
+    font-family: Cormorant Upright, cursive;
   text-transform:uppercase;
   text-decoration:none;
   font-weight:500;
@@ -102,10 +97,15 @@ SECTION
   line-height:110%;
 }
 
+/*story title link*/
+.storyHeader a:hover{
+    color:brown;
+}
+
 .storyTitle{
   margin-top:0;
   margin-bottom:0px;
-  font-family: "Shadows Into Light", "cursive";
+  font-family: Shadows Into Light, cursive;
   font-size:35px;
   line-height: 1.6em;
   text-transform: uppercase;
@@ -115,30 +115,30 @@ SECTION
   font-weight: 800;
   font-style: normal;
   color: #404040;
-  float:left;
 }
+
 /*Style for the post data  */
 .post-meta{
   font-size: 0.8em;
   color: #999;
   text-transform: uppercase;
   letter-spacing: 1px;
+    padding:10px;
   }
 
 .post-meta .date-sep {
     margin: 0 5px;
-    color: #DDD;
+    color: #000;
 }
 
 .storySummary{
     margin: 0 0 15px 0;
     display: inline-block;
     line-height: 110%;
-  float:left;
 }
 
 p{
-  font-family: "proxima-nova";
+  font-family: proxima-nova;
   font-size: 15px;
   line-height: 1.8em;
   text-transform: none;
@@ -162,8 +162,7 @@ font-family: Times;
 
 /*Style for read more button*/
 .readMoreBtn {
-    float: left;
-    padding: 3px 14px;
+    padding: 15px 20px;
     border-radius: 0px;
     display: inline-block;
     background-color: #1b1c1d;
@@ -179,11 +178,15 @@ font-family: Times;
   color:white;
 }
 
-.readMoreBtn>a{
-  color:#f5f5f5
+.readMoreBtn a{
+    font-family: Roboto, cursive, sans-serif;
+    text-decoration:none;
+    color:#f5f5f5
 }
 
-/*Styles for each story page*/
+/**------------------------
+STYLES FOR EACH STORY
+-------------------------**/
 /*Main story section*/
 .main-story{
   margin-top: 25px;
