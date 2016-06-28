@@ -1,102 +1,73 @@
 body{
     margin:0px;
 }
+
+/*general style for the links*/
+a{
+  text-decoration: none;
+}
 /*-------------------------------------
 HEADER
 ------------------------------------*/
 header{
-  padding: 20px;
+    padding: 20px;
+    display:block;
+    padding:10px;
+    background-color: burlywood;
 }
 
-#logo{
+#name-and-tag{
     display:inline-block;
 }
 
 /*Decoration for the header*/
-#hadithiHeader{
-  margin: 0;
-  font-size:40px;
-  font-family: "Lobster" , "cursive";
-  text-transform:uppercase;
-  text-decoration:none;
-  font-weight:800;
-  font-style:normal;
-  line-height:110%;
-  color:#111;
+#hadithiHeader a{
+    font-family: Poiret One, Cormorant Upright,cursive;
+    font-weight: 800;
+    font-size:35px;
+    line-height: 20px;
+    color:black;
 }
 
-#logo #tag{
-  margin: 0;
-  font-size:15px !important;
-  text-decoration:none;
-  font-weight:500;
-  font-style:normal;
-  display:inline-block;
-  line-height:110%;
-  color:#111;
-  font-family:"Pacifico";
+#hadithiHeader a:hover{
+    text-decoration: none;
+    color:bisque;
 }
 
-/*Eliminate the underline in the link*/
-h1>a:hover{
-  text-decoration:none;
+#tag{
+    font-family: Pacifico,Cormorant SC,cursive;
+    font-weight: 400;
+    font-size:17px;
+    line-height: 10px;
 }
+
 
 /*Style for div containing nav bar*/
 .topNav{
-  float:right;
-  position:relative;
+    float:right;
   font-weight: 400;
-  font-style: normal;
-  font-family: "futura-pt";
   font-size: 13px;
   line-height: 1.6em;
   text-transform: uppercase;
   letter-spacing: 1px;
-}
-
-/*Navigation Links in navBar*/
-#banner #topNav #navBar{
   text-decoration:none !important;
   margin:0;
-  padding:0;
+  padding:35px;
 }
 
 /*style for each link in the navigation bar*/
-#banner #topNav #navBar>a{
-  margin-right:20px;
-  position:relative;
-  font-family: "Shadows Into Light", "cursive";
-  font-weight:bold;
-  font-size:15px;
+.topNav a{
+    color:black;
+    margin:5px;
+    padding:15px;
+    font-family: Shadows Into Light, cursive;
+    font-size:15px;
 }
 
-/*style for the last item element in navigation bar*/
-#navBar>a:last-child{
- margin-right:0px;
+.topNav a:hover{
+    color:bisque;
 }
 
-/*general style for the links*/
-a{
-  padding:10px 0;
-  display:inline-block;
-  color:#111;
-  text-decoration: none;
-}
-
-a:hover{
-  text-decoration:none;
-}
-
-/*Style for an active link*/
-#navBar>a:active{
-  color:#111;
-}
-
-.page-divider{
-  border-bottom:none;
-  margin:0px;
-}
 /*-------------------------------------
 SECTION
 ------------------------------------*/
