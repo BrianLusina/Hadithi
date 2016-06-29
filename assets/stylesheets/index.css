@@ -339,6 +339,7 @@ input[type=checkbox]:checked + label {
   color: #f00;
   font-style: normal;
 }
+
 /*-------------------------------------
 FOOTER
 ------------------------------------*/
@@ -349,11 +350,11 @@ FOOTER
   clear: both;
   position: relative;
   overflow: hidden;
+  background-color: #786B59;
 }
 
 .social-box{
   padding: 25px 0;
-  background-color: #F4F4F4;
   text-align: center;
 }
 
@@ -362,53 +363,52 @@ FOOTER
     margin: 0 auto;
 }
 
-.social-container>a{
+.social-container a{
   padding:10px;
+    margin:10px;
 }
 
 .footer-nav{
-  font-size: 15px;
-  padding: 30px 0 10px 0;
-  background: #0000;
-}
-
-.footer-nav-house{
-max-width: 100%;
-padding: 0 60px;
-margin: 0 auto;
+    font-size: 15px;
+    padding: 30px 0 10px 0;
+    border-top: 1px solid darkgray;
+    display: block;
 }
 
 .footer-nav-left{
-  float:left;
+    display:inline-block;
+    margin:10px;
+    padding:10px;
 }
-.designer-name{
+
+.footer-nav-left span a{
+    color:black;
+}
+
+.footer-nav-left span a:hover{
+    color:firebrick;
+    cursor:pointer;
 }
 
 .footer-nav-right{
-float: right;
-font-family: 'MuseoSans_Fat';
-text-transform: uppercase;
-}
-
-
-#footer .footer-nav ul {
-    margin-bottom: 10px;
-    overflow: hidden;
-}
-
-#footer .footer-nav li {
-    float: left;
-    margin: 0 15px 10px 0;
+    float:right;
+    margin:10px;
+    padding:10px;
+    text-transform: uppercase;
     padding-right: 15px;
     text-transform: uppercase;
     font-family: 'MuseoSans_Fat';
-    border-right: 1px solid #333;
+    overflow: hidden;
 }
 
-#footer .footer-nav li:last-child {
-    border-right: 0px;
+.footer-nav-right a{
+    margin:10px;
+    padding:10px;
+    color:black;
+    font-family:Aref Ruqaa, cursive;
 }
 
-li {
-    list-style: none;
+.footer-nav-right a:hover{
+    color:firebrick;
+    cursor:pointer;    
 }
