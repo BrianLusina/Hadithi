@@ -1,44 +1,40 @@
 <!DOCTYPE html>
 <html lang="en-us">
 
-<!--KICHWA-->
 <head>
-<title>Hadithi Za Kale</title>
+    <meta charset="utf-8">
+    <title>Africa's Tales</title>
 
-<!--Custom CSS-->
-<link rel="stylesheet" href="stories.css" type="text/css" />
+    <!--Custom CSS-->
+    <link rel="stylesheet" href="assets/stylesheets/index.css" type="text/css" />
 
-<!--External CSS-->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css" type="text/css" />
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" type="text/css" />
+    <!--FONT-AWESEOMe-->
+     <link rel= "stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" type="text/css"/>
 
-<!--Google Fonts-->
-<link href='https://fonts.googleapis.com/css?family=Lobster|Pacifico|Shadows+Into+Light' rel='stylesheet' type='text/css'>
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans|Cormorant|Cormorant+SC|Cormorant+Upright|Poiret+One|Raleway|Roboto|Cormorant+Infant|Aref+Ruqaa|Lobster|Pacifico|Shadows+Into+Light" rel="stylesheet">
 </head>
 
-<!--MWILI-->
+<!--BODY-->
 <body>
-<!--Header section for name and navigation bar-->
-  <header id="banner">
+<!------------------------------------------------------------------------------------------------------------------>    <!--HEADER-->
+  <!--Header section for name and navigation bar-->
+  <header class="banner">
     <!--Site Title-->
-    <div id="logo">
-      <h1 id="hadithiHeader"><a href="/index.html">Hadithi</a></h1>
-      <div>
-        <span id="tag">Tales from Africa</span>
-      </div>
+    <div id="name-and-tag">
+        <h2 id="hadithiHeader">
+            <a href="index.html">Hadithi</a>
+        </h2>
+        <p id="tag">Tales from Africa</p>
     </div>
-
     <!--Navigation bar-->
-    <div id="topNav" class="container">
-      <nav id="navBar" role="navigation" class="collapse navbar-collapse">
-        <a href="index.html/#stories" class="scrollable">Stories</a>
-        <a href="pages/contact.html" class="scrollable">Contact</a>
-        <a href="pages/about.html" class="scrollable">About</a>
+      <nav class = "topNav">
+        <a href="#stories">Stories</a>
+        <a href="contact.html">Contact</a>
+        <a href="about.html">About</a>
       </nav>
-    </div>
   </header>
-  <div class="page-divider"></div>
+
 
   <!--MAIN STORY-->
   <section class="main-story" role="main">
@@ -90,11 +86,14 @@
   </section>
 
 
-    <footer id="footer">
+<!------------------------------------------------------------------------------------------------------------------>
+    <!--footer-->
+  <footer id="footer">
     <!--Social Container-->
     <div class="social-box">
       <div class="social-container">
-        <a href="https://www.linkedin.com/in/brianlusina" target="_blank" class="button social"><i class="fa fa-linkedin fa-2x"></i></a>
+        <a href="https://www.linkedin.com/in/brianlusina" target="_blank" class="button social">
+            <i class="fa fa-linkedin fa-2x"></i></a>
         <a href="https://github.com/brianlusina" class="button social" target="_blank">
           <i class="fa fa-github fa-2x"></i></a>
         <a href="https://twitter.com/brianlusina" class="button social" target="_blank">
@@ -104,26 +103,24 @@
       </div>
     </div>
 
-    <nav class="footer-nav">
-      <!--divider element housing left and right dividers   -->
-      <div class="footer-nav-house">
-
+    <div class="footer-nav">
         <!-- Left section of footer navigation  -->
         <div class="footer-nav-left">
-          <div class="designer-name">Made with <i class="fa fa-heart" style="color:red"></i> and <i class="fa fa-coffee" style="color:brown"></i> by <a href="http://codepen.io/mercury">Mercury</a>.</div>
+          <span class="designer-name">Made with <i class="fa fa-heart" style="color:red"></i> and <i class="fa fa-coffee" style="color:brown"></i> by <a href="http://codepen.io/mercury">Mercury</a>.</span>
         </div>
 
         <!--Right section of footer navigation-->
-        <div class="footer-nav-right">
-          <ul>
-            <li><a href="pages/about.html">About</a></li>
-            <li><a href="pages/contact.html/">Contact</a></li>
-          </ul>
-        </div>
-
-      </div>
-    </nav>
+        <nav class="footer-nav-right">
+          <a href="index.html">Stories</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+    </div>
 
   </footer>
-
+<!------------------------------------------------------------------------------------------------------------------->   
+    <!--SCRIPTS-->
+    <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="js/hadithi.js"></script>
 </body>
+</html>
