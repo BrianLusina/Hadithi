@@ -1,3 +1,11 @@
+* {
+    box-sizing: border-box;
+}
+.row::after {
+    content: "";
+    clear: both;
+    display: block;
+}
 body{
     margin:0px;
     background-color:#f0f0f0;
@@ -80,25 +88,26 @@ USER STOY IMAGES
 }
 
 .user-img{
-	width: 10px;
+	width: 100%;
 }
 
 .user-txt{
 	
 }
 /*desktop*/
-@media only screen and (min-width:600px){
+@media only screen and (min-width:768px){
 	.img-container{
 		width:33%;
-		float: left;
-		display:inline-block;		
+		vertical-align: top;
+		display:inline-block;
 	}
 }
 
 /*phones*/
-@media only screen and (max-width:599px){
+@media only screen and (max-width:768px){
 	.img-container{
 		width:100%;
+		display:block;
 	}
 }
 /**-*-*-**-*-*-*--*-*-*-*/
