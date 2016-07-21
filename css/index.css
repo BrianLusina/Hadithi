@@ -90,26 +90,34 @@ USER STOY IMAGES
 .user-img{
 	width: 100%;
 }
-
+.img-container{
+	vertical-align: top;	
+}
 .user-txt{
 	
 }
+/*phones*/
+[class*="col-"] {
+    float: left;
+    padding: 15px;
+}
+
+/*tablets*/
+@media only screen and (min-width:500px){
+	.img-container{
+		width: 50%;
+		float: left;
+	}
+}
+
 /*desktop*/
 @media only screen and (min-width:768px){
 	.img-container{
 		width:33%;
-		vertical-align: top;
 		display:inline-block;
 	}
 }
 
-/*phones*/
-@media only screen and (max-width:768px){
-	.img-container{
-		width:100%;
-		display:block;
-	}
-}
 /**-*-*-**-*-*-*--*-*-*-*/
 /*Section for stories*/
 .stories{
