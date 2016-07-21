@@ -116,6 +116,18 @@ USER STOY IMAGES
 	
 }
 
+.img-container{
+	display:inline-block;
+	width:33%;
+}
+
+.user-txt{
+	
+}
+
+@media screen{
+	
+}
 /**-*-*-**-*-*-*--*-*-*-*/
 .storyContainer{
   padding:50px 0 50px 0;
