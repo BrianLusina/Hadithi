@@ -72,6 +72,36 @@ header{
 /*-------------------------------------
 SECTION
 ------------------------------------*/
+/**-*-*-*-*-*-*-*-*---
+USER STOY IMAGES
+*-*-*-**-*-*-*--*-*-*-*/
+#img-grid{
+	display:block;
+}
+
+.user-img{
+	width: 10px;
+}
+
+.user-txt{
+	
+}
+/*desktop*/
+@media only screen and (min-width:600px){
+	.img-container{
+		width:33%;
+		float: left;
+		display:inline-block;		
+	}
+}
+
+/*phones*/
+@media only screen and (max-width:599px){
+	.img-container{
+		width:100%;
+	}
+}
+/**-*-*-**-*-*-*--*-*-*-*/
 /*Section for stories*/
 .stories{
   padding: 15px 75px 0px 75px;
