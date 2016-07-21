@@ -124,10 +124,16 @@ USER STOY IMAGES
 .user-txt{
 	
 }
-
-@media screen{
+/*desktop*/
+@media only screen and (min-width:600px){
 	
 }
+
+/*phones*/
+@media only screen and (max-width:599px){
+	
+}
+
 /**-*-*-**-*-*-*--*-*-*-*/
 .storyContainer{
   padding:50px 0 50px 0;
