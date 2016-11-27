@@ -1,0 +1,481 @@
+* {
+    box-sizing: border-box;
+}
+.row::after {
+    content: "";
+    clear: both;
+    display: block;
+}
+body{
+    margin:0px;
+    background-color:#f0f0f0;
+}
+
+/*general style for the links*/
+a{
+  text-decoration: none;
+}
+/*-------------------------------------
+HEADER
+------------------------------------*/
+header{
+    padding: 20px;
+    display:block;
+    padding:10px;
+    background-color: burlywood;
+}
+
+#name-and-tag{
+    display:inline-block;
+}
+
+/*Decoration for the header*/
+#hadithiHeader a{
+    font-family: Poiret One, Cormorant Upright,cursive;
+    font-weight: 800;
+    font-size:35px;
+    line-height: 20px;
+    color:black;
+}
+
+#hadithiHeader a:hover{
+    text-decoration: none;
+    color:bisque;
+}
+
+#tag{
+    font-family: Pacifico,Cormorant SC,cursive;
+    font-weight: 400;
+    font-size:17px;
+    line-height: 10px;
+}
+
+
+/*Style for div containing nav bar*/
+.topNav{
+    float:right;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.6em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration:none !important;
+  margin:0;
+  padding:35px;
+}
+
+/*style for each link in the navigation bar*/
+.topNav a{
+    color:black;
+    margin:5px;
+    padding:15px;
+    font-family: Shadows Into Light, cursive;
+    font-size:15px;
+}
+
+.topNav a:hover{
+    color:bisque;
+}
+
+/*-------------------------------------
+SECTION
+------------------------------------*/
+/**-*-*-*-*-*-*-*-*---
+USER STOY IMAGES
+*-*-*-**-*-*-*--*-*-*-*/
+#img-grid{
+	display:block;
+}
+
+.user-img{
+	width: 100%;
+}
+.img-container{
+	vertical-align: top;	
+}
+.user-txt{
+	
+}
+/*phones*/
+[class*="col-"] {
+    float: left;
+    padding: 15px;
+}
+
+/* For mbile phones: */
+[class*="col-"] {
+    width: 100%;
+}
+@media only screen and (min-width: 600px) {
+    /* For tablets: */
+    .col-m-1 {width: 8.33%;}
+    .col-m-2 {width: 16.66%;}
+    .col-m-3 {width: 25%;}
+    .col-m-4 {width: 33.33%;}
+    .col-m-5 {width: 41.66%;}
+    .col-m-6 {width: 50%;}
+    .col-m-7 {width: 58.33%;}
+    .col-m-8 {width: 66.66%;}
+    .col-m-9 {width: 75%;}
+    .col-m-10 {width: 83.33%;}
+    .col-m-11 {width: 91.66%;}
+    .col-m-12 {width: 100%;}
+}
+@media only screen and (min-width: 768px) {
+    /* For desktop: */
+    .col-1 {width: 8.33%;}
+    .col-2 {width: 16.66%;}
+    .col-3 {width: 25%;}
+    .col-4 {width: 33.33%;}
+    .col-5 {width: 41.66%;}
+    .col-6 {width: 50%;}
+    .col-7 {width: 58.33%;}
+    .col-8 {width: 66.66%;}
+    .col-9 {width: 75%;}
+    .col-10 {width: 83.33%;}
+    .col-11 {width: 91.66%;}
+    .col-12 {width: 100%;}
+}
+
+
+/**-*-*-**-*-*-*--*-*-*-*/
+/*Section for stories*/
+.stories{
+  padding: 15px 75px 0px 75px;
+}
+
+.storyContainer{
+  padding:50px 0 50px 0;
+  opacity:1;
+}
+
+.wrap{
+  width: 100%;
+}
+
+.storyHeader{
+    margin: 0 0 15px 0;
+    font-family: Cormorant Upright, cursive;
+  text-transform:uppercase;
+  text-decoration:none;
+  font-weight:500;
+  font-style:normal;
+  display:inline-block;
+  line-height:110%;
+}
+
+/*story title link*/
+.storyHeader a:hover{
+    color:brown;
+}
+
+.storyTitle{
+  margin-top:0;
+  margin-bottom:0px;
+  font-family: Shadows Into Light, cursive;
+  font-size:35px;
+  line-height: 1.6em;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: .06em;
+  text-align: center;
+  font-weight: 800;
+  font-style: normal;
+  color: #404040;
+}
+
+/*Style for the post data  */
+.post-meta{
+  font-size: 0.8em;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+    padding:10px;
+  }
+
+.post-meta .date-sep {
+    margin: 0 5px;
+    color: #000;
+}
+
+.storySummary{
+    margin: 0 0 15px 0;
+    display: inline-block;
+    line-height: 110%;
+}
+
+p{
+  font-family: proxima-nova;
+  font-size: 15px;
+  line-height: 1.8em;
+  text-transform: none;
+  text-decoration: none;
+  font-weight: 300;
+  font-style: normal;
+  margin: 0 0 1em;
+}
+
+/*Style for the drop cap*/
+p:first-child:first-letter{
+float: left; 
+color: #111; 
+font-size: 75px; 
+line-height: 60px; 
+padding-top: 4px;
+padding-right: 8px; 
+padding-left: 3px; 
+font-family: Times;
+}
+
+/*Style for read more button*/
+.readMoreBtn {
+    padding: 15px 20px;
+    border-radius: 0px;
+    display: inline-block;
+    background-color: #1b1c1d;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 10px 50px 0 rgba(59,39,11,23.06),0 2px 15px 0 rgba(0,0,5,0.07);
+}
+
+.readMoreBtn:hover {
+  transform: translateY(1px);
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,0.10), 0 1px 1px 0 rgba(0,0,0,0.09);
+  color:white;
+}
+
+.readMoreBtn a{
+    font-family: Roboto, cursive, sans-serif;
+    text-decoration:none;
+    color:#f5f5f5
+}
+
+/**------------------------
+STYLES FOR EACH STORY
+-------------------------**/
+/*Main story section*/
+.main-story{
+  margin-top: 25px;
+  margin: 10px auto;
+  padding: 10px 75px 0px 75px;  
+}
+
+/*Paragraphs containing the main story*/
+.story-content{
+    margin: 0 0 15px 0;
+  display: inline-block;
+  line-height: 110%;
+}
+
+/*share Buttons*/
+.share-story {
+    width:450px;
+    margin:auto;
+    display:block;
+    text-align:center;
+}
+
+#tweet-share #tumblr-share #facebook-share #googlePlus-share{
+    float:left;
+    padding:0px;
+    padding-top:8px;
+    text-align:center;
+    font-size:1.1em;
+    margin-right:5px;
+    width:40px;
+  }
+
+   /*Contains the share buttons*/ 
+.share-story-container{
+    margin-top: 10px;
+  }
+  
+  /*Styles for each share button link*/
+    .shareButton {
+      border:none;
+      border-radius:3px;
+      color:#fff;
+      background-color:#333;
+      outline:none;
+      font-size:0.85em;
+      padding: 8px 18px 6px 18px;
+      opacity:1;
+      cursor:pointer;
+    }  
+   
+/*------------------------------
+CONTACT PAGE
+-------------------------------*/
+#contact{
+  padding-top:25px;
+}
+#contact>div>h3{
+    font-family: 'Poppins', sans-serif, 'arial';
+    font-weight: 600;
+    font-size: 36px;
+    text-align: center;
+}
+
+#contact>div>h4{
+    font-family: 'Roboto', sans-serif, 'arial';
+    font-weight: 400;
+    font-size: 20px;
+    color: #9b9b9b;
+    line-height: 1.5;
+}
+
+/* ///// inputs /////*/
+
+input:focus ~ label, textarea:focus ~ label, input:valid ~ label, textarea:valid ~ label {
+    font-size: 0.75em;
+    color: #999;
+    top: -5px;
+    -webkit-transition: all 0.225s ease;
+    transition: all 0.225s ease;
+}
+
+.styled-input {
+    float: left;
+    width: 290px;
+    margin: 1rem 0;
+    position: relative;
+    border-radius: 3px;
+}
+
+@media only screen and (max-width: 768px){
+    .styled-input {
+        width:100%;
+    }
+}
+
+.styled-input label {
+    color: #999;
+    padding: 1.3rem 30px 1rem 30px;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    -webkit-transition: all 0.25s ease;
+    transition: all 0.25s ease;
+    pointer-events: none;
+}
+
+.styled-input.wide {
+    width: 650px;
+    max-width: 100%;
+}
+
+input,
+textarea {
+    padding: 30px;
+    border: 0;
+    width: 100%;
+    font-size: 1rem;
+    background-color: #2d2d2d;
+    color: white;
+    border-radius: 4px;
+}
+
+input:focus,
+textarea:focus { outline: 0; }
+
+input:focus ~ span,
+textarea:focus ~ span {
+    width: 100%;
+    -webkit-transition: all 0.075s ease;
+    transition: all 0.075s ease;
+}
+
+textarea {
+    width: 100%;
+    min-height: 15em;
+}
+
+.input-container {
+    width: 675px;
+    max-width: 100%;
+    margin: 20px auto 25px auto;
+}
+
+input[type=checkbox] + label {
+  color: #ccc;
+  font-style: italic;
+}
+
+input[type=checkbox]:checked + label {
+  color: #f00;
+  font-style: normal;
+}
+
+/*-------------------------------------
+FOOTER
+------------------------------------*/
+#footer{
+  margin-top:100px;
+  display:block;
+  border-top: 10px;
+  clear: both;
+  position: relative;
+  overflow: hidden;
+  background-color: #786B59;
+}
+
+.social-box{
+  padding: 25px 0;
+  text-align: center;
+}
+
+#footer .social-box .social-container {
+    width: 275px;
+    margin: 0 auto;
+}
+
+.social-container a{
+  padding:10px;
+    margin:10px;
+}
+
+.footer-nav{
+    font-size: 15px;
+    padding: 30px 0 10px 0;
+    border-top: 1px solid darkgray;
+    display: block;
+}
+
+.footer-nav-left{
+    display:inline-block;
+    margin:10px;
+    padding:10px;
+}
+
+.footer-nav-left span a{
+    color:black;
+}
+
+.footer-nav-left span a:hover{
+    color:firebrick;
+    cursor:pointer;
+}
+
+.footer-nav-right{
+    float:right;
+    margin:10px;
+    padding:10px;
+    text-transform: uppercase;
+    padding-right: 15px;
+    text-transform: uppercase;
+    font-family: 'MuseoSans_Fat';
+    overflow: hidden;
+}
+
+.footer-nav-right a{
+    margin:10px;
+    padding:10px;
+    color:black;
+    font-family:Aref Ruqaa, cursive;
+}
+
+.footer-nav-right a:hover{
+    color:firebrick;
+    cursor:pointer;    
+}
