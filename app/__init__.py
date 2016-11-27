@@ -24,6 +24,10 @@ def create_app(config_name):
 
 
 def error_handlers(app):
+    """
+    Error handlers for the app
+    :param app: The app object
+    """
     # Error handler for page not found
     @app.errorhandler(404)
     def not_found(error):
