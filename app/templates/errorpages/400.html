@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block container %}
+    <div>
+        <h1>400 Bad Request</h1>
+        <p>Page found but the POST/GET data sent was invalid.</p>
+        <p>URL: {{ request.url }}</p>
+    </div>
+{% endblock %}
