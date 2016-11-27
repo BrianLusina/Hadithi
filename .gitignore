@@ -6,7 +6,7 @@
 # User-specific stuff:
 .idea/tasks.xml
 .idea/
-
+cleanup.sh
 # Gradle:
 .idea/gradle.xml
 .idea/libraries
