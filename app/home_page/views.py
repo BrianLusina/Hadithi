@@ -1,5 +1,5 @@
-from app.home_page import home_module
-from flask import render_template
+from flask import render_template, Blueprint
+home_module = Blueprint(name='home', url_prefix='/', import_name=__name__)
 
 
 @home_module.route('/')
