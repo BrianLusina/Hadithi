@@ -2,6 +2,9 @@ from sqlalchemy import Column, String, Integer, DateTime, func, ForeignKey
 from sqlalchemy.orm import relationship
 from flask_sqlalchemy import SQLAlchemy
 from abc import ABCMeta, abstractmethod
+import uuid
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 db = SQLAlchemy()
 
@@ -34,21 +37,32 @@ class Author(Base):
     :cvar __tablename__ name of this table in the database
     """
     __tablename__ = "author"
-
-    fname = Column(String, nullable=False)
-    lname = Column(String, nullable=False)
-    email = Column(String, nullable=False, unique=True)
-    password = Column(String, nullable=False)
+    uuid = Column(String(250), default=str(uuid.uuid4()), nullable=False)
+    fname = Column(String(100), nullable=False)
+    lname = Column(String(100), nullable=False)
+    email = Column(String(250), nullable=False, unique=True)
+    password_hash = Column(String(250), nullable=False)
 
     def __init__(self, fname, lname, email, password):
         super().__init__()
         self.fname = fname
         self.lname = lname
         self.email = email
-        self.password = password
+        self.password_hash = password
+
+    @property
+    def password(self, password):
+        raise AttributeError("Password is not a readable attribute")
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return "<Name :%r %r, Email: %r>" % (self.fname, self.lname, self.email)
+        return "<User:%r Name :%r %r, Email: %r>" % (self.uuid, self.fname, self.lname, self.email)
 
 
 class Story(Base):
