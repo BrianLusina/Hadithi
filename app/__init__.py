@@ -33,19 +33,19 @@ def error_handlers(app):
     # Error handler for page not found
     @app.errorhandler(404)
     def not_found(error):
-        return render_template('404.html')
+        return render_template('errorpages/404.html')
 
     @app.errorhandler(403)
     def error_403(error):
-        return render_template("403.html")
+        return render_template("errorpages/403.html")
 
     @app.errorhandler(403)
     def error_500(error):
-        return render_template("500.html")
+        return render_template("errorpages/500.html")
 
     @app.errorhandler(400)
     def not_found(error):
-        return render_template('400.html')
+        return render_template('errorpages/400.html')
 
 
 def register_blueprints(app):
