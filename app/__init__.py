@@ -1,9 +1,7 @@
 from flask import render_template, Flask
 from config import config
-# from app.home_page.views import home_module
-from .home_page import home_module
-from .story_page import story_module
-# from app.story_page.views import story_module
+from app.home_page.views import home_module
+from app.story_page.views import story_module
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
