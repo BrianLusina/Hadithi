@@ -1,5 +1,6 @@
 from flask import render_template, Blueprint
-home_module = Blueprint(name='home', url_prefix='/', import_name=__name__)
+from . import home_module
+# home_module = Blueprint(name='home', url_prefix='/', import_name=__name__)
 
 
 @home_module.route('/')

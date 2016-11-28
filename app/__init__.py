@@ -1,7 +1,16 @@
 from flask import render_template, Flask
 from config import config
-from app.home_page.views import home_module
-from app.story_page.views import story_module
+# from app.home_page.views import home_module
+from .home_page import home_module
+from .story_page import story_module
+# from app.story_page.views import story_module
+from flask_login import LoginManager
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+login_manager = LoginManager()
+login_manager.session_protection = 'strong'
+login_manager.login_view = 'auth.login'
 
 
 def create_app(config_name):
@@ -14,11 +23,11 @@ def create_app(config_name):
 
     # configurations
     app.config.from_object(config[config_name])
-
     config[config_name].init_app(app)
 
     # initialize the db
-    # db.init_app(app)
+    db.init_app(app)
+    login_manager.init_app(app)
 
     error_handlers(app)
     register_blueprints(app)

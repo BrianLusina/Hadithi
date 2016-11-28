@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from abc import ABCMeta, abstractmethod
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
 
 db = SQLAlchemy()
@@ -31,7 +32,7 @@ class Base(db.Model):
         pass
 
 
-class Author(Base):
+class Author(Base, UserMixin):
     """
     Table for authors of Hadithi
     :cvar __tablename__ name of this table in the database
