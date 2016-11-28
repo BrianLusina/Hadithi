@@ -31,6 +31,7 @@ class Base(db.Model):
 class Author(Base):
     """
     Table for authors of Hadithi
+    :cvar __tablename__ name of this table in the database
     """
     __tablename__ = "author"
 
