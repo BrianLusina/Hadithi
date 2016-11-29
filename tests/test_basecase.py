@@ -38,7 +38,7 @@ class BaseTestCase(ContextTestCase):
                 author = Author(fname="John", lname="Doe", email="johndoe@example.com", password="password")
                 db.session.add(author)
             except IntegrityError as ie:
-                print(e)
+                print(ie)
                 db.session.rollback()
         return author
 
@@ -47,10 +47,22 @@ class BaseTestCase(ContextTestCase):
         story = Story.query.filter_by(author_id=author.id).first()
         if story is None:
             try:
-                story = Story(title="Gotham in flames", tagline="Dark city catches fire", content="", author_id=author.id)
+                story = Story(title="Gotham in flames", tagline="Dark city catches fire", content="",
+                              author_id=author.id)
                 db.session.add(story)
             except IntegrityError as e:
                 print(e)
                 db.session.rollback()
         return story
 
+    def setUp(self):
+        db.create_all()
+
+        self.create_author_account()
+        self.create_story()
+
+        db.session.commit()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()

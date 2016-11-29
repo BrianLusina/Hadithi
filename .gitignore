@@ -8,6 +8,7 @@
 .idea/
 cleanup.sh
 migrations/
+app.db
 # Gradle:
 .idea/gradle.xml
 .idea/libraries
