@@ -1,13 +1,10 @@
 from sqlalchemy import Column, String, Integer, DateTime, func, ForeignKey
 from sqlalchemy.orm import relationship
-from flask_sqlalchemy import SQLAlchemy
 from abc import ABCMeta, abstractmethod
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-
-
-db = SQLAlchemy()
+from . import db
 
 
 class Base(db.Model):
@@ -20,10 +17,6 @@ class Base(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     date_created = Column(DateTime, default=func.current_timestamp())
     date_modified = Column(DateTime, default=func.current_timestamp(), onupdate=func.current_timestamp())
-
-    @abstractmethod
-    def __init__(self):
-        pass
 
     @abstractmethod
     def __repr__(self):
@@ -46,7 +39,6 @@ class Author(Base, UserMixin):
     password_hash = Column(String(250), nullable=False)
 
     def __init__(self, fname, lname, email, password):
-        super().__init__()
         self.fname = fname
         self.lname = lname
         self.email = email
@@ -89,7 +81,6 @@ class Story(Base):
         :param content: Content of this story
         :param author_id: The author id of whoever wrote this story
         """
-        super().__init__()
         self.title = title
         self.tagline = tagline
         self.content = content
