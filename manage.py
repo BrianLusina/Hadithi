@@ -1,7 +1,6 @@
 import os
-from app import create_app
-# , db
-# from app.models import ChamaGroup, User, AccountActivity, Calender, ChamaProjects, Milestones
+from app import create_app, db
+from app.models import Author, Story
 from flask_script import Manager, Shell
 from flask_migrate import MigrateCommand, Migrate
 
@@ -13,15 +12,13 @@ if os.environ.get("FLASK_COVERAGE"):
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
-# migrate = Migrate(app, db)
+migrate = Migrate(app, db)
 
 
-# def make_shell_context():
-#     return dict(app=app, db=db, Chamagroup=ChamaGroup, User=User, AccountActivity=AccountActivity,
-#                 Calender=Calender, ChamaProjects=ChamaProjects, Milestones=Milestones)
-#
-#
-# manager.add_command('shell', Shell(make_context=make_shell_context))
+def make_shell_context():
+    return dict(app=app, db=db, Author=Author, Story=Story)
+
+manager.add_command('shell', Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 
 

@@ -15,6 +15,7 @@ class Base(db.Model):
     Base class where all tables inherit from
     """
     __metaclass__ = ABCMeta
+    __abstract__ = True
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     date_created = Column(DateTime, default=func.current_timestamp())
@@ -79,7 +80,7 @@ class Story(Base):
     content = Column(String, nullable=False)
 
     author = Column(Integer, ForeignKey('author.id'))
-    author_id = relationship(Author)
+    author_id = relationship(Author, backref='author')
 
     def __init__(self, title, tagline, content, author_id):
         """

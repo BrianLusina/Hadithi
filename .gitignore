@@ -7,6 +7,7 @@
 .idea/tasks.xml
 .idea/
 cleanup.sh
+migrations/
 # Gradle:
 .idea/gradle.xml
 .idea/libraries
