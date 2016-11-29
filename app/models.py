@@ -71,8 +71,8 @@ class Story(Base):
     tagline = Column(String, )
     content = Column(String, nullable=False)
 
-    author = Column(Integer, ForeignKey('author.id'))
-    author_id = relationship(Author, backref='author')
+    author_id = Column(Integer, ForeignKey('author.id'))
+    author = relationship(Author, backref='author')
 
     def __init__(self, title, tagline, content, author_id):
         """
