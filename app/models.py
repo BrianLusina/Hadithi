@@ -68,11 +68,11 @@ class Story(Base):
     __tablename__ = 'story_table'
 
     title = Column(String, nullable=False)
-    tagline = Column(String, )
-    content = Column(String, nullable=False)
-
+    tagline = Column(String(50), )
+    content = Column(String(1500), nullable=False)
     author_id = Column(Integer, ForeignKey('author.id'))
-    author = relationship(Author, backref='author')
+
+    author = relationship(Author)
 
     def __init__(self, title, tagline, content, author_id):
         """
