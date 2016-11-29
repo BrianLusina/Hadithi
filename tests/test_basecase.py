@@ -25,3 +25,32 @@ class ContextTestCase(unittest.TestCase):
         if getattr(self, '_ctx') and self._ctx is not None:
             self._ctx.pop()
         del self._ctx
+
+
+class BaseTestCase(ContextTestCase):
+    """
+    Base test case for Hadithi
+    """
+    def create_author_account(self):
+        author = Author.query.filter_by(email="johndoe@example.com").first()
+        if author is None:
+            try:
+                author = Author(fname="John", lname="Doe", email="johndoe@example.com", password="password")
+                db.session.add(author)
+            except IntegrityError as ie:
+                print(e)
+                db.session.rollback()
+        return author
+
+    def create_story(self):
+        author = self.create_author_account()
+        story = Story.query.filter_by(author_id=author.id).first()
+        if story is None:
+            try:
+                story = Story(title="Gotham in flames", tagline="Dark city catches fire", content="", author_id=author.id)
+                db.session.add(story)
+            except IntegrityError as e:
+                print(e)
+                db.session.rollback()
+        return story
+
