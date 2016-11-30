@@ -34,9 +34,12 @@
 					<a class="codrops-icon codrops-icon&#45;&#45;drop" href="http://tympanus.net/codrops/?p=23872" title="Back to the article"><span>Back to the Codrops article</span></a>
 				</div>
 -->
-				<h1><span id="site-title">Hadithi</span><span class="tag">Tales from Africa</span></h1>
+				<h1>
+                    <span id="site-title"><a href="{{ url_for('home.home') }}">Hadithi</a></span>
+					<span class="tag">Tales from Africa</span>
+				</h1>
 				<div class="related">
-					<a href="http://tympanus.net/Development/3DGridEffect/">Stories</a>
+					<a href="{{ url_for('auth.login') }}">Login</a>
 					<a href="http://tympanus.net/Development/BookPreview/">Contact</a>
 					<a href="http://tympanus.net/Tutorials/ThumbnailGridExpandingPreview/">About</a>
 				</div>
