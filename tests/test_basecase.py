@@ -4,7 +4,6 @@ from flask import current_app, url_for
 from sqlalchemy.exc import IntegrityError
 from app.models import Author, Story
 from app import create_app, db
-import tempfile
 
 
 class ContextTestCase(unittest.TestCase):
@@ -43,7 +42,7 @@ class BaseTestCase(ContextTestCase):
                 db.session.rollback()
         return author
 
-    def create_story(self):
+    def add_story(self):
         author = self.create_author_account()
         story = Story.query.filter_by(author_id=author.id).first()
         if story is None:
@@ -56,17 +55,19 @@ class BaseTestCase(ContextTestCase):
                 db.session.rollback()
         return story
 
+    def save_user_story(self, story_id):
+        return self.client.get(
+            url_for("story.save_story", app_id=story_id),
+            follow_redirects=True)
+
     def setUp(self):
         db.create_all()
 
         self.create_author_account()
-        self.create_story()
+        self.add_story()
 
         db.session.commit()
 
     def tearDown(self):
         db.session.remove()
         db.drop_all()
-
-if __name__ == "__main__":
-    unittest.main()

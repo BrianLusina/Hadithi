@@ -1,10 +1,6 @@
 # tests/test_main.py
 
 import unittest
-import uuid
-import os
-import shutil
-import io
 from flask import url_for, request, current_app
 from app.models import Story, Author
 from tests.test_basecase import BaseTestCase
@@ -67,43 +63,25 @@ class TestMainViews(BaseTestCase):
         response = self.client.get('/')
         self.assertTrue(b'Add Category' not in response.data)
 
-    def test_applications_page_loads(self):
-        """_____Applications page loads successfully"""
-        response = self.client.get(url_for("main.application"))
-        self.assertTrue(b'Application Details' in response.data)
-
-    def test_added_apps_are_displayed_in_home_page(self):
-        """_____Added applications should be displayed on the home page"""
-        app = self.add_application()
+    def test_added_stories_are_displayed_in_home_page(self):
+        """_____Added stories should be displayed on the home page"""
+        story = self.add_story()
         response = self.client.get('/')
-        self.assertTrue(app.name.encode() in response.data)
+        self.assertTrue(story.name.encode() in response.data)
 
-    def test_app_info_page(self):
+    def test_story_detail_page(self):
         """_____Applications info page should load successfully"""
-        app = self.add_application()
-        assets = self.add_assets()
+        story = self.add_story()
 
-        response = self.client.get(url_for('main.app_info', app_uuid=app.uuid))
-        self.assertTrue(app.name.encode() in response.data)
-        self.assertTrue(app.uuid.encode() in response.data)
+        response = self.client.get(url_for('story.detail', story_uuid=story.uuid))
+        self.assertTrue(story.name.encode() in response.data)
+        self.assertTrue(story.uuid.encode() in response.data)
 
-    def test_installed_apps_are_displayed(self):
-        """_____Installed apps should be displayed in installed apps section"""
-        app = self.add_application()
-        response = self.install_app(app.uuid)
-        self.assertIn(b'/launch_app?app_id=%s' % (str(app.uuid)), response.data)
-
-    def test_app_categoty_page_loads(self):
-        """_____Category page loads successfully"""
-        response = self.client.get(url_for("main.category"))
-        self.assertTrue(b'Category Description' in response.data)
-
-    def test_added_categories_are_displayed(self):
-        """_____Installed apps should be displayed in installed apps section"""
-        category = self.add_category()
-        response = self.client.get('/category')
-        self.assertTrue(category.description.encode() in response.data)
-
+    def test_saved_stories_are_displayed(self):
+        """_____Saved stories should be saved in stories section"""
+        story = self.add_story()
+        response = self.save_user_story(story.uuid)
+        self.assertIn(b'/story?story_id=%s' % (str(story.uuid)), response.data)
 
 if __name__ == '__main__':
     unittest.main()
