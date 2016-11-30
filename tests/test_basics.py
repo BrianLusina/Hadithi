@@ -16,9 +16,9 @@ class BasicsTestCase(unittest.TestCase):
         self.app_context.pop()
 
     def test_app_exists(self):
-        """_____Checking app creation"""
+        """Checking if app exists"""
         self.assertFalse(current_app is None)
 
     def test_app_is_testing(self):
-        """_____Checking configuration for testing"""
+        """Check if app is configured for testing"""
         self.assertTrue(current_app.config['TESTING'])
