@@ -4,6 +4,7 @@ from flask import current_app, url_for
 from sqlalchemy.exc import IntegrityError
 from app.models import Author, Story
 from app import create_app, db
+import tempfile
 
 
 class ContextTestCase(unittest.TestCase):
@@ -66,3 +67,6 @@ class BaseTestCase(ContextTestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
+
+if __name__ == "__main__":
+    unittest.main()

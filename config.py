@@ -15,7 +15,7 @@ class Config(object):
         :var SQLALCHEMY_DATABASE_URI Define the database - we are working with SQLite for this example
 
     """
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'chama yetu'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'hadithi'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
     SQLALCHEMY_TRACK_MODIFICATIONS = True
@@ -24,7 +24,7 @@ class Config(object):
     CSRF_SESSION_KEY = os.environ.get("CSRF_SESSION_KEY")
     THREADS_PER_PAGE = 2
     DATABASE_CONNECT_OPTIONS = {}
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or 'sqlite:///' + os.path.join(basedir, 'app.db')
 
     @staticmethod
     def init_app(app):
