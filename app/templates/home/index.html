@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
+	<header class="top-bar">
+						<h2 class="top-bar__headline">Latest articles</h2>
+						<div class="filter">
+							<span>Filter by:</span>
+							<span class="dropdown">Popular</span>
+						</div>
+					</header>
 					<a class="grid__item" href="#">
 						<h2 class="title title--preview">On Humans &amp; other Beings</h2>
 						<div class="loader"></div>
@@ -650,4 +657,7 @@
 					</div>
 					<button class="close-button"><i class="fa fa-close"></i><span>Close</span></button>
 				</section>
+                    <footer class="page-meta">
+						<span>Load more...</span>
+                    </footer>
 {% endblock %}
