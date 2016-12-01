@@ -9,17 +9,23 @@
 		<meta name="keywords" content="hadithi, african, stories, short stories, Africa, hadithi za kale" />
 		<meta name="author" content="The Lusina" />
         <!--Favicon-->
-<!--		<link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.svg')}}">-->
-		<link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.svg')}}">
+		<link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.svg')}}">
+<!--		<link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.svg')}}">-->
 
 		<!--Google Fonts-->
 		<link href="https://fonts.googleapis.com/css?family=Alegreya+Sans|Cormorant|Cormorant+SC|Cormorant+Upright|Poiret+One|Raleway|Roboto|Cormorant+Infant|Aref+Ruqaa|Lobster|Pacifico|Shadows+Into+Light" rel="stylesheet">
+        <!--Normalize css-->
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/normalize.css')}}" />
+        <!--Font aweseome-->
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fonts/font-awesome-4.3.0/css/font-awesome.min.css')}}" />
+        <!--Auth css-->
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/auth.css') }}"/>
+        <!--Styles-->
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}" />
-
+        <!--Animate css-->
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/animate.min.css') }}" type="text/css"/>
 
+        <!--Modernizr-->
 		<script src="{{ url_for('static', filename='js/vendor/modernizr.custom.js')}}"></script>
 	</head>
     <body>
@@ -53,7 +59,10 @@
             </div>
         </div>
 		<script src="{{ url_for('static', filename='js/vendor/classie.js') }}"></script>
-		    <script type="text/javascript" src="{{ url_for('static', filename='js/vendor/jquery-3.0.0.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/vendor/jquery-3.0.0.min.js') }}"></script>
+        <!--Auth js-->
+        <script src="{{ url_for('static', filename='js/auth.js')}}"></script>
+        <!--Main js-->
 		<script src="{{ url_for('static', filename='js/main.js') }}"></script>
     </body>
 </html>
