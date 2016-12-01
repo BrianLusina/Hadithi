@@ -9,8 +9,8 @@ auth = Blueprint(name='auth', url_prefix='/auth', import_name=__name__)
 
 @auth.route('/login', methods=["GET", "POST"])
 def login():
-    form = LoginForm(request.form)
-    return render_template('auth/login.html', form=form)
+    login_form = LoginForm(request.form)
+    return render_template('auth/login.html', login_form=login_form)
 
 
 @auth.route('/register', methods=["GET", "POST"])
