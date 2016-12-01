@@ -12,9 +12,13 @@ class LoginForm(Form):
 class RegisterForm(Form):
     full_name = StringField(validators=[DataRequired()])
     username = StringField(validators=[DataRequired(), Length(min=5, max=15)])
-    email = StringField( validators=[DataRequired(), Email()])
+    email = StringField(validators=[DataRequired(), Email()])
     password = PasswordField(validators=[DataRequired(),
                                          EqualTo('verify_password', message="Passwords must match"),
                                          Length(min=8, max=15)
                                          ])
     verify_password = PasswordField(validators=[DataRequired()])
+
+
+class ForgotPassword(Form):
+    email = StringField(validators=[DataRequired(), Email()])
