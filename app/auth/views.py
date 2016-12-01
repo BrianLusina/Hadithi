@@ -20,6 +20,7 @@ def login():
             if author is not None and author.verify_password(login_form.password.data):
                 # todo: redirect to author dashboard
                 return redirect(url_for('home.home'))
+            flash('Invalid username or password.', 'error')
     return render_template('auth/login.html', login_form=login_form)
 
 
