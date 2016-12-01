@@ -24,7 +24,9 @@
                     <label class="form-remember">
                         {{ login_form.remember_me }} Remember Me
                     </label>
-                    <a href="#" class="form-recovery">Forgot Password?</a>
+                    <a href="{{ url_for('auth.forgot_password') }}" class="form-recovery">
+                        Forgot Password?
+                    </a>
                 </div>
                 <div class="form-group">
                     <button type="submit">Log In</button>
