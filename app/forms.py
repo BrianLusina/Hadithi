@@ -1,11 +1,12 @@
 from flask_wtf import Form
-from wtforms import StringField, PasswordField
+from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 
 class LoginForm(Form):
     email = StringField(validators=[DataRequired(), Email()])
     password = PasswordField(validators=[DataRequired()])
+    remember_me = BooleanField()
 
 
 class RegisterForm(Form):
@@ -17,4 +18,4 @@ class RegisterForm(Form):
                                          EqualTo('verify_password', message="Passwords must match"),
                                          Length(min=8, max=15)
                                          ])
-    verify_password = PasswordField(label="Retype Password", validators=[DataRequired()])
+    verify_password = PasswordField(validators=[DataRequired()])
