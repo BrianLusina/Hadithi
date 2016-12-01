@@ -4,7 +4,7 @@ from abc import ABCMeta, abstractmethod
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from . import db
+from . import db, login_manager
 
 
 class Base(db.Model):

@@ -1,8 +1,5 @@
 from flask import render_template, Flask
 from config import config
-from app.home_page.views import home_module
-from app.story_page.views import story_module
-from app.auth.views import auth as auth_module
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
@@ -57,6 +54,10 @@ def error_handlers(app):
 
 
 def register_blueprints(app):
+    from app.home_page.views import home_module
+    from app.story_page.views import story_module
+    from app.auth.views import auth as auth_module
+
     # Register blueprint(s) ALL blueprints will be registered here
     app.register_blueprint(home_module)
     app.register_blueprint(story_module)
