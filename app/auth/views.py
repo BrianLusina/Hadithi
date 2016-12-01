@@ -25,8 +25,8 @@ def login():
             flash('Invalid username or password.', 'error')
 
         if register_form.validate_on_submit():
-            author = Author(fname=register_form.first_name.data, lname=register_form.second_name.data,
-                            email=register_form.email.data, password=register_form.password.data)
+            author = Author(fname=register_form.full_name.data, email=register_form.email.data,
+                            password=register_form.password.data)
             db.session.add(author)
             db.session.commit()
             flash("Thank you for registering")

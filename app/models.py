@@ -33,14 +33,12 @@ class Author(Base, UserMixin):
     """
     __tablename__ = "author"
     uuid = Column(String(250), default=str(uuid.uuid4()), nullable=False)
-    fname = Column(String(100), nullable=False)
-    lname = Column(String(100), nullable=False)
+    full_name = Column(String(100), nullable=False)
     email = Column(String(250), nullable=False, unique=True)
     password_hash = Column(String(250), nullable=False)
 
-    def __init__(self, fname, lname, email, password):
-        self.fname = fname
-        self.lname = lname
+    def __init__(self, full_name, email, password):
+        self.full_name = full_name
         self.email = email
         self.password_hash = password
 
@@ -56,7 +54,7 @@ class Author(Base, UserMixin):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return "<User:%r Name :%r %r, Email: %r>" % (self.uuid, self.fname, self.lname, self.email)
+        return "<User:%r Name :%r %r, Email: %r>" % (self.uuid, self.full_name, self.lname, self.email)
 
 
 class Story(Base):

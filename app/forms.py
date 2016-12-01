@@ -10,8 +10,7 @@ class LoginForm(Form):
 
 
 class RegisterForm(Form):
-    first_name = StringField(validators=[DataRequired()])
-    second_name = StringField(validators=[DataRequired()])
+    full_name = StringField(validators=[DataRequired()])
     username = StringField(validators=[DataRequired(), Length(min=5, max=15)])
     email = StringField( validators=[DataRequired(), Email()])
     password = PasswordField(validators=[DataRequired(),
