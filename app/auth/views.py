@@ -14,6 +14,8 @@ def login():
     :return: Login view
     """
     login_form = LoginForm(request.form)
+    register_form = RegisterForm(request.form)
+
     if request.method == "POST":
         if login_form.validate_on_submit():
             author = Author.query.filter_by(email=login_form.email.data).first()
@@ -21,13 +23,7 @@ def login():
                 # todo: redirect to author dashboard
                 return redirect(url_for('home.home'))
             flash('Invalid username or password.', 'error')
-    return render_template('auth/login.html', login_form=login_form)
 
-
-@auth.route('/register', methods=["GET", "POST"])
-def register():
-    register_form = RegisterForm(request.form)
-    if request.method == "POST":
         if register_form.validate_on_submit():
             author = Author(fname=register_form.first_name.data, lname=register_form.second_name.data,
                             email=register_form.email.data, password=register_form.password.data)
@@ -35,4 +31,4 @@ def register():
             db.session.commit()
             flash("Thank you for registering")
             return redirect(url_for('auth.login'))
-    return render_template('auth/register.html', register_form=register_form)
+    return render_template('auth/auth.html', login_form=login_form, register_form=register_form)

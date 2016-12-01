@@ -14,12 +14,12 @@
                 {{ login_form.csrf_token }}
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required="required"/>
+<!--                    <input type="text" id="username" name="username" required="required"/>-->
                     {{ render_field(login_form.email) }}
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required="required"/>
+    <!--                <input type="password" id="password" name="password" required="required"/>-->
                     {{ render_field(login_form.password) }}
                 </div>
                 <div class="form-group">
@@ -41,23 +41,37 @@
             <h1>Register Account</h1>
         </div>
         <div class="form-content">
-            <form method=post action="{{ url_for('auth.register') }}">
+            <form method=post action="{{ url_for('auth.login') }}">
                 {{ register_form.csrf_token }}
+                <!--Full name-->
+                <div class="form-group">
+                    <label for="fullname">Full name</label>
+<!--
+                    <input type="text" id="fullname" name="username" required="required"/>
+-->
+                    {{ render_field(register_form.first_name) }}
+                    {{ render_field(register_form.second_name) }}
+                </div>
+
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" required="required"/>
+                    {{ render_field(register_form.username) }}
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" required="required"/>
+                    {{ render_field(register_form.password) }}
                 </div>
                 <div class="form-group">
                     <label for="cpassword">Confirm Password</label>
                     <input type="password" id="cpassword" name="cpassword" required="required"/>
+                    {{ render_field(register_form.verify_password) }}
                 </div>
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" required="required"/>
+                    {{ render_field(register_form.email) }}
                 </div>
                 <div class="form-group">
                     <button type="submit">Register</button>
