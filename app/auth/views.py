@@ -30,7 +30,7 @@ def login():
         db.session.commit()
         flash("Thank you for registering")
         return redirect(url_for('home.home'))
-    return render_template('auth/auth.html', login_form=login_form, register_form=register_form)
+    return render_template('auth/auth.html', register_form=register_form, login_form=login_form)
 
 
 @auth.route('/forgot-password', methods=["GET", "POST"])
