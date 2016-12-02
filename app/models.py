@@ -66,13 +66,14 @@ class Story(Base):
     __tablename__ = 'story_table'
 
     title = Column(String, nullable=False)
-    tagline = Column(String(50), )
+    tagline = Column(String(50))
+    category = Column(String(100))
     content = Column(String(1500), nullable=False)
     author_id = Column(Integer, ForeignKey('author.id'))
 
     author = relationship(Author)
 
-    def __init__(self, title, tagline, content, author_id):
+    def __init__(self, title, tagline, categoy, content, author_id):
         """
         :param title: Title of this story in the database
         :param tagline: Tagline of this story
@@ -81,8 +82,10 @@ class Story(Base):
         """
         self.title = title
         self.tagline = tagline
+        self.category = categoy
         self.content = content
         self.author_id = author_id
 
     def __repr__(self):
-        return "Story: <Title: %r, Tagline: %r> AuthorId: %r" % (self.title, self.tagline, self.author_id)
+        return "Story: <Title: %r, Category: %r, Tagline: %r> AuthorId: %r" % \
+               (self.title, self.category, self.tagline, self.author_id)
