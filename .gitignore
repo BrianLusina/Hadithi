@@ -7,6 +7,7 @@
 .idea/tasks.xml
 .idea/
 .vscode/
+.vagrant/
 cleanup.sh
 migrations/
 app.db
