@@ -47,4 +47,4 @@ def register():
 @auth.route('/forgot-password', methods=["GET", "POST"])
 def forgot_password():
     forgot_pass = ForgotPassword(request.form)
-    return render_template('auth/password-recovery.html', forgot_password=forgot_pass)
+    return render_template('auth/password-recovery.html', forgot_pass=forgot_pass)

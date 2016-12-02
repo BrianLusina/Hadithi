@@ -24,4 +24,4 @@ class RegisterForm(Form):
 
 class ForgotPassword(Form):
     email = StringField(validators=[DataRequired(), Email()])
-    send_mail = SubmitField()
+    send_mail = SubmitField("SEND EMAIL")
