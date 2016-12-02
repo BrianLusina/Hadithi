@@ -134,7 +134,24 @@ body {
 .two .form-group input:focus {
   color: #FFFFFF;
 }
-.form-group button {
+
+.form-group .register-button{
+  background: #FFFFFF;  
+  outline: none;
+  width: 100%;
+  border: 0;
+  border-radius: 4px;
+  padding: 12px 20px;
+  color:black !important;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  line-height: inherit;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.form-group .login-button{
   outline: none;
   background: #4285F4;
   width: 100%;
