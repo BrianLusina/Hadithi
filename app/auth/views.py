@@ -21,7 +21,7 @@ def login():
             # todo: redirect to author dashboard
             return redirect(url_for('home.home'))
         flash('Invalid username or password.', 'error')
-    return render_template('auth/auth.html', login_form=login_form)
+    return render_template('auth/auth.html', login_form=login_form, register_form=RegisterForm())
 
 
 @auth.route('/register', methods=["GET", "POST"])
@@ -40,7 +40,7 @@ def register():
         db.session.commit()
         flash("Thank you for registering")
         return redirect(url_for('home.home'))
-    return render_template('auth/auth.html', register_form=register_form)
+    return render_template('auth/auth.html', register_form=register_form, login_form=LoginForm())
 
 
 @auth.route('/forgot-password', methods=["GET", "POST"])
