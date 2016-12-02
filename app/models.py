@@ -66,14 +66,14 @@ class Story(Base):
     __tablename__ = 'story_table'
 
     title = Column(String, nullable=False)
-    tagline = Column(String(50))
-    category = Column(String(100))
-    content = Column(String(1500), nullable=False)
+    tagline = Column(String(50), default=title)
+    category = Column(String(100), default="Other")
+    content = Column(String(5500), nullable=False)
     author_id = Column(Integer, ForeignKey('author.id'))
 
     author = relationship(Author)
 
-    def __init__(self, title, tagline, categoy, content, author_id):
+    def __init__(self, title, tagline, category, content, author_id):
         """
         :param title: Title of this story in the database
         :param tagline: Tagline of this story
@@ -82,7 +82,7 @@ class Story(Base):
         """
         self.title = title
         self.tagline = tagline
-        self.category = categoy
+        self.category = category
         self.content = content
         self.author_id = author_id
 
