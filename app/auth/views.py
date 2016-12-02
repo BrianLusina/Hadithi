@@ -24,7 +24,7 @@ def login():
     return render_template('auth/auth.html', login_form=login_form, register_form=RegisterForm())
 
 
-@auth.route('/register', methods=["GET", "POST"])
+@auth.route('/login', methods=["GET", "POST"])
 def register():
     """
     Processes the registration form details. This is used to add the user to the database, if they
@@ -47,4 +47,4 @@ def register():
 @auth.route('/forgot-password', methods=["GET", "POST"])
 def forgot_password():
     forgot_pass = ForgotPassword(request.form)
-    return render_template('auth/forgot.html', forgot_password=forgot_pass)
+    return render_template('auth/password-recovery.html', forgot_password=forgot_pass)
