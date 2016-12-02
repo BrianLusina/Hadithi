@@ -3,7 +3,7 @@
             <h1>Register Account</h1>
         </div>
         <div class="form-content">
-            <form name="register-form" method="post" action="{{ url_for('auth.login') }}">
+            <form name="register-form" method="post" action="{{ url_for('auth.register') }}">
                 {{ register_form.csrf_token }}
                 {{ register_form.hidden_tag() }}
                 <!--Full name-->

@@ -13,11 +13,10 @@ def login():
     Login route for user's to login to their accounts
     :return: Login view
     """
-    login_form = LoginForm(request.form, prefix="login_form")
-    register_form = RegisterForm(request.form, prefix="register_form")
+    login_form = LoginForm(request.form, prefix="login-form")
 
-    if request.method == "POST":
-        if request.form["login"] == "LOGIN" and login_form.validate_on_submit():
+    if request.method == "POST" and request.form["login"] == "LOGIN":
+        if login_form.validate_on_submit():
             author = Author.query.filter_by(email=login_form.email.data).first()
             if author is not None and author.verify_password(login_form.password.data):
                 # todo: redirect to author dashboard
@@ -25,20 +24,7 @@ def login():
             else:
                 # todo: display error
                 return render_template('auth/auth.html')
-
-        if request.form["register"] == "REGISTER" and register_form.validate_on_submit():
-            author = Author(full_name=register_form.full_name.data, email=register_form.email.data,
-                            password=register_form.password.data)
-            try:
-                db.session.add(author)
-                db.session.commit()
-            except IntegrityError as ie:
-                # todo: display error
-                print(ie)
-                db.session.rollback()
-            return redirect(url_for('home.home'))
-
-    return render_template('auth/auth.html', login_form=login_form, register_form=register_form)
+    return render_template('auth/auth.html', login_form=login_form, register_form=RegisterForm())
 
 
 @auth.route('/login', methods=["POST", "GET"])
@@ -48,16 +34,20 @@ def register():
     are not there, redirects them to their dashboard when registration is complete
     :return the register form
     """
-    register_form = RegisterForm(request.form, prefix="register_form")
-
-    if request.method == "POST" and (request.form["register"] == "REGISTER" and
-                                     register_form.validate_on_submit()):
-        author = Author(full_name=register_form.full_name.data, email=register_form.email.data,
-                        password=register_form.password.data)
-        db.session.add(author)
-        db.session.commit()
-        return redirect(url_for('home.home'))
-
+    register_form = RegisterForm(request.form, prefix="register-form")
+    if request.method == "POST":
+        if request.form["register"] == "REGISTER" and register_form.validate_on_submit():
+            author = Author(full_name=register_form.full_name.data, email=register_form.email.data,
+                            password=register_form.password.data)
+            print(author)
+            try:
+                db.session.add(author)
+                db.session.commit()
+            except IntegrityError as ie:
+                # todo: display error
+                print(ie)
+                db.session.rollback()
+            return redirect(url_for('home.home'))
     return render_template('auth/auth.html', register_form=register_form, login_form=LoginForm())
 
 
