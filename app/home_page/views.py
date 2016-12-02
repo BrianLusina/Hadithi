@@ -1,4 +1,6 @@
 from flask import render_template, Blueprint
+from app.models import Story, Author
+from app import db
 home_module = Blueprint(name='home', url_prefix='/', import_name=__name__)
 
 
@@ -6,7 +8,9 @@ home_module = Blueprint(name='home', url_prefix='/', import_name=__name__)
 @home_module.route('index')
 @home_module.route('home')
 def home():
-    return render_template('home/index.html')
+    stories = Story.query.all()
+
+    return render_template('home/index.html', stories=stories)
 
 
 @home_module.route('contact')
