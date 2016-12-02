@@ -1,23 +1,30 @@
-{% extends 'base.html' %}
-{% block content %}
-{% from "_formhelpers.html" import render_field %}
-    <form method=post action="{{ url_for('auth.login') }}">
-        {{ login_form.csrf_token }}
-        <dl>
-            {{ render_field(login_form.email) }}
-            {{ render_field(login_form.password) }}
-        </dl>
-        <p><input type=submit value=Login>
-    </form>
-
-        {% with messages = get_flashed_messages(category_filter=["error"]) %}
-            {% if messages %}
-                {% for message in messages %}
-                    <div data-alert class="alert-box alert radius">
-                        {{ message }}
-                        <a href="#" class="close">&times;</a>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-{% endblock %}
+    <!--Account Login-->
+    <div class="form-panel one">
+        <div class="form-header">
+            <h1>Account Login</h1>
+        </div>
+        <div class="form-content">
+            <form method=post action="{{ url_for('auth.login') }}">
+                {{ login_form.csrf_token }}
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    {{ login_form.email(required_="required") }}
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    {{ login_form.password(required_="required") }}
+                </div>
+                <div class="form-group">
+                    <label class="form-remember">
+                        {{ login_form.remember_me }} Remember Me
+                    </label>
+                    <a href="{{ url_for('auth.forgot_password') }}" class="form-recovery">
+                        Forgot Password?
+                    </a>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Log In</button>
+                </div>
+            </form>
+        </div>
+    </div>

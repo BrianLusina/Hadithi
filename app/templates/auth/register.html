@@ -1,16 +1,35 @@
-{% extends 'base.html' %}
-{% block content %}
-    {% from "_formhelpers.html" import render_field %}
-    <form method=post action="{{ url_for('auth.register') }}">
-        {{ register_form.csrf_token }}
-        <dl>
-            {{ render_field(register_form.first_name) }}
-            {{ render_field(register_form.second_name) }}
-            {{ render_field(register_form.username) }}
-            {{ render_field(register_form.email) }}
-            {{ render_field(register_form.password) }}
-            {{ render_field(register_form.verify_password) }}
-        </dl>
-        <p><input type=submit value=Register>
-    </form>
-{% endblock %}
+   <div class="form-panel two">
+        <div class="form-header">
+            <h1>Register Account</h1>
+        </div>
+        <div class="form-content">
+            <form method=post action="{{ url_for('auth.login') }}">
+                {{ register_form.csrf_token }}
+                <!--Full name-->
+                <div class="form-group">
+                    <label for="full_name">Full name</label>
+                    {{ register_form.full_name(required_="required") }}
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    {{ register_form.username(required_="required") }}
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    {{ register_form.password(required_="required") }}
+                </div>
+                <div class="form-group">
+                    <label for="verify_password">Confirm Password</label>
+                    {{ register_form.verify_password(required_="required") }}
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    {{ register_form.email(required_="required") }}
+                </div>
+                <div class="form-group">
+                    <button type="submit">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>

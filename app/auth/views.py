@@ -23,7 +23,7 @@ def login():
             return redirect(url_for('home.home'))
         flash('Invalid username or password.', 'error')
 
-    if request.method == "POST" and register_form.validate_on_submit():
+    elif request.method == "POST" and register_form.validate_on_submit():
         author = Author(full_name=register_form.full_name.data, email=register_form.email.data,
                         password=register_form.password.data)
         db.session.add(author)

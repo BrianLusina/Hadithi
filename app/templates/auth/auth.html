@@ -1,75 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
-{% from "_formhelpers.html" import render_field %}
 <!-- Form-->
 <div class="form">
   <div class="form-toggle"></div>
-    <!--Account Login-->
-    <div class="form-panel one">
-        <div class="form-header">
-            <h1>Account Login</h1>
-        </div>
-        <div class="form-content">
-            <form method=post action="{{ url_for('auth.login') }}">
-                {{ login_form.csrf_token }}
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    {{ login_form.email(required_="required") }}
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    {{ login_form.password(required_="required") }}
-                </div>
-                <div class="form-group">
-                    <label class="form-remember">
-                        {{ login_form.remember_me }} Remember Me
-                    </label>
-                    <a href="{{ url_for('auth.forgot_password') }}" class="form-recovery">
-                        Forgot Password?
-                    </a>
-                </div>
-                <div class="form-group">
-                    <button type="submit">Log In</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    
+    <!--Login form-->
+    {% include "auth/login.html" %}
 
     <!--Register account-->
-    <div class="form-panel two">
-        <div class="form-header">
-            <h1>Register Account</h1>
-        </div>
-        <div class="form-content">
-            <form method=post action="{{ url_for('auth.login') }}">
-                {{ register_form.csrf_token }}
-                <!--Full name-->
-                <div class="form-group">
-                    <label for="full_name">Full name</label>
-                    {{ register_form.full_name(required_="required") }}
-                </div>
-
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    {{ register_form.username(required_="required") }}
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    {{ register_form.password(required_="required") }}
-                </div>
-                <div class="form-group">
-                    <label for="verify_password">Confirm Password</label>
-                    {{ register_form.verify_password(required_="required") }}
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    {{ register_form.email(required_="required") }}
-                </div>
-                <div class="form-group">
-                    <button type="submit">Register</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    {% include "auth/register.html" %}
+ 
 </div>
 {% endblock %}
