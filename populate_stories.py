@@ -5,11 +5,11 @@ import json
 stories = open("stories.json", "r")
 authors = open("authors.json", "r")
 
-with stories as data:
-    loaded_stories = json.load(data)
+with stories as story_data:
+    loaded_stories = json.load(story_data)
 
-with authors as data:
-    loaded_authors = json.load(data)
+with authors as author_data:
+    loaded_authors = json.load(author_data)
 
 author_story = list(zip(loaded_authors, loaded_stories))
 

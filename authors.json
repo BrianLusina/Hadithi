@@ -35,11 +35,6 @@
     "password":"petermschuster"
   },
   {
-    "full_name":"Carol Freeman",
-    "email":"carolfreeman@hadithi.com",
-    "password":"carolfreeman"
-  },
-  {
     "full_name":"Brian Lusina",
     "email":"brianlusina@hadithi.com",
     "password":"brianlusina"
@@ -58,5 +53,10 @@
     "full_name":"Erick Newman",
     "email":"ericknewman@hadithi.com",
     "password":"ericknewman"
+  },
+  {
+    "full_name":"Mark Holder",
+    "email":"markholder@hadithi.com",
+    "password":"markholder"
   }
 ]
