@@ -11,14 +11,12 @@ with stories as data:
 with authors as data:
     loaded_authors = json.load(data)
 
-for l_story in loaded_stories:
-    for auth in loaded_authors:
-        author = Author(full_name=auth["full_name"], email=auth["email"], password=auth["password"])
-        story = Story(title=l_story.get("title"), tagline=l_story.get("tagline"),
-                      category=l_story.get("category"), content=l_story.get("content"), author_id=author.id)
-        db.session.add(author)
-        db.session.add(story)
+author_story = list(zip(loaded_authors, loaded_stories))
+
+for au_st in author_story:
+    author = Author(full_name=au_st[0]["full_name"], email=au_st[0]["email"], password=au_st[0]["password"])
+    story = Story(title=au_st[1]["title"], tagline=au_st[1]["tagline"],
+                  category=au_st[1]["category"], content=au_st[1]["content"], author_id=author.id)
+    db.session.add(author)
+    db.session.add(story)
 db.session.commit()
-
-
-

@@ -5,94 +5,58 @@
     "password":"mathewwalters"
   },
   {
-    "full_name":"",
-    "email":"",
-    "password":""
-  },
-    {
-    "full_name":"",
-    "email":"",
-    "password":""
-  },
-    {
-    "full_name":"",
-    "email":"",
-    "password":""
-  },
-    {
-    "full_name":"",
-    "email":"",
-    "password":""
-  },
-    {
-    "full_name":"",
-    "email":"",
-    "password":""
-  },
-    {
-    "full_name":"",
-    "email":"",
-    "password":""
-  },  {
-    "full_name":"",
-    "email":"",
-    "password":""
-  },
-
-    {
-    "full_name":"",
-    "email":"",
-    "password":""
-  },
-
-  {
-    "full_name":"",
-    "email":"",
-    "password":""
-  },
-
-  {
-    "full_name":"",
-    "email":"",
-    "password":""
+    "full_name":"Christian Belverde",
+    "email":"christianbelverde@hadithi.com",
+    "password":"christianbelverde"
   },
   {
-    "full_name":"",
-    "email":"",
-    "password":""
+    "full_name":"Carol Freeman",
+    "email":"carolfreeman@hadithi.com",
+    "password":"carolfreeman"
   },
-
-    {
-    "full_name":"",
-    "email":"",
-    "password":""
-  },  {
-    "full_name":"",
-    "email":"",
-    "password":""
-  },  {
-    "full_name":"",
-    "email":"",
-    "password":""
-  },  {
-    "full_name":"",
-    "email":"",
-    "password":""
-  },  {
-    "full_name":"",
-    "email":"",
-    "password":""
-  },  {
-    "full_name":"",
-    "email":"",
-    "password":""
-  },  {
-    "full_name":"",
-    "email":"",
-    "password":""
-  },  {
-    "full_name":"",
-    "email":"",
-    "password":""
+  {
+    "full_name":"Sandra Paulson",
+    "email":"sandrapaulson@hadithi.com",
+    "password":"sandrapaulson"
+  },
+  {
+    "full_name":"Leila Nastafi",
+    "email":"leilanastafi@hadithi.com",
+    "password":"leilanastafi"
+  },
+  {
+    "full_name":"William Green",
+    "email":"williamgreen@hadithi.com",
+    "password":"williamgreen"
+  },
+  {
+    "full_name":"Peter M. Schuster",
+    "email":"petermschuster@hadithi.com",
+    "password":"petermschuster"
+  },
+  {
+    "full_name":"Carol Freeman",
+    "email":"carolfreeman@hadithi.com",
+    "password":"carolfreeman"
+  },
+  {
+    "full_name":"Brian Lusina",
+    "email":"brianlusina@hadithi.com",
+    "password":"brianlusina"
+  },
+  {
+    "full_name":"Brian Ombito",
+    "email":"brianombito@hadithi.com",
+    "password":"brianombito"
+  },
+  {
+    "full_name":"Ryan Lucas",
+    "email":"ryanlucas@hadithi.com",
+    "password":"ryanlucas"
+  },
+  {
+    "full_name":"Erick Newman",
+    "email":"ericknewman@hadithi.com",
+    "password":"ericknewman"
   }
 ]
