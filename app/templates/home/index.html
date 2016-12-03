@@ -7,13 +7,23 @@
 		<span class="dropdown">Popular</span>
 	</div>
 </header>
-<!--
+
 {% for story in stories %}
-	{{ story.title }}
-	{{ story.tagline }}
-    {{ story.date_created }}
+	<a class="grid__item" href="#">
+		<h2 class="title title--preview">{{ story.title }}</h2>
+		<div class="loader"></div>
+		{% if story.category %}
+			<span class="category">{{ story.category }}</span>
+		{% else %}
+			<span class="category">{{ story.tagline }}</span>
+		{% endif %}
+		<div class="meta meta--preview">
+			<img class="meta__avatar" src="img/authors/1.png" alt="author01" />
+			<span class="meta__date"><i class="fa fa-calendar-o"></i>{{ story.date_created }}</span>
+			<span class="meta__reading-time"><i class="fa fa-clock-o"></i> 3 min read</span>
+		</div>
+	</a>
 {% endfor %}
--->
 
 <a class="grid__item" href="#">
 	<h2 class="title title--preview">On Humans &amp; other Beings</h2>
