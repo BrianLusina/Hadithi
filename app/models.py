@@ -54,7 +54,7 @@ class Author(Base, UserMixin):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return "<User:%r Name :%r %r, Email: %r>" % (self.uuid, self.full_name, self.lname, self.email)
+        return "<UserId:%r Name :%r, Email: %r>" % (self.uuid, self.full_name, self.email)
 
 
 class Story(Base):
