@@ -17,11 +17,13 @@ def home():
 
 @home_module.route('contact')
 def contact():
-    return render_template('home/contact.html')
+    user = current_user
+    return render_template('home/contact.html', user=user)
 
 
 @home_module.route('about')
 def about():
-    return render_template('home/about.html')
+    user = current_user
+    return render_template('home/about.html', user=user)
 
 

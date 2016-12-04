@@ -45,7 +45,7 @@
 					<span class="tag">Tales from Africa</span>
 				</h1>
 				<div class="related">
-					{% if user %}
+					{% if user.is_authenticated %}
                         Hello {{ user.full_name }}
                         <a href="#">Dashboard</a>
                         <a href="#">Account</a>
