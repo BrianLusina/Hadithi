@@ -46,6 +46,9 @@
 				</h1>
 				<div class="related">
 					{% if user %}
+                        Hello {{ user.full_name }}
+                        <a href="#">Dashboard</a>
+                        <a href="#">Account</a>
 						<a href="{{ url_for('auth.logout') }}">Logout</a>
 					{% else %}
 						<a href="{{ url_for('auth.login') }}">Login</a>

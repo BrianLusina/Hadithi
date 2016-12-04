@@ -1,5 +1,6 @@
-    <!--Account Login-->
-    <div class="form-panel one">
+{% extends 'base.html' %}
+{% block content %}
+    <div class="form-panel">
         <div class="form-header">
             <h1>Account Login</h1>
         </div>
@@ -26,6 +27,10 @@
                 <div class="form-group">
                     {{ login_form.login(class_="login-button") }}
                 </div>
+                <div class="form-group">
+                    <a href="{{ url_for('auth.register') }}" class="register-new">New? Register</a>
+                </div>
             </form>
         </div>
     </div>
+{% endblock %}

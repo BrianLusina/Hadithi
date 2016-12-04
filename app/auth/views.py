@@ -25,7 +25,7 @@ def login():
                 login_user(author, login_form.remember_me.data)
                 return redirect(url_for('home.home'))
             flash("Invalid username or password", "error")
-    return render_template('auth/auth.html', login_form=login_form, register_form=RegisterForm())
+    return render_template('auth/login.html', login_form=login_form)
 
 
 @auth.route('/register', methods=["POST", "GET"])
@@ -37,10 +37,9 @@ def register():
     """
     register_form = RegisterForm(request.form, prefix="register-form")
     if request.method == "POST":
-        if request.form["register"] == "REGISTER" and register_form.validate_on_submit():
+        if register_form.validate_on_submit():
             author = Author(full_name=register_form.full_name.data, email=register_form.email.data,
                             password=register_form.password.data)
-            print(author)
             try:
                 db.session.add(author)
                 db.session.commit()
@@ -48,8 +47,8 @@ def register():
                 # todo: display error
                 print(ie)
                 db.session.rollback()
-            return redirect(url_for('home.home'))
-    return render_template('auth/auth.html', register_form=register_form, login_form=LoginForm())
+            return redirect(url_for('auth.login'))
+    return render_template('auth/register.html', register_form=register_form)
 
 
 @auth.route('/forgot-password', methods=["GET", "POST"])
@@ -60,7 +59,7 @@ def forgot_password():
 
 @auth.route('/logout')
 @login_required
-def logout_user():
+def logout():
     logout_user()
     return redirect(url_for("home.home"))
 

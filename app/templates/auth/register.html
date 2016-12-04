@@ -1,9 +1,11 @@
-   <div class="form-panel two">
+{% extends 'base.html' %}
+{% block content %}
+   <div class="form-panel">
         <div class="form-header">
             <h1>Register Account</h1>
         </div>
         <div class="form-content">
-            <form name="register-form" method="post" action="{{ url_for('auth.register') }}">
+            <form name="register-form" method="post" action="{{ url_for('auth.login') }}">
                 {{ register_form.csrf_token }}
                 {{ register_form.hidden_tag() }}
                 <!--Full name-->
@@ -29,8 +31,9 @@
                     {{ register_form.email(required_="required") }}
                 </div>
                 <div class="form-group">
-                    {{register_form.register(class_="register-button")}}
+                    {{ register_form.register(class_="register-button") }}
                 </div>
             </form>
         </div>
     </div>
+{% endblock %}
