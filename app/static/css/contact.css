@@ -1,31 +1,4 @@
-/* -------------------------------- 
-
-Primary style
-
--------------------------------- */
-*, *::after, *::before {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-html {
-  font-size: 62.5%;
-}
-
-body {
-  font-size: 1.6rem;
-  font-family: "Open Sans", sans-serif;
-  color: #2b3e51;
-  background-color: #ffffff;
-}
-
-a {
-  color: #2c97de;
-  text-decoration: none;
-}
-
-/* -------------------------------- 
+/* --------------------------------
 
 Form
 

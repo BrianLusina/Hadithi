@@ -56,3 +56,13 @@ class StoryForm(FlaskForm):
     story_title = StringField(validators=[DataRequired()])
     tagline = StringField(validators=[DataRequired(), Length(min=1, max=5)])
     content = TextAreaField(validators=[DataRequired()])
+
+
+class ContactForm(FlaskForm):
+    """
+    Contact form for site used to submit contact details to server
+    """
+    sender_name = StringField(validators=[DataRequired()])
+    sender_email = StringField(validators=[DataRequired(), Email()])
+    sender_message = TextAreaField(validators=[DataRequired()])
+    send_message = SubmitField("Send Message")
