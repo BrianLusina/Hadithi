@@ -45,7 +45,11 @@
 					<span class="tag">Tales from Africa</span>
 				</h1>
 				<div class="related">
-					<a href="{{ url_for('auth.login') }}">Login</a>
+					{% if user %}
+						<a href="{{ url_for('auth.logout') }}">Logout</a>
+					{% else %}
+						<a href="{{ url_for('auth.login') }}">Login</a>
+					{% endif %}
 					<a href="{{ url_for('home.contact') }}">Contact</a>
 					<a href="{{ url_for('home.about') }}">About</a>
 				</div>

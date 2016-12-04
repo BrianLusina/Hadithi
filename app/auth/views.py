@@ -56,3 +56,11 @@ def register():
 def forgot_password():
     forgot_pass = ForgotPassword(request.form)
     return render_template('auth/password-recovery.html', forgot_pass=forgot_pass)
+
+
+@auth.route('/logout')
+@login_required
+def logout_user():
+    logout_user()
+    return redirect(url_for("home.home"))
+
