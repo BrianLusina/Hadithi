@@ -24,7 +24,6 @@ def login():
                 return redirect(request.args.get('next') or url_for('home.home'))
             else:
                 # todo: display error
-                print(author)
                 return render_template('auth/auth.html',
                                        login_form=login_form, register_form=RegisterForm())
     return render_template('auth/auth.html', login_form=login_form, register_form=RegisterForm())

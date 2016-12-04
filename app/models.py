@@ -37,10 +37,9 @@ class Author(Base, UserMixin):
     email = Column(String(250), nullable=False, unique=True)
     password_hash = Column(String(250), nullable=False)
 
-    def __init__(self, full_name, email, password):
-        self.full_name = full_name
-        self.email = email
-        self.password_hash = password
+    # def __init__(self, full_name, email):
+    #     self.full_name = full_name
+    #     self.email = email
 
     @property
     def password(self, password):
