@@ -62,7 +62,9 @@ def register_blueprints(app):
     from app.home_page.views import home_module
     from app.story_page.views import story_module
     from app.auth.views import auth
+    from app.dashboard.views import dashboard
 
     app.register_blueprint(home_module)
     app.register_blueprint(story_module)
     app.register_blueprint(auth)
+    app.register_blueprint(dashboard)

@@ -6,4 +6,4 @@ dashboard = Blueprint(name="dashboard", url_prefix="dashboard/", import_name=__n
 @dashboard.route("<string:username>")
 def dashboard(username):
 
-    return render_template("dashboard/userdashboard.html")
+    return render_template("dashboard/userdashboard.html", username=username)
