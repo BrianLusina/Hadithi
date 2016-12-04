@@ -20,7 +20,7 @@ def login():
     if request.method == "POST":
         if login_form.validate_on_submit():
             author = Author.query.filter_by(email=login_form.email.data).first()
-            if author is not None and author.password_hash == login_form.password.data:
+            if author is not None and author.verify_password(login_form.password.data):
                 # todo: redirect to author dashboard
                 login_user(author, login_form.remember_me.data)
                 return redirect(url_for('home.home'))
@@ -40,13 +40,8 @@ def register():
         if register_form.validate_on_submit():
             author = Author(full_name=register_form.full_name.data, email=register_form.email.data,
                             password=register_form.password.data)
-            try:
-                db.session.add(author)
-                db.session.commit()
-            except IntegrityError as ie:
-                # todo: display error
-                print(ie)
-                db.session.rollback()
+            db.session.add(author)
+            db.session.commit()
             return redirect(url_for('auth.login'))
     return render_template('auth/register.html', register_form=register_form)
 
