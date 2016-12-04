@@ -21,6 +21,7 @@ def login():
             author = Author.query.filter_by(email=login_form.email.data).first()
             if author is not None and author.verify_password(login_form.password.data):
                 # todo: redirect to author dashboard
+                login_user(author, login_form.remember_me.data)
                 return redirect(request.args.get('next') or url_for('home.home'))
             else:
                 # todo: display error
