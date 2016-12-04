@@ -21,7 +21,7 @@ def create_app(config_name):
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
-    # initialize the db
+    # initialize the db and login manager
     db.init_app(app)
     login_manager.init_app(app)
 
@@ -54,11 +54,15 @@ def error_handlers(app):
 
 
 def register_blueprints(app):
+    """
+    Registers tall blueprints in the app
+    :param app: The current flask application
+    :return:
+    """
     from app.home_page.views import home_module
     from app.story_page.views import story_module
-    from app.auth.views import auth as auth_module
+    from app.auth.views import auth
 
-    # Register blueprint(s) ALL blueprints will be registered here
     app.register_blueprint(home_module)
     app.register_blueprint(story_module)
-    app.register_blueprint(auth_module)
+    app.register_blueprint(auth)

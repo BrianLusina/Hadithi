@@ -56,6 +56,12 @@ class Author(Base, UserMixin):
         return "<UserId:%r Name :%r, Email: %r>" % (self.uuid, self.full_name, self.email)
 
 
+# This callback is used to reload the user object from the user ID stored in the session
+@login_manager.user_loader
+def load_author(user_id):
+    return Author.query.get(int(user_id))
+
+
 class Story(Base):
     """
     Story table. Contains all the stories in the database

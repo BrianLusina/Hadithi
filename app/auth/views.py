@@ -20,15 +20,15 @@ def login():
     if request.method == "POST":
         if login_form.validate_on_submit():
             author = Author.query.filter_by(email=login_form.email.data).first()
-            if author is not None and author.verify_password(login_form.password.data):
+            if author is not None and author.password_hash == login_form.password.data:
                 # todo: redirect to author dashboard
                 login_user(author, login_form.remember_me.data)
-                return redirect(request.args.get('next') or url_for('home.home'))
+                return redirect(url_for('home.home'))
             flash("Invalid username or password", "error")
     return render_template('auth/auth.html', login_form=login_form, register_form=RegisterForm())
 
 
-@auth.route('/login', methods=["POST", "GET"])
+@auth.route('/register', methods=["POST", "GET"])
 def register():
     """
     Processes the registration form details. This is used to add the user to the database, if they
