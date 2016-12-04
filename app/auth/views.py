@@ -17,16 +17,14 @@ def login():
     """
     login_form = LoginForm(request.form, prefix="login-form")
 
-    if request.method == "POST" and login_form.validate_on_submit():
+    if request.method == "POST":
+        if login_form.validate_on_submit():
             author = Author.query.filter_by(email=login_form.email.data).first()
             if author is not None and author.verify_password(login_form.password.data):
                 # todo: redirect to author dashboard
                 login_user(author, login_form.remember_me.data)
                 return redirect(request.args.get('next') or url_for('home.home'))
-            else:
-                # todo: display error
-                return render_template('auth/auth.html',
-                                       login_form=login_form, register_form=RegisterForm())
+            flash("Invalid username or password", "error")
     return render_template('auth/auth.html', login_form=login_form, register_form=RegisterForm())
 
 
