@@ -21,4 +21,4 @@ def write_story():
     Allows Author to write a new story
     :return new story template
     """
-    return render_template("dashboard/new_story/html", user=current_user) 
+    return render_template("dashboard/new_story.html", user=current_user) 
