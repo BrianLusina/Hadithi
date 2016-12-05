@@ -7,7 +7,6 @@
         <div class="form-content">
             <form name="login-form" method="post" action="{{ url_for('auth.login') }}">
                 {{ login_form.csrf_token }}
-                {{ login_form.hidden_tag() }}
                 <div class="form-group">
                     <label for="email">Email</label>
                     {{ login_form.email(required_="required") }}

@@ -55,7 +55,7 @@ class StoryForm(FlaskForm):
     """
     story_title = StringField(validators=[DataRequired()])
     tagline = StringField(validators=[DataRequired(), Length(min=1, max=5)])
-    category = StringField(validatos=[DataRequired()])
+    category = StringField(validators=[DataRequired()])
     content = TextAreaField(validators=[DataRequired()])
     save = SubmitField("SAVE")
 

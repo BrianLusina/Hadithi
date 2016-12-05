@@ -1,6 +1,6 @@
 from flask import render_template, Flask
 from config import config
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -38,19 +38,19 @@ def error_handlers(app):
     # Error handler for page not found
     @app.errorhandler(404)
     def not_found(error):
-        return render_template('errorpages/404.html')
+        return render_template('errorpages/404.html', user=current_user)
 
     @app.errorhandler(403)
     def error_403(error):
-        return render_template("errorpages/403.html")
-
+        return render_template("errorpages/403.html", user=current_user)
+ 
     @app.errorhandler(403)
     def error_500(error):
-        return render_template("errorpages/500.html")
+        return render_template("errorpages/500.html", user=current_user)
 
     @app.errorhandler(400)
     def not_found(error):
-        return render_template('errorpages/400.html')
+        return render_template('errorpages/400.html', user=current_user)
 
 
 def register_blueprints(app):
