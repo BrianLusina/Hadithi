@@ -15,16 +15,14 @@ def login():
     :return: Login view
     """
     login_form = LoginForm(request.form, prefix="login-form")
-
     if request.method == "POST":
         if login_form.validate_on_submit():
             author = Author.query.filter_by(email=login_form.email.data).first()
             if author is not None and author.verify_password(login_form.password.data):
-                # todo: redirect to author dashboard
                 login_user(author, login_form.remember_me.data)
                 return redirect(url_for('dashboard.user_dashboard', username=author.full_name))
             flash("Invalid username or password", "error")
-    return render_template('auth/login.html', login_form=login_form)
+    return render_template('auth/login.html', login_form=login_form, user=current_user)
 
 
 @auth.route('/register', methods=["POST", "GET"])
@@ -42,13 +40,13 @@ def register():
             db.session.add(author)
             db.session.commit()
             return redirect(url_for('auth.login'))
-    return render_template('auth/register.html', register_form=register_form)
+    return render_template('auth/register.html', register_form=register_form, user=current_user)
 
 
 @auth.route('/forgot-password', methods=["GET", "POST"])
 def forgot_password():
     forgot_pass = ForgotPassword(request.form)
-    return render_template('auth/password-recovery.html', forgot_pass=forgot_pass)
+    return render_template('auth/password-recovery.html', forgot_pass=forgot_pass, user=current_user)
 
 
 @auth.route('/logout')
