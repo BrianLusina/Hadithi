@@ -35,6 +35,4 @@ def write_story():
             db.session.add(story)
             db.session.commit()
             return redirect(url_for('dashboard.user_dashboard', user.full_name))
-        # todo: display error
-        print("some error")
     return render_template("dashboard/new_story.html", user=user, story_form=story_form) 
