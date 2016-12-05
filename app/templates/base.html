@@ -49,7 +49,7 @@
 				<div class="related">
 					{% if user.is_authenticated %}
                         Hello {{ user.full_name }}
-                        <a href="#">Dashboard</a>
+                        <a href="{{ url_for('dashboard.user_dashboard', username=user.full_name)}}">Dashboard</a>
                         <a href="#">Account</a>
 						<a href="{{ url_for('auth.logout') }}">Logout</a>
 					{% else %}
