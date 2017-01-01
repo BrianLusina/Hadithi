@@ -59,10 +59,10 @@ def register_blueprints(app):
     :param app: The current flask application
     :return:
     """
-    from app.home_page.views import home_module
-    from app.story_page.views import story_module
-    from app.auth.views import auth
-    from app.dashboard.views import dashboard
+    from app.mod_home.views import home_module
+    from app.mod_story.views import story_module
+    from app.mod_auth.views import auth
+    from app.mod_dashboard.views import dashboard
 
     app.register_blueprint(home_module)
     app.register_blueprint(story_module)
