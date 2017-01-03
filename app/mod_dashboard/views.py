@@ -4,7 +4,6 @@ from app.models import Author, Story
 from app.forms import StoryForm
 from app import db
 
-
 dashboard = Blueprint(name="dashboard", url_prefix="/dashboard", import_name=__name__)
 
 
@@ -19,7 +18,8 @@ def user_dashboard(username):
     stories = Story.query.filter_by(author_id=user.id).all()
     return render_template("dashboard/userdashboard.html", user=user, stories=stories)
 
-@dashboard.route("/new-story", methods=["POST","GET"])
+
+@dashboard.route("/new-story", methods=["POST", "GET"])
 def write_story():
     """
     Allows Author to write a new story
@@ -29,10 +29,10 @@ def write_story():
     user = current_user
     if request.method == "POST":
         if story_form.validate_on_submit():
-            story = Story(title=story_form.story_title.data, tagline=story_form.tagline.data, 
-                        category=story_form.category.data, content=story_form.content.data, 
-                        author_id = user.id)
+            story = Story(title=story_form.story_title.data, tagline=story_form.tagline.data,
+                          category=story_form.category.data, content=story_form.content.data,
+                          author_id=user.id)
             db.session.add(story)
             db.session.commit()
             return redirect(url_for('dashboard.user_dashboard', user.full_name))
-    return render_template("dashboard/new_story.html", user=user, story_form=story_form) 
+    return render_template("dashboard/new_story.html", user=user, story_form=story_form)
