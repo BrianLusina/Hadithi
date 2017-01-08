@@ -1,0 +1,37 @@
+from app import db
+from app.models import Story, Author
+import json
+
+
+class InitDatabase(object):
+    """
+    Initializes the database with default records
+    """
+    def __init__(self):
+        pass
+
+    def add_stories(self):
+        """
+        Adds stories to the database
+        :return:
+        """
+        authors = open("app/utils/authors.json", "r")
+        stories = open("app/utils/stories.json", "r")
+
+        with stories as story_data:
+            loaded_stories = json.load(story_data)
+
+        with authors as author_data:
+            loaded_authors = json.load(author_data)
+
+        author_story = list(zip(loaded_authors, loaded_stories))
+
+        for au_st in author_story:
+            author = Author(full_name=au_st[0]["full_name"], email=au_st[0]["email"],
+                            password=au_st[0]["password"]
+                            )
+            story = Story(title=au_st[1]["title"], tagline=au_st[1]["tagline"],
+                          category=au_st[1]["category"], content=au_st[1]["content"], author_id=author.id)
+            db.session.add(author)
+            db.session.add(story)
+        db.session.commit()

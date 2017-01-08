@@ -69,12 +69,10 @@ def init_app():
 
     print("Migrations completed" + "." * 10)
     # initialize database with default records
-    # from app.utils.init_db import InitializeDatabase
-    # init_db = InitializeDatabase()
-    #
-    # init_db.add_chama_group()
-    # init_db.add_user_accounts()
-    # init_db.add_chama_projects()
+    from app.utils import InitDatabase
+    init_db = InitDatabase()
+
+    init_db.add_stories()
 
     print("Database records added" + "." * 10)
 

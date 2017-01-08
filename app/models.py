@@ -73,7 +73,7 @@ class Story(Base):
     title = Column(String, nullable=False)
     tagline = Column(String(50), default=title)
     category = Column(String(100), default="Other")
-    content = Column(String(5500), nullable=False)
+    content = Column(String(10000), nullable=False)
     author_id = Column(Integer, ForeignKey('author.id'))
 
     author = relationship(Author)
