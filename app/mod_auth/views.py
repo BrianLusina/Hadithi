@@ -30,6 +30,8 @@ def register():
     """
     Processes the registration form details. This is used to add the user to the database, if they
     are not there, redirects them to their dashboard when registration is complete
+
+    Sends and email verification to user based on the email provided.
     :return the register form
     """
     register_form = RegisterForm(request.form, prefix="register-form")
