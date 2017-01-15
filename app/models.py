@@ -46,7 +46,7 @@ class Author(Base, UserMixin):
     full_name = Column(String(100), nullable=False)
     email = Column(String(250), nullable=False, unique=True)
     password_hash = Column(String(250), nullable=False)
-    admin = Column(Boolean, nullable=False, default=False)
+    admin = Column(Boolean, nullable=True, default=False)
     registered_on = Column(DateTime, nullable=False)
     confirmed = Column(Boolean, nullable=False, default=False)
     confirmed_on = Column(DateTime, nullable=True)

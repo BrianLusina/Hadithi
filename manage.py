@@ -11,6 +11,12 @@ if os.environ.get("FLASK_COVERAGE"):
     cov.start()
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+
+# import models with app context
+# this prevents the data from the db from being deleted on every migration
+with app.app_context():
+    from app.models import *
+
 manager = Manager(app)
 migrate = Migrate(app, db)
 server = Server(host="127.0.0.1", port=5555)
