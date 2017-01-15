@@ -30,17 +30,19 @@ Main components
   height: 200px;
   line-height: 200px;
   text-align: center;
-  background: #303e49;
+  background: #75CE66;
 }
-#about_header h1 {
+#about_header h1{
   color: white;
   font-size: 18px;
   font-size: 1.125rem;
+  margin:0px;
 }
+
 @media only screen and (min-width: 1170px) {
   #about_header {
-    height: 300px;
-    line-height: 300px;
+    height: 200px;
+    line-height: 200px;
   }
   #about_header h1 {
     font-size: 24px;
@@ -53,6 +55,7 @@ Main components
   padding: 2em 0;
   margin-top: 2em;
   margin-bottom: 2em;
+  background-color: #e9f0f5;
 }
 #cd-timeline::before {
   /* this is the vertical line */
