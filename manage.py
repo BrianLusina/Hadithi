@@ -57,7 +57,7 @@ def test(coverage_var=False):
 
 
 @manager.command
-def create_database():
+def create_db():
     """
     Run database initialization
     :return:

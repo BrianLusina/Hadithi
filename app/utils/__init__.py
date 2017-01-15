@@ -1,6 +1,7 @@
 from app import db
 from app.models import Story, Author
 import json
+from datetime import datetime
 
 
 class InitDatabase(object):
@@ -28,8 +29,8 @@ class InitDatabase(object):
 
         for au_st in author_story:
             author = Author(full_name=au_st[0]["full_name"], email=au_st[0]["email"],
-                            password=au_st[0]["password"]
-                            )
+                            password=au_st[0]["password"], registered_on=datetime.now())
+            
             story = Story(title=au_st[1]["title"], tagline=au_st[1]["tagline"],
                           category=au_st[1]["category"], content=au_st[1]["content"], author_id=author.id)
             db.session.add(author)
