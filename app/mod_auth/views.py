@@ -3,6 +3,8 @@ from app.forms import LoginForm, RegisterForm, ForgotPassword
 from app.models import Author
 from app import db
 from flask_login import logout_user, login_required, login_user, current_user
+from app.mod_auth.token import generate_confirmation_token, confirm_token
+from datetime import datetime
 
 
 auth = Blueprint(name='auth', url_prefix='/auth', import_name=__name__)
@@ -41,8 +43,47 @@ def register():
                             password=register_form.password.data, confirmed=False)
             db.session.add(author)
             db.session.commit()
+
+            # generate token for email verification
+            token = generate_confirmation_token(author.email)
+
             return redirect(url_for('auth.login'))
     return render_template('auth/register.html', register_form=register_form, user=current_user)
+
+
+@auth.route('/confirm/<token>')
+@login_required
+def confirm_email(token):
+    """
+    Confirm email route for the user. Checks if the author has already confirmed their account
+    If they have, log them in. If they have not, confirm their account and direct them to their dashboard
+    we call the confirm_token() function, passing in the token. If successful, we update the user,
+    changing the email_confirmed attribute to True and setting the datetime for when the confirmation took place.
+    Also, in case the user already went through the confirmation process – and is confirmed –
+    then we alert the user of this.
+
+    :param token: Generated in the user registration
+    :return: A redirect to login
+    """
+    try:
+        email = confirm_token(token)
+    except:
+        flash('The confirmation link is invalid or has expired.', 'danger')
+    # get the author or throw an error
+    author = Author.query.filter_by(email=email).first_or_404()
+
+    # check if the author is confirmed
+    if author.confirmed:
+        # login the user if they are already confirmed
+        flash('Account already confirmed. Please login.', 'success')
+    else:
+        author.confirmed = True
+        author.confirmed_on = datetime.now()
+        db.session.add(author)
+        db.session.commit()
+        flash('You have confirmed your account. Thanks!', 'success')
+    # redirect to the user's dashboard
+    return redirect(url_for('dashboard.user_dashboard', username=author.full_name))
 
 
 @auth.route('/forgot-password', methods=["GET", "POST"])
