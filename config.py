@@ -19,6 +19,7 @@ class Config(object):
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
     SQLALCHEMY_TRACK_MODIFICATIONS = True
+    SECURITY_PASSWORD_SALT = os.environ.get("SECURITY_PASSWORD_SALT") or 'my_precious_two'
     ROOT_DIR = APP_ROOT
     CSRF_ENABLED = True
     CSRF_SESSION_KEY = os.environ.get("CSRF_SESSION_KEY")
