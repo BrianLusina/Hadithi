@@ -25,6 +25,10 @@ def contact():
 
 @home_module.route('about')
 def about():
+    """
+    About content, displays about page
+    :return:
+    """
     user = current_user
     return render_template('home/about.html', user=user)
 
