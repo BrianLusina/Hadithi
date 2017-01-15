@@ -38,7 +38,7 @@ def register():
     if request.method == "POST":
         if register_form.validate_on_submit():
             author = Author(full_name=register_form.full_name.data, email=register_form.email.data,
-                            password=register_form.password.data)
+                            password=register_form.password.data, confirmed=False)
             db.session.add(author)
             db.session.commit()
             return redirect(url_for('auth.login'))

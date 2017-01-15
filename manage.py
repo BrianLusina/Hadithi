@@ -57,6 +57,23 @@ def test(coverage_var=False):
 
 
 @manager.command
+def create_admin():
+    """
+    Creates an admin account for Hadithi adds it to the database
+    """
+    db.session.add(Author(
+        full_name="story teller",
+        email="storyteller@hadithi.com",
+        password="stories",
+        registered_on=datetime.now(),
+        admin=True,
+        confirmed=True,
+        confirmed_on=datetime.now())
+    )
+    db.session.commit()
+
+
+@manager.command
 def create_db():
     """
     Run database initialization
