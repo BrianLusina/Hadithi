@@ -34,8 +34,6 @@ def register():
     Processes the registration form details. This is used to add the user to the database, if they
     are not there, redirects them to their dashboard when registration is complete
 
-
-
     Sends and email verification to user based on the email provided.
     :return the register form
     """
@@ -60,6 +58,19 @@ def register():
             flash('A confirmation email has been sent via email.', 'success')
             return redirect(url_for('auth.login'))
     return render_template('auth/register.html', register_form=register_form, user=current_user)
+
+
+@auth.route('/unconfirmed')
+@login_required
+def unconfirmed():
+    """
+
+    :return:
+    """
+    if current_user.confirmed:
+        return redirect('dashboard.user_dashboard')
+    flash('Please confirm your account!', 'warning')
+    return render_template('auth/unconfirmed.html')
 
 
 @auth.route('/confirm/<token>')
@@ -108,5 +119,4 @@ def forgot_password():
 def logout():
     logout_user()
     return redirect(url_for("home.home"))
-
 
