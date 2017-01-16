@@ -2,11 +2,13 @@ from flask import render_template, Flask
 from config import config
 from flask_login import LoginManager, current_user
 from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail
 
 db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
+mail = Mail()
 
 
 def create_app(config_name):
@@ -25,6 +27,9 @@ def create_app(config_name):
     db.init_app(app)
     login_manager.init_app(app)
 
+    # initialize the app with flask mail
+    mail.init_app(app)
+
     error_handlers(app)
     register_blueprints(app)
     return app
@@ -35,6 +40,7 @@ def error_handlers(app):
     Error handlers for the app
     :param app: The app object
     """
+
     # Error handler for page not found
     @app.errorhandler(404)
     def not_found(error):
@@ -43,7 +49,7 @@ def error_handlers(app):
     @app.errorhandler(403)
     def error_403(error):
         return render_template("errorpages/403.html", user=current_user)
- 
+
     @app.errorhandler(403)
     def error_500(error):
         return render_template("errorpages/500.html", user=current_user)

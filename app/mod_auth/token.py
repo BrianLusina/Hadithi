@@ -4,13 +4,8 @@ Ideally, the URL should look something like this – http://hadithi.heroku.com/c
 The key here is the id. We are going to encode the user email (along with a timestamp) in the id using the
  itsdangerous package.
 """
-
+from flask import current_app
 from itsdangerous import URLSafeSerializer
-from app import create_app
-import os
-
-# create app instance base on the current environment, or default it
-app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
 
 def generate_confirmation_token(email):
@@ -20,8 +15,8 @@ def generate_confirmation_token(email):
     :param email: The user email
     :return:
     """
-    serializer = URLSafeSerializer(app.config["SECRET_KEY"])
-    return serializer.dumps(email, salt=app.config["SECURITY_PASSWORD_SALT"])
+    serializer = URLSafeSerializer(current_app.config.get("SECRET_KEY"))
+    return serializer.dumps(email, salt=current_app.config.get("SECURITY_PASSWORD_SALT"))
 
 
 def confirm_token(token, expiration=3600):
@@ -31,11 +26,11 @@ def confirm_token(token, expiration=3600):
     :param expiration: validity of this token, set to 1hr
     :return: An email as long as the token has not expired
     """
-    serializer = URLSafeSerializer(app.config["SECRET_KEY"])
+    serializer = URLSafeSerializer(current_app.config.get("SECRET_KEY"))
     try:
         email = serializer.loads(
             token,
-            salt = app.config["SECURITY_PASSWORD_SALT"],
+            salt=current_app.config.get("SECURITY_PASSWORD_SALT"),
             max_age=expiration
         )
     except:

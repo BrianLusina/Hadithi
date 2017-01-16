@@ -1,10 +1,11 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
 from app.forms import LoginForm, RegisterForm, ForgotPassword
 from app.models import Author
 from app import db
 from flask_login import logout_user, login_required, login_user, current_user
 from app.mod_auth.token import generate_confirmation_token, confirm_token
 from datetime import datetime
+from app.mod_auth.email import send_mail
 
 
 auth = Blueprint(name='auth', url_prefix='/auth', import_name=__name__)
@@ -33,6 +34,8 @@ def register():
     Processes the registration form details. This is used to add the user to the database, if they
     are not there, redirects them to their dashboard when registration is complete
 
+
+
     Sends and email verification to user based on the email provided.
     :return the register form
     """
@@ -47,6 +50,14 @@ def register():
             # generate token for email verification
             token = generate_confirmation_token(author.email)
 
+            # _external adds the full absolute URL that includes the hostname and port
+            confirm_url = url_for('auth.confirm_email', token=token, _external=True)
+
+            html = render_template('auth/confirm_email.html', confirm_url=confirm_url)
+            subject = "Please confirm your email"
+            send_mail(author.email, subject, html)
+
+            flash('A confirmation email has been sent via email.', 'success')
             return redirect(url_for('auth.login'))
     return render_template('auth/register.html', register_form=register_form, user=current_user)
 
@@ -97,4 +108,5 @@ def forgot_password():
 def logout():
     logout_user()
     return redirect(url_for("home.home"))
+
 
