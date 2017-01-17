@@ -14,11 +14,13 @@
 					<span class="tag">Tales from Africa</span>
 				</h1>
 				<div class="related">
-					{% if user.is_authenticated %}
+					{% if user.is_authenticated and user.confirmed %}
                         Hello {{ user.full_name }}
                         <a href="{{ url_for('dashboard.user_dashboard', username=user.full_name)}}">Dashboard</a>
                         <a href="#">Account</a>
 						<a href="{{ url_for('auth.logout') }}">Logout</a>
+				  {% elif cuser.is_authenticated() %}
+						<a href="{{ url_for('auth.unconfirmed') }}">Confirm</a>
 					{% else %}
 						<a href="{{ url_for('auth.login') }}">Login</a>
 					{% endif %}
