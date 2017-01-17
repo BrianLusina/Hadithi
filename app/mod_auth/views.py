@@ -56,7 +56,8 @@ def register():
             send_mail(author.email, subject, html)
 
             flash('A confirmation email has been sent via email.', 'success')
-            return redirect(url_for('auth.login'))
+            # redirects to the unconfirmed route
+            return redirect(url_for('auth.unconfirmed'))
     return render_template('auth/register.html', register_form=register_form, user=current_user)
 
 
@@ -64,8 +65,8 @@ def register():
 @login_required
 def unconfirmed():
     """
-
-    :return:
+    Unconfirmed route for users who have not confirmed their email accounts.
+    :return: template for unconfirmed users
     """
     if current_user.confirmed:
         return redirect('dashboard.user_dashboard')
