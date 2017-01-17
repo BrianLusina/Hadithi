@@ -56,7 +56,7 @@ def register():
             send_mail(author.email, subject, html)
 
             flash('A confirmation email has been sent via email.', 'success')
-            # redirects to the unconfirmed route
+            # redirects to the unconfirmed route for newly registered users
             return redirect(url_for('auth.unconfirmed'))
     return render_template('auth/register.html', register_form=register_form, user=current_user)
 
