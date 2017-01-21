@@ -50,7 +50,7 @@ def write_story():
 def resend_confirmation():
     token = generate_confirmation_token(current_user.email)
     confirm_url = url_for('auth.confirm_email', token=token, _external=True)
-    html = render_template('auth/activate.html', confirm_url=confirm_url)
+    html = render_template('auth/activate.html', confirm_url=confirm_url, user=current_user)
     subject = "Please confirm your email"
     send_mail(current_user.email, subject, html)
     flash('A new confirmation email has been sent.', 'success')

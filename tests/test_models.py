@@ -30,10 +30,11 @@ class ModelsTestCases(BaseTestCase):
                 email='guydemaupassant@hadithi.com',
                 password='password'
             ), follow_redirects=True)
-            # self.assertTrue(current_user.id == 1)
+            print(current_user.is_authenticated)
+            self.assertTrue(current_user.id == 1)
 
     def test_registered_on_defaults_to_datetime(self):
-        """Ensure that the registed_on date is a datetime object"""
+        """Ensure that the registered_on date is a datetime object"""
         with self.client:
             self.client.post('/login', data=dict(
                 email='guydemaupassant@hadithi.com',
@@ -43,7 +44,7 @@ class ModelsTestCases(BaseTestCase):
             self.assertIsInstance(author.registered_on, datetime)
 
     def test_check_password(self):
-        """Ensure given password is correct after unhashing"""
+        """Ensure given password is correct after un-hashing"""
         author = Author.query.filter_by(email='guydemaupassant@hadithi.com').first()
         self.assertTrue(check_password_hash(author.get_password, "password"))
         self.assertFalse(check_password_hash(author.get_password, "foobar"))

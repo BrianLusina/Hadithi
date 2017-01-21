@@ -7,7 +7,6 @@ from app.mod_auth.token import generate_confirmation_token, confirm_token
 from datetime import datetime
 from app.mod_auth.email import send_mail
 
-
 auth = Blueprint(name='auth', url_prefix='/auth', import_name=__name__)
 
 
@@ -41,7 +40,8 @@ def register():
     if request.method == "POST":
         if register_form.validate_on_submit():
             author = Author(full_name=register_form.full_name.data, email=register_form.email.data,
-                            password=register_form.password.data, confirmed=False)
+                            password=register_form.password.data, confirmed=False,
+                            registered_on=datetime.now())
             db.session.add(author)
             db.session.commit()
 
@@ -51,7 +51,8 @@ def register():
             # _external adds the full absolute URL that includes the hostname and port
             confirm_url = url_for('auth.confirm_email', token=token, _external=True)
 
-            html = render_template('auth/confirm_email.html', confirm_url=confirm_url)
+            html = render_template('auth/confirm_email.html', confirm_url=confirm_url,
+                                   user=current_user)
             subject = "Please confirm your email"
             send_mail(author.email, subject, html)
 
@@ -71,7 +72,7 @@ def unconfirmed():
     if current_user.confirmed:
         return redirect('dashboard.user_dashboard')
     flash('Please confirm your account!', 'warning')
-    return render_template('auth/unconfirmed.html')
+    return render_template('auth/unconfirmed.html', user=current_user)
 
 
 @auth.route('/confirm/<token>')
