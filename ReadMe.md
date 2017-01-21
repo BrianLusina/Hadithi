@@ -1,10 +1,8 @@
-[![Build Status](https://travis-ci.org/BrianLusina/Hadithi.svg?branch=master)](https://travis-ci.org/BrianLusina/Hadithi)
-[![CircleCI](https://circleci.com/gh/BrianLusina/Hadithi.svg?style=svg)](https://circleci.com/gh/BrianLusina/Hadithi)
-
-
 # Hadithi
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0ec18362f0ab4e7486c01559f329f2a2)](https://www.codacy.com/app/BrianLusina/Hadithi?utm_source=github.com&utm_medium=referral&utm_content=BrianLusina/Hadithi&utm_campaign=badger)
+[![Build Status](https://travis-ci.org/BrianLusina/Hadithi.svg?branch=master)](https://travis-ci.org/BrianLusina/Hadithi)
+[![CircleCI](https://circleci.com/gh/BrianLusina/Hadithi.svg?style=svg)](https://circleci.com/gh/BrianLusina/Hadithi)
 
 This is a website featuring some of Africa's best short stories titled Hadithi. The site has a sample of 10 short stories and allows the user the ability to share each story on social media. Even make a comment on each story.
 
