@@ -6,14 +6,13 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 class Config(object):
     """
-    Attributes:
-        :var THREADS_PER_PAGE: Application threads. A common general assumption is
-        using 2 per available processor cores - to handle
-        incoming requests using one and performing background
-        operations using the other.
-        :var CSRF_SESSION_KEY Use a secure, unique and absolutely secret key for signing the data.
-        :var SQLALCHEMY_DATABASE_URI Define the database - we are working with SQLite for this example
-
+    Global configuration from which other configs inherit
+    :cvar THREADS_PER_PAGE: Application threads. A common general assumption is
+    using 2 per available processor cores - to handle
+    incoming requests using one and performing background
+    operations using the other.
+    :cvar CSRF_SESSION_KEY Use a secure, unique and absolutely secret key for signing the data.
+    :cvar SQLALCHEMY_DATABASE_URI Define the database - we are working with SQLite for this example
     """
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hadithi'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
@@ -46,11 +45,18 @@ class Config(object):
 
 
 class DevelopmentConfig(Config):
+    """
+    Development configuration
+    """
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'app.db')
 
 
 class TestingConfig(Config):
+    """
+    Testing configurations
+    """
+    DEBUG = True
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     WTF_CSRF_ENABLED = False
@@ -58,6 +64,9 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
+    """
+    Production configuration
+    """
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'app.db')
 
 
