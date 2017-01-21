@@ -1,7 +1,7 @@
 import unittest
 from flask import current_app
 from flask_testing import TestCase
-from app import create_app
+from app import create_app, db
 
 
 class TestConfigurationsCases(TestCase):
@@ -13,6 +13,16 @@ class TestConfigurationsCases(TestCase):
     def create_app(self):
         app = create_app("testing")
         return app
+
+    def setUp(self):
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        db.create_all()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
 
     def test_app_is_testing(self):
         """Test application can be configured for testing"""
@@ -29,6 +39,7 @@ class TestConfigurationsCases(TestCase):
     def test_app_exists(self):
         """Test that the application exists"""
         self.assertFalse(current_app is None)
+
 
 if __name__ == '__main__':
     unittest.main()
