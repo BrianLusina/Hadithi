@@ -1,6 +1,6 @@
 import unittest
 from tests import BaseTestCase
-from app.forms import RegisterForm, LoginForm, ForgotPassword
+from app.forms import RegisterForm, LoginForm, ForgotPassword, ContactForm, StoryForm
 
 
 class TestRegisterForm(BaseTestCase):
@@ -69,6 +69,48 @@ class TestForgotPasswordForm(BaseTestCase):
         """Test that invalid email format is not validated by form"""
         form = ForgotPassword(email="janus")
         self.assertFalse(form.validate())
+
+
+class TestContactForm(BaseTestCase):
+    """
+    Tests for the contact form
+    """
+    def test_validate_all_fields_are_filled(self):
+        """Tests to check data is not submitted with empty fields"""
+        form = ContactForm(
+            sender_name="Virginia",
+            sender_email="virginia@gmail.com",
+            sender_message="Some long message"
+        )
+        self.assertTrue(form.validate())
+
+    def test_validate_invalid_data_is_not_submitted(self):
+        """Test that the contact form does not take empty fields"""
+        form = ContactForm(
+            sender_name="",
+            sender_email="virginia@gmail.com",
+            sender_message="Some long message"
+        )
+        self.assertFalse(form.validate())
+
+    def test_validate_invalid_email_format_is_not_submitted(self):
+        """Test that the contact form does not take empty fields"""
+        form = ContactForm(
+            sender_name="Virginia",
+            sender_email="virginia",
+            sender_message="Some long message"
+        )
+        self.assertFalse(form.validate())
+
+    def test_validate_empty_message_is_not_submitted(self):
+        """Test that the contact form does not take empty fields"""
+        form = ContactForm(
+            sender_name="",
+            sender_email="virginia@gmail.com",
+            sender_message=""
+        )
+        self.assertFalse(form.validate())
+
 
 if __name__ == "__main__":
     unittest.main()
