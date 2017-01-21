@@ -24,7 +24,7 @@ def login():
             if author is not None and author.verify_password(login_form.password.data):
                 login_user(author, login_form.remember_me.data)
                 return redirect(url_for('dashboard.user_dashboard', username=author.full_name))
-            flash("Invalid username or password", "error")
+            flash("Invalid email and/or password", "error")
     return render_template('auth/login.html', login_form=login_form, user=current_user)
 
 
