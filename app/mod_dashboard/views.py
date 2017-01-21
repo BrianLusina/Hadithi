@@ -1,9 +1,12 @@
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_required
 from app.models import Author, Story
 from app.forms import StoryForm
 from app.utils.decorators import check_confirmed
 from app import db
+from app.mod_auth.token import generate_confirmation_token
+from app.mod_auth.email import send_mail
+
 
 dashboard = Blueprint(name="dashboard", url_prefix="/dashboard", import_name=__name__)
 
@@ -41,7 +44,14 @@ def write_story():
             return redirect(url_for('dashboard.user_dashboard', user.full_name))
     return render_template("dashboard/new_story.html", user=user, story_form=story_form)
 
+
 @dashboard.route('/resend')
 @login_required
 def resend_confirmation():
-    
+    token = generate_confirmation_token(current_user.email)
+    confirm_url = url_for('auth.confirm_email', token=token, _external=True)
+    html = render_template('auth/activate.html', confirm_url=confirm_url)
+    subject = "Please confirm your email"
+    send_mail(current_user.email, subject, html)
+    flash('A new confirmation email has been sent.', 'success')
+    return redirect(url_for('auth.unconfirmed'))
