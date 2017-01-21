@@ -1,9 +1,10 @@
 import unittest
 from selenium import webdriver
 from app import create_app, db
+from tests import BaseTestCase
 
 
-class PagesLoadingCorrectly(unittest.TestCase):
+class PagesLoadingCorrectly(BaseTestCase):
     def setUp(self):
         self.browser = webdriver.Chrome("/usr/bin/chromedriver")
         self.app = create_app('testing')
