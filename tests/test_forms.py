@@ -45,6 +45,9 @@ class TestLoginForm(BaseTestCase):
     """
     Test Login form
     """
+    def test_correct_data_validates(self):
+        login_form = LoginForm(email="guydemaupassant@hadithi.com", password="password")
+        self.assertTrue(login_form.validate())
 
 
 class TestForgotPasswordForm(BaseTestCase):
