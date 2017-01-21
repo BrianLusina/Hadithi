@@ -1,14 +1,15 @@
 import unittest
-from flask_testing import TestCase
 from app import create_app, db
 from app.models import Author, Story
 from sqlalchemy.exc import IntegrityError
-from flask import current_app, url_for
+from flask import url_for
 from datetime import datetime
 
 
-class ContextTestCase(TestCase):
-    def create_app(self):
+class ContextTestCase(unittest.TestCase):
+
+    @staticmethod
+    def create_app():
         app = create_app("testing")
         return app
 
@@ -37,6 +38,9 @@ class BaseTestCase(ContextTestCase):
     """
 
     def setUp(self):
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+
         db.create_all()
 
         self.create_author_account()
@@ -47,8 +51,10 @@ class BaseTestCase(ContextTestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
+        self.app_context.pop()
 
-    def create_author_account(self):
+    @staticmethod
+    def create_author_account():
         """
         Create a fictional Author for testing
         :return:

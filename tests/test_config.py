@@ -1,29 +1,13 @@
 import unittest
 from flask import current_app
-from flask_testing import TestCase
-from app import create_app, db
+from tests import BaseTestCase
 
 
-class TestConfigurationsCases(TestCase):
+class TestConfigurationsCases(BaseTestCase):
     """
     Test for configuration of the application. These Tests ensure that the testing configurations run
     as the should under TESTING config
     """
-
-    def create_app(self):
-        app = create_app("testing")
-        return app
-
-    def setUp(self):
-        self.app_context = self.app.app_context()
-        self.app_context.push()
-        db.create_all()
-
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
-        self.app_context.pop()
-
     def test_app_is_testing(self):
         """Test application can be configured for testing"""
         self.assertTrue(current_app.config["TESTING"])
