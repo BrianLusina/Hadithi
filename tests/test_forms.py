@@ -46,14 +46,29 @@ class TestLoginForm(BaseTestCase):
     Test Login form
     """
     def test_correct_data_validates(self):
+        """Test that correct data is validated"""
         login_form = LoginForm(email="guydemaupassant@hadithi.com", password="password")
         self.assertTrue(login_form.validate())
+
+    def test_validate_invalid_email_format(self):
+        """Test that the incorrect email format is not validated"""
+        login_form = LoginForm(email="unknown", password="password")
+        self.assertFalse(login_form.validate())
 
 
 class TestForgotPasswordForm(BaseTestCase):
     """
     Test forgot password form
     """
+    def test_validate_valid_email(self):
+        """Test that forgot password checks for valid email address"""
+        form = ForgotPassword(email="janus@hadithi.com")
+        self.assertTrue(form.validate())
+
+    def test_validate_invalid_email_format(self):
+        """Test that invalid email format is not validated by form"""
+        form = ForgotPassword(email="janus")
+        self.assertFalse(form.validate())
 
 if __name__ == "__main__":
     unittest.main()
