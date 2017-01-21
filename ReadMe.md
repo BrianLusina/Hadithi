@@ -1,7 +1,6 @@
 [![Build Status](https://travis-ci.org/BrianLusina/Hadithi.svg?branch=master)](https://travis-ci.org/BrianLusina/Hadithi)
 [![CircleCI](https://circleci.com/gh/BrianLusina/Hadithi.svg?style=svg)](https://circleci.com/gh/BrianLusina/Hadithi)
 
-376adf775d994c48ae3c914c5b8a245e
 
 # Hadithi
 
