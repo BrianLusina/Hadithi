@@ -131,6 +131,16 @@ class TestStoryForm(BaseTestCase):
         )
         self.assertTrue(form.validate())
 
+    def test_validates_empty_fields(self):
+        """Tests to check that empty fields are not submitted"""
+        form = StoryForm(
+            story_title="",
+            tagline="Did you hear that?",
+            category="",
+            content="Some long story here"
+        )
+        self.assertFalse(form.validate())
+
 
 if __name__ == "__main__":
     unittest.main()
