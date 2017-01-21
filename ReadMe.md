@@ -1,6 +1,7 @@
 # Hadithi
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0ec18362f0ab4e7486c01559f329f2a2)](https://www.codacy.com/app/BrianLusina/Hadithi?utm_source=github.com&utm_medium=referral&utm_content=BrianLusina/Hadithi&utm_campaign=badger)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/0ec18362f0ab4e7486c01559f329f2a2)](https://www.codacy.com/app/BrianLusina/Hadithi?utm_source=github.com&utm_medium=referral&utm_content=BrianLusina/Hadithi&utm_campaign=Badge_Coverage)
 [![Build Status](https://travis-ci.org/BrianLusina/Hadithi.svg?branch=master)](https://travis-ci.org/BrianLusina/Hadithi)
 [![CircleCI](https://circleci.com/gh/BrianLusina/Hadithi.svg?style=svg)](https://circleci.com/gh/BrianLusina/Hadithi)
 
