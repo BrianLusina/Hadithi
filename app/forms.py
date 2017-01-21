@@ -65,7 +65,7 @@ class StoryForm(FlaskForm):
     :cvar content: The actual content for the story
     """
     story_title = StringField(validators=[DataRequired()])
-    tagline = StringField(validators=[DataRequired(), Length(min=1, max=5)])
+    tagline = StringField(validators=[DataRequired(), Length(min=1, max=15)])
     category = StringField(validators=[DataRequired()])
     content = TextAreaField(validators=[DataRequired()])
     save = SubmitField("SAVE")
