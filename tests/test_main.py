@@ -3,7 +3,7 @@
 import unittest
 from flask import url_for, request, current_app
 from app.models import Story, Author
-from tests.test_basecase import BaseTestCase
+from tests import BaseTestCase
 
 
 class TestMainModels(BaseTestCase):

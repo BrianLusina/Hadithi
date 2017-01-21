@@ -1,25 +1,27 @@
 language: python
 sudo: false
 env:
-  matrix:
-
-  globals:
-
+  matrix: 
+  globals: 
 python:
-  - "2.7"
-  - "3.5"
-
-# command to install dependencies
-install: "pip install -r requirements.txt"
-
-# command to run tests
+- '2.7'
+- '3.5'
+install: pip install -r requirements.txt
 script:
-  - python manage.py test
-  # runs coverage
-  - coverage run manage.py test
-  - coverage xml
-  - python-codacy-coverage -r coverage.xml
-
+- python manage.py test
+- coverage run manage.py test
+- coverage xml
+- python-codacy-coverage -r coverage.xml
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
-  - codecov
+- bash <(curl -s https://codecov.io/bash)
+- codecov
+deploy:
+  provider: heroku
+  buildpack: python
+  api_key:
+    secure: I+h573AMveb8NXXx1zNpRYSgNfmL6h3W3Ignh67j5bkEOuJP+FQVfYT6huVoe9FNZ0du/j2YaBtr/OHURBL/NbDfQH+V7M2vQbSgLEZxxRiHioCI1dRtrWwLRNTlS6YGTpUOOf5qtz7kzU9bllV1B2e74lBhloUK1nw5iVnc9d0dVEsXG35WMTUCKZ8/gnidG8zrNVJr+3wb+Xg9+se+cZLzytp6vvWrDxVUIt892gSv0oNZo3IJ8IC1MnCB3BGLVH9TGgP4YoeyiOBfip/5yRW6p8kNpC4mj0OarXfJGNyHMgKTxH1SwVE9VwbpRkLXPKayR32lgbcB7eTcH0IJQkSqfj3OZsPaO6BAaTgYqdL1kznoOl7fp1UBHZ0olgiLxfb0wwCzFmje59PEK/6RTj9Sym5y3mpVPkHNWovD1FRJQ9fUfTSyP1gwzJRhj+cMT+++faxppKhRero4Qxp+0ZTsDPPqka6JRtZFFP3Y+xLQViRV7eBv7XOEbok/DihkVVTlgCGFgzRskwz2rxfeHooAosapiQ3xodQAwOMyrg9CcUxMHjRH7nDQD0qdGuNJttQ50IYfspKnwQzFkqasIlFiKs6F6k1xGtoaBIuzN2c5f0r52AYKbkU855CA7eF4sQivzHhOH10CkII+2mgF+Tp/RiYT7O3yIxLDt004NoU=
+    app: hadithi
+    # deploy on master branch for python version 3.5.1
+    on:
+      branch: master
+      python: 3.5.1

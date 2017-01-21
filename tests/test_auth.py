@@ -5,7 +5,7 @@ import uuid
 from flask import url_for, request
 from app.models import Author
 from flask_login import current_user
-from tests.test_basecase import BaseTestCase
+from tests import BaseTestCase
 
 
 class TestUserModel(BaseTestCase):
