@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
+from app.models import Author
 
 
 class LoginForm(FlaskForm):
@@ -34,6 +35,16 @@ class RegisterForm(FlaskForm):
                                          ])
     verify_password = PasswordField(validators=[DataRequired()])
     register = SubmitField("REGISTER")
+
+    def validate_form(self):
+        initial_validation = super(RegisterForm, self).validate()
+        if not initial_validation:
+            return False
+        user = Author.query.filter_by(email=self.email.data).first()
+        if user:
+            self.email.errors.append("Email already registered")
+            return False
+        return True
 
 
 class ForgotPassword(FlaskForm):
