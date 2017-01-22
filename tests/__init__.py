@@ -1,4 +1,5 @@
 import unittest
+from selenium import webdriver
 from app import create_app, db
 from app.models import Author, Story
 from sqlalchemy.exc import IntegrityError
@@ -9,7 +10,7 @@ from flask_testing import TestCase
 
 class ContextTestCase(TestCase):
 
-    render_templates = False
+    render_templates = True
 
     def create_app(self):
         app = create_app("testing")
@@ -42,6 +43,8 @@ class BaseTestCase(ContextTestCase):
     def setUp(self):
         self.app_context = self.app.app_context()
         self.app_context.push()
+        self.db = db
+        # self.browser = webdriver.Chrome("/usr/bin/chromedriver")
 
         db.create_all()
 
@@ -51,6 +54,7 @@ class BaseTestCase(ContextTestCase):
         db.session.commit()
 
     def tearDown(self):
+        # self.browser.quit()
         db.session.remove()
         db.drop_all()
         self.app_context.pop()

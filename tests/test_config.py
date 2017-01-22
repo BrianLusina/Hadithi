@@ -20,6 +20,9 @@ class TestConfigurationsCases(BaseTestCase):
         """Test application has WSRF disabled in testing mode"""
         self.assertTrue(current_app.config.get("WTF_CSRF_ENABLED") is False)
 
+    def test_app_has_database_url(self):
+        self.assertTrue(current_app.config.get("SQLALCHEMY_DATABASE_URI") == 'sqlite:///:memory:')
+
     def test_app_exists(self):
         """Test that the application exists"""
         self.assertFalse(current_app is None)

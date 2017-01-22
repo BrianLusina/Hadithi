@@ -1,25 +1,8 @@
 import unittest
-from selenium import webdriver
-from app import create_app, db
 from tests import BaseTestCase
 
 
 class PagesLoadingCorrectly(BaseTestCase):
-    def setUp(self):
-        self.browser = webdriver.Chrome("/usr/bin/chromedriver")
-        self.app = create_app('testing')
-        self.app_context = self.app.app_context()
-        self.app_context.push()
-
-        self.app = self.app.test_client()
-        self.db = db
-        self.db.create_all()
-
-    def tearDown(self):
-        self.browser.quit()
-        db.session.remove()
-        db.drop_all()
-        self.app_context.pop()
 
     def test_index_page_loads_correctly(self):
         self.browser.get('http://localhost:5000')

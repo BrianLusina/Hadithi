@@ -90,25 +90,26 @@ def confirm_email(token):
     :param token: Generated in the user registration
     :return: A redirect to login
     """
-    try:
-        email = confirm_token(token)
-    except:
-        flash('The confirmation link is invalid or has expired.', 'danger')
-    # get the author or throw an error
-    author = Author.query.filter_by(email=email).first_or_404()
-
-    # check if the author is confirmed
-    if author.confirmed:
-        # login the user if they are already confirmed
+    if current_user.confirmed:
         flash('Account already confirmed. Please login.', 'success')
-    else:
+        return redirect(url_for('auth.login'))
+
+    email = confirm_token(token)
+
+    # get the author or throw an error
+    author = Author.query.filter_by(email=current_user.email).first_or_404()
+
+    if author.email == email:
         author.confirmed = True
         author.confirmed_on = datetime.now()
         db.session.add(author)
         db.session.commit()
         flash('You have confirmed your account. Thanks!', 'success')
+    else:
+        flash('The confirmation link is invalid or has expired.', 'danger')
+
     # redirect to the user's dashboard
-    return redirect(url_for('dashboard.user_dashboard', username=author.full_name))
+    return redirect(url_for('auth.login'))
 
 
 @auth.route('/forgot-password', methods=["GET", "POST"])
