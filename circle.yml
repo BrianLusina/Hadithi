@@ -1,0 +1,11 @@
+machine:
+  post:
+    - pyenv global 3.5.2
+
+dependencies:
+  pre:
+    - pip install requirements.txt
+
+test:
+  override:
+    - python manage.py test

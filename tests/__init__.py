@@ -13,6 +13,7 @@ class ContextTestCase(TestCase):
 
     def create_app(self):
         app = create_app("testing")
+        app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = False
         return app
 
     def _pre_setup(self):
