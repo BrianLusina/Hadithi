@@ -1,5 +1,4 @@
 import unittest
-from selenium import webdriver
 from app import create_app, db
 from app.models import Author, Story
 from sqlalchemy.exc import IntegrityError
@@ -44,7 +43,6 @@ class BaseTestCase(ContextTestCase):
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.db = db
-        # self.browser = webdriver.Chrome("/usr/bin/chromedriver")
 
         db.create_all()
 
@@ -54,7 +52,6 @@ class BaseTestCase(ContextTestCase):
         db.session.commit()
 
     def tearDown(self):
-        # self.browser.quit()
         db.session.remove()
         db.drop_all()
         self.app_context.pop()

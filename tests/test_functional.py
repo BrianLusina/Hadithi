@@ -1,12 +1,19 @@
 import unittest
 from tests import BaseTestCase
+from selenium import webdriver
 
 
 class PagesLoadingCorrectly(BaseTestCase):
+    """
+    Functional tests for loading pages
+    """
 
-    def test_index_page_loads_correctly(self):
-        self.browser.get('http://localhost:5000')
-        self.assertIn("Hadithi", self.browser.title)
+    # def test_index_page_loads_correctly(self):
+    #     # self.browser = webdriver.Chrome("/usr/bin/chromedriver")
+    #     # self.browser.quit()
+    #
+    #     self.browser.get('http://localhost:5000')
+    #     self.assertIn("Hadithi", self.browser.title)
 
     # def test_categoty_page_populates_database(self):
     #     """Category page updates database successfully"""
