@@ -4,14 +4,22 @@ from app.models import Author, Story
 from sqlalchemy.exc import IntegrityError
 from flask import url_for
 from datetime import datetime
+from flask_testing import TestCase
 
 
-class ContextTestCase(unittest.TestCase):
+class ContextTestCase(TestCase):
 
-    @staticmethod
-    def create_app():
+    render_templates = False
+
+    def create_app(self):
         app = create_app("testing")
         return app
+
+    def _pre_setup(self):
+        self.app = create_app('testing')
+        self.client = self.app.test_client()
+        self._ctx = self.app.test_request_context()
+        self._ctx.push()
 
     def __call__(self, result=None):
         try:
@@ -20,16 +28,10 @@ class ContextTestCase(unittest.TestCase):
         finally:
             self._post_teardown()
 
-    def _pre_setup(self):
-        self.app = create_app('testing')
-        self.client = self.app.test_client()
-        self._ctx = self.app.test_request_context()
-        self._ctx.push()
-
-    def _post_teardown(self):
-        if getattr(self, '_ctx') and self._ctx is not None:
-            self._ctx.pop()
-        del self._ctx
+    # def _post_teardown(self):
+    #     if getattr(self, '_ctx') and self._ctx is not None:
+    #         self._ctx.pop()
+    #     del self._ctx
 
 
 class BaseTestCase(ContextTestCase):

@@ -27,6 +27,7 @@ def user_dashboard(username):
 
 
 @dashboard.route("/new-story", methods=["POST", "GET"])
+@login_required
 def write_story():
     """
     Allows Author to write a new story
