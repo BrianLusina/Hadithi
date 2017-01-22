@@ -21,6 +21,10 @@ script:
 after_success:
 - bash <(curl -s https://codecov.io/bash)
 
+allow_failures:
+  python:
+    - "2.7"
+
 deploy:
   provider: heroku
   buildpack: python
