@@ -22,6 +22,7 @@ def login():
             author = Author.query.filter_by(email=login_form.email.data).first()
             if author is not None and author.verify_password(login_form.password.data):
                 login_user(author, login_form.remember_me.data)
+                flash(message="Welcome back {}!".format(author.full_name), category="success")
                 return redirect(url_for('dashboard.user_dashboard', username=author.full_name))
             flash("Invalid email and/or password", "error")
     return render_template('auth/login.html', login_form=login_form, user=current_user)

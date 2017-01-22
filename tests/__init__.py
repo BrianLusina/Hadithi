@@ -72,6 +72,17 @@ class BaseTestCase(ContextTestCase):
                 db.session.rollback()
         return author
 
+    def login(self):
+        """
+        Login in the user to the testing app
+        :return: The authenticated user for the test app
+        """
+        return self.client.post(
+            url_for("auth.login"),
+            data=dict(email='guydemaupassant@hadithi.com', password='password', confirm='password'),
+            follow_redirects=True
+        )
+
     def add_story(self):
         """
         Adds a dummy story to the database
