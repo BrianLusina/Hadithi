@@ -16,10 +16,10 @@ script:
 - python manage.py test
 # submit coverage report to codacy
 - python-codacy-coverage -r coverage.xml
+- codecov
 
 after_success:
 - bash <(curl -s https://codecov.io/bash)
-- codecov
 
 deploy:
   provider: heroku
