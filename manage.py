@@ -5,9 +5,10 @@ from flask_script import Manager, Shell, Server
 from flask_migrate import MigrateCommand, Migrate
 
 cov = None
-if os.environ.get("FLASK_COVERAGE"):
-    from coverage import coverage
-    cov = coverage(branch=True, include='app/')
+if os.environ.get('FLASK_COVERAGE'):
+    import coverage
+
+    cov = coverage.coverage(branch=True, include='app/*')
     cov.start()
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
@@ -31,16 +32,13 @@ manager.add_command("runserver", server)
 
 
 @manager.command
-def test(coverage_var=False):
-    """
-    Run unit tests and print out coverage report
-    :param coverage_var:
-    :return:
-    """
-    if coverage_var and not os.environ.get('FLASK_COVERAGE'):
+def test(coverage=False):
+    """Run the unit tests."""
+    if coverage and not os.environ.get('FLASK_COVERAGE'):
         import sys
         os.environ['FLASK_COVERAGE'] = '1'
         os.execvp(sys.executable, [sys.executable] + sys.argv)
+
     import unittest
     tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
@@ -51,8 +49,15 @@ def test(coverage_var=False):
         cov.report()
         basedir = os.path.abspath(os.path.dirname(__file__))
         covdir = os.path.join(basedir, 'coverage')
+
+        # generate html report
         cov.html_report(directory=covdir)
+
+        # generate xml report
+        cov.xml_report()
+
         print('HTML version: file://%s/index.html' % covdir)
+        print("XML version: file://%s" % basedir)
         cov.erase()
 
 

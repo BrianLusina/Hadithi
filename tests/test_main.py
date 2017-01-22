@@ -27,7 +27,7 @@
 #         """_____Added application should be found in the database"""
 #         author = self.create_author_account()
 #         # category = self.add_category()
-# 
+#
 #         with self.client:
 #             response = self.save_story(title="Great Stampede", tagline="Hooves and hoofs",
 #                                        content="Long time ago in distant",

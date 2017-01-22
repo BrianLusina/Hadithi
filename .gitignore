@@ -10,6 +10,8 @@
 .vagrant/
 cleanup.sh
 migrations/
+coverage/
+
 # app.db
 # Gradle:
 .idea/gradle.xml
