@@ -61,7 +61,7 @@ class Author(Base, UserMixin):
         self.registered_on = datetime.now()
 
     @property
-    def password(self, password):
+    def password(self):
         raise AttributeError("Password is not a readable attribute")
 
     @password.setter

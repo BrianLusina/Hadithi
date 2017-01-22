@@ -1,85 +1,9 @@
-# tests/test_auth.py
-
 import unittest
 import uuid
 from flask import url_for, request
 from app.models import Author
 from flask_login import current_user
 from tests import BaseTestCase
-
-
-class TestUserModel(BaseTestCase):
-    """
-    Tests for author db table and model
-    """
-    def create_user(self, uuid, username, email, password, confirm, terms):
-        return self.client.post(url_for("auth.create_user_account"), data=dict(
-            uuid=uuid,
-            email=email,
-            username=username,
-            password=password,
-            confirm=confirm,
-            accept_tos=terms
-        ), follow_redirects=True)
-
-    def test_user_creation_success(self):
-        """_____User should be found in the database after creation"""
-        with self.client:
-            user_uuid = str(uuid.uuid4())
-            response = self.create_user(user_uuid, 'testing', 'testing@cs.com',
-                                        'testing', 'testing', True)
-
-            self.assertIn(b'Your account has been created successfully', response.data)
-
-            author = Author.query.filter_by(email='testing@cs.com').count()
-            self.assertTrue(author == 1)
-
-    def test_incorrect_user_registeration(self):
-        """_____Errors should be thrown during an incorrect author registration"""
-        with self.client:
-            user_uuid = str(uuid.uuid4())
-            response = self.create_user(user_uuid, 'testing', 'testing.com',
-                                        'testing', 'testing', True)
-            self.assertIn(b'Please enter a valid email address.', response.data)
-            self.assertIn(b'/author', request.url)
-
-    def test_get_by_id(self):
-        """_____User id should be correct for the current/logged in author"""
-        with self.client:
-            self.client.post('/login', data=dict(
-                email="admin@cs.com", password='admin'
-            ), follow_redirects=True)
-            self.assertTrue(current_user.id == 1)
-            self.assertFalse(current_user.id == 20)
-
-    def test_check_password(self):
-        """_____Entered password should be correct after unhashing"""
-        author = Author.query.filter_by(email='admin@cs.com').first()
-        self.assertTrue(author.verify_password('admin'))
-        self.assertFalse(author.verify_password('another_admin'))
-
-    def test_password_setter(self):
-        """_____Successful password property of author should not be none"""
-        author = Author(password='cat')
-        self.assertTrue(author.password_hash is not None)
-
-    def test_no_password_getter(self):
-        """_____Checking password object of author after being set"""
-        author = Author(password='cat')
-        with self.assertRaises(AttributeError):
-            author.password
-
-    def test_password_verification(self):
-        """_____Successfull password decryption should equal entered password"""
-        author = Author(password='cat')
-        self.assertTrue(author.verify_password('cat'))
-        self.assertFalse(author.verify_password('dog'))
-
-    def test_password_salts_are_random(self):
-        """_____Hashed passwords should not be the same"""
-        author = Author(password='cat')
-        user2 = Author(password='cat')
-        self.assertTrue(author.password_hash != user2.password_hash)
 
 
 class TestUserViews(BaseTestCase):
