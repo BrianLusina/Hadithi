@@ -60,6 +60,11 @@ class TestUserViews(BaseTestCase):
         response = self.client.get(url_for("auth.register"))
         self.assertTrue(b'Register' in response.data)
 
+    def test_confirm_token_route_requires_login(self):
+        """Test the confirm/<token> route requires a logged in user"""
+        # blah is the random token
+        self.client.get("/confirm/blah", follow_redirects=True)
+        self.assertTemplateUsed('auth/login.html')
 
 if __name__ == '__main__':
     unittest.main()
