@@ -14,8 +14,8 @@ def check_confirmed(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
         if current_user.confirmed is False:
-            flash("Please confirm your account", "warning")
-            return redirect(url_for('auth.unconfirmed'))
+            flash(message="Please confirm your account", category="warning")
+            return redirect(url_for('dashboard.unconfirmed'))
         return func(*args, **kwargs)
 
     return decorated_function

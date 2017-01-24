@@ -24,7 +24,7 @@ def login():
                 login_user(author, login_form.remember_me.data)
                 flash(message="Welcome back {}!".format(author.full_name), category="success")
                 return redirect(url_for('dashboard.user_dashboard', username=author.full_name))
-            flash("Invalid email and/or password", "error")
+            flash(message="Invalid email and/or password", category="error")
     return render_template('auth/login.html', login_form=login_form, user=current_user)
 
 
@@ -52,28 +52,21 @@ def register():
             # _external adds the full absolute URL that includes the hostname and port
             confirm_url = url_for('auth.confirm_email', token=token, _external=True)
 
+            # buld the message
             html = render_template('auth/confirm_email.html', confirm_url=confirm_url,
                                    user=current_user)
             subject = "Please confirm your email"
+
+            # send the user an email
             send_mail(author.email, subject, html)
 
-            flash('A confirmation email has been sent via email.', 'success')
-            # redirects to the unconfirmed route for newly registered users
-            return redirect(url_for('auth.unconfirmed'))
+            # login the user
+            login_user(author)
+            flash(message='A confirmation email has been sent via email.', category='success')
+
+            # redirect the unconfirmed users to their dashboard, but to the unconfirmed view
+            return redirect(url_for('dashboard.unconfirmed'))
     return render_template('auth/register.html', register_form=register_form, user=current_user)
-
-
-@auth.route('/unconfirmed')
-@login_required
-def unconfirmed():
-    """
-    Unconfirmed route for users who have not confirmed their email accounts.
-    :return: template for unconfirmed users
-    """
-    if current_user.confirmed:
-        return redirect('dashboard.user_dashboard')
-    flash('Please confirm your account!', 'warning')
-    return render_template('auth/unconfirmed.html', user=current_user)
 
 
 @auth.route('/confirm/<token>')
@@ -91,9 +84,10 @@ def confirm_email(token):
     :return: A redirect to login
     """
     if current_user.confirmed:
-        flash('Account already confirmed. Please login.', 'success')
+        flash(message='Account already confirmed. Please login.', category='success')
         return redirect(url_for('auth.login'))
 
+    # get the email for the confirmed
     email = confirm_token(token)
 
     # get the author or throw an error
@@ -102,11 +96,13 @@ def confirm_email(token):
     if author.email == email:
         author.confirmed = True
         author.confirmed_on = datetime.now()
+
+        # update the confirmed_on column
         db.session.add(author)
         db.session.commit()
-        flash('You have confirmed your account. Thanks!', 'success')
+        flash(message='You have confirmed your account. Thanks!', category='success')
     else:
-        flash('The confirmation link is invalid or has expired.', 'danger')
+        flash(message='The confirmation link is invalid or has expired.', category='danger')
 
     # redirect to the user's dashboard
     return redirect(url_for('auth.login'))

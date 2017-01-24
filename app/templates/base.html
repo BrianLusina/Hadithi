@@ -20,7 +20,7 @@
                         <a href="#">Account</a>
 						<a href="{{ url_for('auth.logout') }}">Logout</a>
 				  {% elif user.is_authenticated %}
-						<a href="{{ url_for('auth.unconfirmed') }}">Confirm</a>
+						<a href="{{ url_for('dashboard.unconfirmed') }}">Confirm</a>
 					{% else %}
 						<a href="{{ url_for('auth.login') }}">Login</a>
 					{% endif %}

@@ -11,6 +11,20 @@ from app.mod_auth.email import send_mail
 dashboard = Blueprint(name="dashboard", url_prefix="/dashboard", import_name=__name__)
 
 
+@dashboard.route('/unconfirmed')
+@login_required
+def unconfirmed():
+    """
+    Unconfirmed route for users who have not confirmed their email accounts.
+    :return: template for unconfirmed users
+    """
+    # if the user is confirmed, take them to their dashboard
+    if current_user.confirmed:
+        return redirect(url_for('dashboard.user_dashboard', username=current_user.full_name))
+    flash(message='Please confirm your account!', category='warning')
+    return render_template('auth/unconfirmed.html', user=current_user)
+
+
 @dashboard.route("/<string:username>")
 @login_required
 @check_confirmed
