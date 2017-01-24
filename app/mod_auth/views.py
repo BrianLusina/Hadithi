@@ -87,11 +87,15 @@ def confirm_email(token):
     :param token: Generated in the user registration
     :return: A redirect to login
     """
+
+    # if the current user had been confirmed, redirect them to login
     if current_user.confirmed:
         flash(message='Account already confirmed. Please login.', category='success')
         return redirect(url_for('auth.login'))
 
+    # else confirm them
     # get the email for the confirmed
+    # fixme: This here be the problem with confirmation of token
     email = confirm_token(token)
 
     # get the author or throw an error
@@ -105,9 +109,11 @@ def confirm_email(token):
         db.session.add(author)
         db.session.commit()
         flash(message='You have confirmed your account. Thanks!', category='success')
+
+        # redirect to login
+        return redirect(url_for('auth.login'))
     else:
         flash(message='The confirmation link is invalid or has expired.', category='danger')
-
     # redirect to the user's dashboard
     return redirect(url_for('auth.login'))
 

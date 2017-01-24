@@ -33,6 +33,6 @@ def confirm_token(token, expiration=3600):
             salt=current_app.config.get("SECURITY_PASSWORD_SALT"),
             max_age=expiration
         )
+        return email
     except:
         return False
-    return email
