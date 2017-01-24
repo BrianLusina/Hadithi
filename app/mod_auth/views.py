@@ -20,9 +20,13 @@ def login():
     if request.method == "POST":
         if login_form.validate_on_submit():
             author = Author.query.filter_by(email=login_form.email.data).first()
+
             if author is not None and author.verify_password(login_form.password.data):
+                # login the user
                 login_user(author, login_form.remember_me.data)
+
                 flash(message="Welcome back {}!".format(author.full_name), category="success")
+
                 return redirect(url_for('dashboard.user_dashboard', username=author.full_name))
             flash(message="Invalid email and/or password", category="error")
     return render_template('auth/login.html', login_form=login_form, user=current_user)
@@ -52,7 +56,7 @@ def register():
             # _external adds the full absolute URL that includes the hostname and port
             confirm_url = url_for('auth.confirm_email', token=token, _external=True)
 
-            # buld the message
+            # build the message
             html = render_template('auth/confirm_email.html', confirm_url=confirm_url,
                                    user=current_user)
             subject = "Please confirm your email"
