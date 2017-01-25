@@ -19,20 +19,15 @@ def generate_confirmation_token(email):
     return serializer.dumps(email, salt=current_app.config.get("SECURITY_PASSWORD_SALT"))
 
 
-def confirm_token(token, expiration=3600):
+def confirm_token(token):
     """
     we use the loads() method, which takes the token and expiration period
     :param token:
-    :param expiration: validity of this token, set to 1hr
     :return: An email as long as the token has not expired
     """
     serializer = URLSafeSerializer(current_app.config.get("SECRET_KEY"))
-    try:
-        email = serializer.loads(
+    email = serializer.loads(
             token,
             salt=current_app.config.get("SECURITY_PASSWORD_SALT"),
-            max_age=expiration
         )
-        return email
-    except:
-        return False
+    return email

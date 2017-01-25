@@ -95,7 +95,7 @@ def confirm_email(token):
 
     # else confirm them
     # get the email for the confirmed
-    # fixme: This here be the problem with confirmation of token
+
     email = confirm_token(token)
 
     # get the author or throw an error
