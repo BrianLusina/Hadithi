@@ -27,9 +27,10 @@ class Base(db.Model):
         pass
 
 
-class AuthorAccount(Base):
+class AuthorAccount(db.Model):
     """
     Will handle authentication book keeping for the author account
+    :cvar author_account_id: author account id which is a Foreign key, relating to author profile
     :cvar username: Author's username
     :cvar email, author's email address
     :cvar password, the author's password
@@ -39,6 +40,7 @@ class AuthorAccount(Base):
     """
     __tablename = "author_account"
 
+    author_account_id = Column(Integer, ForeignKey("author.id"), primary_key=True)
     username = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False, unique=True)
     password = Column(String(500), nullable=False)
@@ -53,7 +55,7 @@ class AuthorAccount(Base):
 class Author(Base, UserMixin):
     """
     Table for authors of Hadithi
-    Sets the properties for attributes that are sensitive to the user
+    Sets the properties for attributes that are sensitive to the user, their profile
     :cvar __tablename__ name of this table in the database
     :cvar uuid the unique user id, that will be auto generated
     :cvar full_name, the full name of the user
@@ -107,6 +109,45 @@ class Author(Base, UserMixin):
 @login_manager.user_loader
 def load_author(user_id):
     return Author.query.get(int(user_id))
+
+
+class ExternalServiceAccount(db.Model):
+    """
+    Abstract class that will superclass all external service accounts,
+    """
+    __metaclass__ = ABCMeta
+    __abstract__ = True
+    author_profile_id = Column(Integer, ForeignKey("author_account.id"), primary_key=True)
+
+
+class FacebookAccount(ExternalServiceAccount):
+    """
+    Facebook account details for the author
+    :cvar __tablename__: name of this table as represented in the database
+    :cvar facebook_id: Facebook id received from
+    """
+    __tablename__ = "facebook_account"
+    facebook_id = Column(String(100), nullable=True)
+
+
+class TwitterAccount(ExternalServiceAccount):
+    """
+    Twitter account table
+    :cvar __tablename__: table name as rep in database
+    :cvar twitter_id: The twitter id as set in Twitter, or as received from Twitter
+    """
+    __tablename__ = "twitter_account"
+    twitter_id = Column(String(100), nullable=True)
+
+
+class GoogleAccount(ExternalServiceAccount):
+    """
+    Google Account table
+    :cvar __tablename__: name of table in database
+    :cvar google_id: Google id as received from Google on registration
+    """
+    __tablename__ = "google_account"
+    google_id = Column(String(100), nullable=True)
 
 
 class Story(Base):
