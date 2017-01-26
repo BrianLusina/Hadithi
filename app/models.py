@@ -27,6 +27,29 @@ class Base(db.Model):
         pass
 
 
+class AuthorAccount(Base):
+    """
+    Will handle authentication book keeping for the author account
+    :cvar username: Author's username
+    :cvar email, author's email address
+    :cvar password, the author's password
+    :cvar password_salt, the password salt that will be added to the hash to increase security
+    :cvar email_confirmation_token, author's confirmation token fo the email addres
+    :cvar account_status_id, status of the account
+    """
+    __tablename = "author_account"
+
+    username = Column(String(250), nullable=False)
+    email = Column(String(250), nullable=False, unique=True)
+    password = Column(String(500), nullable=False)
+    password_salt = Column(String(500))
+    email_confirmation_token = Column(String(500), nullable=False, default=None)
+    account_status_id = Column(Integer)
+
+    def __repr__(self):
+        pass
+
+
 class Author(Base, UserMixin):
     """
     Table for authors of Hadithi
@@ -35,7 +58,8 @@ class Author(Base, UserMixin):
     :cvar uuid the unique user id, that will be auto generated
     :cvar full_name, the full name of the user
     :cvar email, the email of the user
-    :cvar password_hash, the password that will be hashed and hidded from other users
+    :cvar password_hash, the password that will be hashed and hidden from other users
+
     :cvar admin, whether this user is an admin, default is false
     :cvar registered_on, date this account was registered
     :cvar confirmed, whether this identity has been verified by the user
