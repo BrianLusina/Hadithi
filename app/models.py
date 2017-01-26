@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from abc import ABCMeta, abstractmethod
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash, gen_salt
+from sqlalchemy.ext.declarative import declared_attr
 from flask_login import UserMixin
 from . import db, login_manager
 from datetime import datetime
@@ -125,7 +126,10 @@ class ExternalServiceAccount(db.Model):
     """
     __metaclass__ = ABCMeta
     __abstract__ = True
-    author_profile_id = Column(Integer, ForeignKey("author_account.author_account_id"), primary_key=True)
+
+    @declared_attr
+    def author_profile_id(self):
+        return Column(Integer, ForeignKey("author_account.author_account_id"), primary_key=True)
 
 
 class FacebookAccount(ExternalServiceAccount):
