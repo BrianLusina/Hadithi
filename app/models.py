@@ -35,7 +35,7 @@ class AuthorAccount(db.Model):
     :cvar email, author's email address
     :cvar password, the author's password
     :cvar password_salt, the password salt that will be added to the hash to increase security
-    :cvar email_confirmation_token, author's confirmation token fo the email addres
+    :cvar email_confirmation_token, author's confirmation token fo the email address
     :cvar account_status_id, status of the account
     """
     __tablename = "author_account"
@@ -117,7 +117,7 @@ class ExternalServiceAccount(db.Model):
     """
     __metaclass__ = ABCMeta
     __abstract__ = True
-    author_profile_id = Column(Integer, ForeignKey("author_account.id"), primary_key=True)
+    author_profile_id = Column(Integer, ForeignKey("author_account.author_account_id"), primary_key=True)
 
 
 class FacebookAccount(ExternalServiceAccount):
