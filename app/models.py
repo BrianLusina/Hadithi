@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, DateTime, func, ForeignKey, Boolean
+from sqlalchemy import Column, String, Integer, DateTime, func, ForeignKey, Boolean, DDL, event
 from sqlalchemy.orm import relationship
 from abc import ABCMeta, abstractmethod
 import uuid
@@ -232,3 +232,7 @@ class AsyncOperation(Base):
     def __repr__(self):
         pass
 
+event.listen(
+    AsyncOperationStatus.__table__, "after_create",
+    DDL(""" INSERT INTO async_operation_status (id,code) VALUES(1,'pending'),(2, 'ok'),(3, 'error'); """)
+)
