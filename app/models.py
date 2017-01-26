@@ -2,7 +2,7 @@ from sqlalchemy import Column, String, Integer, DateTime, func, ForeignKey, Bool
 from sqlalchemy.orm import relationship
 from abc import ABCMeta, abstractmethod
 import uuid
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash, gen_salt
 from flask_login import UserMixin
 from . import db, login_manager
 from datetime import datetime
@@ -37,16 +37,25 @@ class AuthorAccount(db.Model):
     :cvar password_salt, the password salt that will be added to the hash to increase security
     :cvar email_confirmation_token, author's confirmation token fo the email address
     :cvar account_status_id, status of the account
+    :cvar admin, whether this user is an admin, default is false
+    :cvar registered_on, date this account was registered
+    :cvar confirmed, whether this identity has been verified by the user
+    :cvar confirmed_on, the date this account was confirmed
     """
     __tablename = "author_account"
 
     author_account_id = Column(Integer, ForeignKey("author.id"), primary_key=True)
+    uuid = Column(String(250), default=str(uuid.uuid4()), nullable=False)
     username = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False, unique=True)
+    admin = Column(Boolean, nullable=True, default=False)
     password = Column(String(500), nullable=False)
     password_salt = Column(String(500))
     email_confirmation_token = Column(String(500), nullable=False, default=None)
     account_status_id = Column(Integer)
+    registered_on = Column(DateTime, nullable=False)
+    confirmed = Column(Boolean, nullable=False, default=False)
+    confirmed_on = Column(DateTime, nullable=True)
 
     def __repr__(self):
         pass
@@ -61,7 +70,6 @@ class Author(Base, UserMixin):
     :cvar full_name, the full name of the user
     :cvar email, the email of the user
     :cvar password_hash, the password that will be hashed and hidden from other users
-
     :cvar admin, whether this user is an admin, default is false
     :cvar registered_on, date this account was registered
     :cvar confirmed, whether this identity has been verified by the user
