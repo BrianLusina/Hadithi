@@ -124,9 +124,20 @@ def forgot_password():
     return render_template('auth/password-recovery.html', forgot_pass=forgot_pass, user=current_user)
 
 
+@auth.route("/facebook_authorize")
+def facebook_authorize():
+    if not current_user.is_anonymous:
+        return redirect(url_for("home.home"))
+
+
+@auth.route("/google_authorize")
+def google_authorize():
+    if not current_user.is_anonymous:
+        return redirect(url_for("home.home"))
+
+
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for("home.home"))
-

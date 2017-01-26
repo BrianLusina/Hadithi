@@ -33,11 +33,11 @@
         </div>
 
         <div class="social-login">
-            <a href="#">
+            <a href="{{ url_for('facebook_authorize') }}">
                 <i class="fa fa-facebook fa-lg"></i>
                 Login in with facebook
             </a>
-            <a href="#">
+            <a href="{{ url_for('google_authorize') }}">
                 <i class="fa fa-google-plus fa-lg"></i>
                 log in with Google
             </a>
