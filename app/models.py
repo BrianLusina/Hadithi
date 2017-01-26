@@ -120,48 +120,6 @@ def load_author(user_id):
     return Author.query.get(int(user_id))
 
 
-class ExternalServiceAccount(db.Model):
-    """
-    Abstract class that will superclass all external service accounts,
-    """
-    __metaclass__ = ABCMeta
-    __abstract__ = True
-
-    @declared_attr
-    def author_profile_id(self):
-        return Column(Integer, ForeignKey("author_account.author_account_id"), primary_key=True)
-
-
-class FacebookAccount(ExternalServiceAccount):
-    """
-    Facebook account details for the author
-    :cvar __tablename__: name of this table as represented in the database
-    :cvar facebook_id: Facebook id received from
-    """
-    __tablename__ = "facebook_account"
-    facebook_id = Column(String(100), nullable=True)
-
-
-class TwitterAccount(ExternalServiceAccount):
-    """
-    Twitter account table
-    :cvar __tablename__: table name as rep in database
-    :cvar twitter_id: The twitter id as set in Twitter, or as received from Twitter
-    """
-    __tablename__ = "twitter_account"
-    twitter_id = Column(String(100), nullable=True)
-
-
-class GoogleAccount(ExternalServiceAccount):
-    """
-    Google Account table
-    :cvar __tablename__: name of table in database
-    :cvar google_id: Google id as received from Google on registration
-    """
-    __tablename__ = "google_account"
-    google_id = Column(String(100), nullable=True)
-
-
 class Story(Base):
     """
     Story table. Contains all the stories in the database
@@ -194,3 +152,83 @@ class Story(Base):
     def __repr__(self):
         return "Story: <Title: %r, Category: %r, Tagline: %r> AuthorId: %r" % \
                (self.title, self.category, self.tagline, self.author_id)
+
+
+class ExternalServiceAccount(db.Model):
+    """
+    Abstract class that will superclass all external service accounts,
+
+    :cvar first_name: first name as received from the external service account
+    :cvar last_name: last name as received from external service account
+    """
+    __metaclass__ = ABCMeta
+    __abstract__ = True
+
+    first_name = Column(String(250), nullable=False)
+    last_name = Column(String(250), nullable=False)
+    email = Column(String(250), nullable=False)
+
+    @declared_attr
+    def author_profile_id(self):
+        """
+        This is a declared attr, that will be used in all external accounts
+        :return: Author profile id that is a foreign and primary key
+        """
+        return Column(Integer, ForeignKey("author_account.author_account_id"), primary_key=True)
+
+
+class FacebookAccount(ExternalServiceAccount):
+    """
+    Facebook account details for the author
+    :cvar __tablename__: name of this table as represented in the database
+    :cvar facebook_id: Facebook id received from
+    """
+    __tablename__ = "facebook_account"
+    facebook_id = Column(String(100), nullable=True, unique=True)
+
+
+class TwitterAccount(ExternalServiceAccount):
+    """
+    Twitter account table
+    :cvar __tablename__: table name as rep in database
+    :cvar twitter_id: The twitter id as set in Twitter, or as received from Twitter
+    """
+    __tablename__ = "twitter_account"
+    twitter_id = Column(String(100), nullable=True, unique=True)
+
+
+class GoogleAccount(ExternalServiceAccount):
+    """
+    Google Account table
+    :cvar __tablename__: name of table in database
+    :cvar google_id: Google id as received from Google on registration
+    """
+    __tablename__ = "google_account"
+    google_id = Column(String(100), nullable=True, unique=True)
+
+
+class AsyncOperationStatus(Base):
+    """
+    Dictionary table that stores 3 available statuses, pending, ok, error
+    """
+    __tablename__ = "async_operation_status"
+    code = Column("code", String(20), nullable=True)
+
+    def __repr__(self):
+        pass
+
+
+class AsyncOperation(Base):
+    """
+
+    """
+    __tablename__ = "async_operation"
+    async_operation_status_id = Column(Integer, ForeignKey(AsyncOperationStatus.id))
+    author_profile_id = Column(Integer, ForeignKey(Author.id))
+
+    status = relationship("AsyncOperationStatus", foreign_keys=async_operation_status_id)
+    author_profile = relationship("Author", foreign_keys=author_profile_id)
+
+    def __repr__(self):
+        pass
+
