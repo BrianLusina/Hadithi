@@ -28,40 +28,6 @@ class Base(db.Model):
         pass
 
 
-class AuthorAccount(db.Model):
-    """
-    Will handle authentication book keeping for the author account
-    :cvar author_account_id: author account id which is a Foreign key, relating to author profile
-    :cvar username: Author's username
-    :cvar email, author's email address
-    :cvar password, the author's password
-    :cvar password_salt, the password salt that will be added to the hash to increase security
-    :cvar email_confirmation_token, author's confirmation token fo the email address
-    :cvar account_status_id, status of the account
-    :cvar admin, whether this user is an admin, default is false
-    :cvar registered_on, date this account was registered
-    :cvar confirmed, whether this identity has been verified by the user
-    :cvar confirmed_on, the date this account was confirmed
-    """
-    __tablename = "author_account"
-
-    author_account_id = Column(Integer, ForeignKey(Author.id), primary_key=True)
-    uuid = Column(String(250), default=str(uuid.uuid4()), nullable=False)
-    username = Column(String(250), nullable=False)
-    email = Column(String(250), nullable=False, unique=True)
-    admin = Column(Boolean, nullable=True, default=False)
-    password = Column(String(500), nullable=False)
-    password_salt = Column(String(500))
-    email_confirmation_token = Column(String(500), nullable=False, default=None)
-    account_status_id = Column(Integer)
-    registered_on = Column(DateTime, nullable=False)
-    confirmed = Column(Boolean, nullable=False, default=False)
-    confirmed_on = Column(DateTime, nullable=True)
-
-    def __repr__(self):
-        pass
-
-
 class Author(Base, UserMixin):
     """
     Table for authors of Hadithi
@@ -112,6 +78,40 @@ class Author(Base, UserMixin):
 
     def __repr__(self):
         return "<UserId:%r Name :%r, Email: %r>" % (self.uuid, self.full_name, self.email)
+
+
+class AuthorAccount(db.Model):
+    """
+    Will handle authentication book keeping for the author account
+    :cvar author_account_id: author account id which is a Foreign key, relating to author profile
+    :cvar username: Author's username
+    :cvar email, author's email address
+    :cvar password, the author's password
+    :cvar password_salt, the password salt that will be added to the hash to increase security
+    :cvar email_confirmation_token, author's confirmation token fo the email address
+    :cvar account_status_id, status of the account
+    :cvar admin, whether this user is an admin, default is false
+    :cvar registered_on, date this account was registered
+    :cvar confirmed, whether this identity has been verified by the user
+    :cvar confirmed_on, the date this account was confirmed
+    """
+    __tablename = "author_account"
+
+    author_account_id = Column(Integer, ForeignKey(Author.id), primary_key=True)
+    uuid = Column(String(250), default=str(uuid.uuid4()), nullable=False)
+    username = Column(String(250), nullable=False)
+    email = Column(String(250), nullable=False, unique=True)
+    admin = Column(Boolean, nullable=True, default=False)
+    password = Column(String(500), nullable=False)
+    password_salt = Column(String(500))
+    email_confirmation_token = Column(String(500), nullable=False, default=None)
+    account_status_id = Column(Integer)
+    registered_on = Column(DateTime, nullable=False)
+    confirmed = Column(Boolean, nullable=False, default=False)
+    confirmed_on = Column(DateTime, nullable=True)
+
+    def __repr__(self):
+        pass
 
 
 # This callback is used to reload the user object from the user ID stored in the session

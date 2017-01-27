@@ -48,7 +48,7 @@ class FacebookSignIn(object):
         return redirect(self.service.get_authorize_url(
             scope="public_profile,email",
             response_type="code",
-            state=current_app.config["CSRF_SESSION_KEY "],
+            state=current_app.config["CSRF_SESSION_KEY"],
             redirect_uri=self.get_callback_url()
         ))
 
