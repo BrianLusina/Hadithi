@@ -214,6 +214,27 @@ def preloader():
     return render_template('auth/preloader.html')
 
 
+# renders an error page
+@auth.route('/error')
+def error():
+    return render_template('auth/error.html')
+
+
+@auth.route("/success")
+def success():
+    """
+    Success route which will be accessed when the user successfully logs in with Facebook.
+    JavaScript will handle the routing to this function
+    :return: redirect to user dashboard on successful login
+    """
+    if "async_operation_id" in session:
+        async_operation_id = session["async_operation_id"]
+        async_operation = AsyncOperation.query.filter_by(id=async_operation_id).first()
+        author = Author.query.filter_by(id=async_operation.author_profile_id).first()
+        login_user(author, True)
+    return redirect(url_for("dashboard.user_dashboard", user_name=author.full_name))
+
+
 @auth.route('/logout')
 @login_required
 def logout():

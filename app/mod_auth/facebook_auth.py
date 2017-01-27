@@ -64,7 +64,10 @@ class FacebookSignIn(object):
         """
         Checks if the code is in the response and returns the user's, facebook_id, email, first_name,
         last_name in that order
+        if code is not in the request args, it will return a 4 element tuple of None
+        If the url has a code, we ask for a token using get_auth_session
         :return: User scope as a tuple
+        :rtype: tuple
         """
         if "code" not in request.args:
             return None, None, None, None
@@ -74,10 +77,10 @@ class FacebookSignIn(object):
                   "redirect_uri": self.get_callback_url()
                   }
         )
-        me = oauth_session.get("me?fields=id,email,first_name,last_name").json()
+        user_facebook_data = oauth_session.get("me?fields=id,email,first_name,last_name").json()
         return (
-            me["id"],
-            me.get("email"),
-            me.get("first_name"),
-            me.get("last_name")
+            user_facebook_data["id"],
+            user_facebook_data.get("email"),
+            user_facebook_data.get("first_name"),
+            user_facebook_data.get("last_name")
         )

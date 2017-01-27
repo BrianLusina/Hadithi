@@ -45,7 +45,7 @@ class AuthorAccount(db.Model):
     """
     __tablename = "author_account"
 
-    author_account_id = Column(Integer, ForeignKey("author.id"), primary_key=True)
+    author_account_id = Column(Integer, ForeignKey(Author.id), primary_key=True)
     uuid = Column(String(250), default=str(uuid.uuid4()), nullable=False)
     username = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False, unique=True)
@@ -132,7 +132,7 @@ class Story(Base):
     tagline = Column(String(50), default=title)
     category = Column(String(100), default="Other")
     content = Column(String(10000), nullable=False)
-    author_id = Column(Integer, ForeignKey('author.id'))
+    author_id = Column(Integer, ForeignKey(Author.id))
 
     author = relationship(Author)
 
@@ -168,13 +168,18 @@ class ExternalServiceAccount(db.Model):
     last_name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
 
+    def __init__(self, email, first_name, last_name):
+        self.email = email
+        self.first_name = first_name
+        self.last_name = last_name
+
     @declared_attr
     def author_profile_id(self):
         """
         This is a declared attr, that will be used in all external accounts
         :return: Author profile id that is a foreign and primary key
         """
-        return Column(Integer, ForeignKey("author_account.author_account_id"), primary_key=True)
+        return Column(Integer, ForeignKey(AuthorAccount.author_account_id), primary_key=True)
 
 
 class FacebookAccount(ExternalServiceAccount):
@@ -185,6 +190,10 @@ class FacebookAccount(ExternalServiceAccount):
     """
     __tablename__ = "facebook_account"
     facebook_id = Column(String(100), nullable=True, unique=True)
+
+    def __init__(self, facebook_id, email, first_name, last_name):
+        super().__init__(email, first_name, last_name)
+        self.facebook_id = facebook_id
 
 
 class TwitterAccount(ExternalServiceAccount):
@@ -231,6 +240,7 @@ class AsyncOperation(Base):
 
     def __repr__(self):
         pass
+
 
 event.listen(
     AsyncOperationStatus.__table__, "after_create",

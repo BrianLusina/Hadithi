@@ -10,6 +10,7 @@ $.ajax({
         success: function(data) {
             console.log(data)
 
+            /*If the data is ok, the user is redirected to the success endpoint*/
             if (data === 'ok') {
              console.log(data)
              $.ajax({
