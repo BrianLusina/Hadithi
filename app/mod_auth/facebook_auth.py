@@ -51,4 +51,11 @@ class FacebookSignIn(object):
             redirect_uri=self.get_callback_url()
         ))
 
-    
+    def get_callback_url(self):
+        """
+        The redirect uri that will kick off background processes with Facebook
+        :return: A redirect for the pre-loader to start background communication with facebook
+        """
+        return url_for("auth.show_preloader_start_auth", _external=True)
+
+

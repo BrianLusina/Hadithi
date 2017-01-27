@@ -1,12 +1,13 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
+from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app, session
 from app.forms import LoginForm, RegisterForm, ForgotPassword
-from app.models import Author
+from app.models import Author, AsyncOperationStatus, AsyncOperation
 from app import db
 from flask_login import logout_user, login_required, login_user, current_user
 from app.mod_auth.token import generate_confirmation_token, confirm_token
 from datetime import datetime
 from app.mod_auth.email import send_mail
 from app.mod_auth.facebook_auth import FacebookSignIn
+from app.utils.taskmanager import taskman
 
 auth = Blueprint(name='auth', url_prefix='/auth', import_name=__name__)
 
@@ -149,6 +150,53 @@ def google_authorize():
 def twitter_authorize():
     if not current_user.is_anonymous:
         return redirect(url_for("dashboard.user_dashboard", username=current_user.full_name))
+
+
+@auth.route("/callback")
+def show_preloader_start_auth():
+    """
+    Send user to the page with a preloader
+    Start background communication with Facebook
+    Because communication with other services via http is usually long,
+    that’s way is performed in a separate thread.
+    This forces us to place the code where our application talks to Facebook in a different task.
+    The user, during this process, sees the preloader page and must wait until the background thread finishes
+
+    This will create the record of the async_operation, that represents the status of task execution:
+     pending, ok, error. We’ll also store the id of the async_operation within the session.
+     Based on this value, we can retrieve the appropriate record of the async_operation when it’s time
+     to change its status.
+    :return: redirect url for the preloader
+
+    """
+    if not current_user.is_anonymous:
+        return redirect(url_for("dashboard.user_dashboard", username=current_user.full_name))
+
+    # store in the session id of the asynchronous operation
+    status_pending = AsyncOperationStatus.query.filter_by(code="pending").first()
+    async_operation = AsyncOperation(async_operation_status_id=status_pending.id)
+    db.session.add(async_operation)
+    db.session.commit()
+
+    # store in a session the id of Asynchronous Operation
+    session["async_operation_id"] = str(async_operation.id)
+
+    # run external auth in a seperate thread
+    taskman.add_task(external_auth)
+    return redirect(url_for("auth.preloader"))
+
+
+def external_auth():
+    """
+
+    :return:
+    """
+
+
+# renders a loader page
+@auth.route('/preloader')
+def preloader():
+    return render_template('auth/preloader.html')
 
 
 @auth.route('/logout')
