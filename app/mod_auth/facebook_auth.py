@@ -28,4 +28,27 @@ class FacebookSignIn(object):
             access_token_url='https://graph.facebook.com/oauth/access_token',
             base_url='https://graph.facebook.com/'
         )
+
+    def authorize(self):
+        """
+        Redirects the user to Facebook login page, where they are prompted to accept permissions
+        scope:
+            Will request for specific user permissions, such as public profile and email,
+            public_profile will contain facebook id, first and last names
+            email: will be the user's email signed in with facebook
+        redirect_uri:
+            the url we will redirect the user to
+        state: A unique string created by our app to protect against cross-site request forgery.
+        client_id: This value is automatically added to the requested parameters by the Rauth’s
+         get_authorize_url() method.
+         used to protect our app from accepting a code intended for an application with a different client_id.
+        :return: a redirect to Facebook login page
+        """
+        return redirect(self.service.get_authorize_url(
+            scope="public_profile,email",
+            response_type="code",
+            state=current_app.config["CSRF_SESSION_KEY "],
+            redirect_uri=self.get_callback_url()
+        ))
+
     
