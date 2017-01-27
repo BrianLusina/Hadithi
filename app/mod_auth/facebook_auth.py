@@ -6,6 +6,7 @@ class FacebookSignIn(object):
     """
     Class to handle authentication with facebook
     """
+
     def __init__(self):
         """
         Initializes a new facebook auth object to handle authentication with Facebook
@@ -51,11 +52,32 @@ class FacebookSignIn(object):
             redirect_uri=self.get_callback_url()
         ))
 
-    def get_callback_url(self):
+    @staticmethod
+    def get_callback_url():
         """
         The redirect uri that will kick off background processes with Facebook
         :return: A redirect for the pre-loader to start background communication with facebook
         """
         return url_for("auth.show_preloader_start_auth", _external=True)
 
-
+    def callback(self):
+        """
+        Checks if the code is in the response and returns the user's, facebook_id, email, first_name,
+        last_name in that order
+        :return: User scope as a tuple
+        """
+        if "code" not in request.args:
+            return None, None, None, None
+        oauth_session = self.service.get_auth_session(
+            date={"code": request.args["code"],
+                  "grant_type": "authorization_code",
+                  "redirect_uri": self.get_callback_url()
+                  }
+        )
+        me = oauth_session.get("me?fields=id,email,first_name,last_name").json()
+        return (
+            me["id"],
+            me.get("email"),
+            me.get("first_name"),
+            me.get("last_name")
+        )

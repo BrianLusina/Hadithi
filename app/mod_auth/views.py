@@ -8,6 +8,7 @@ from datetime import datetime
 from app.mod_auth.email import send_mail
 from app.mod_auth.facebook_auth import FacebookSignIn
 from app.utils.taskmanager import taskman
+from app.mod_auth.controllers import external_auth
 
 auth = Blueprint(name='auth', url_prefix='/auth', import_name=__name__)
 
@@ -181,16 +182,9 @@ def show_preloader_start_auth():
     # store in a session the id of Asynchronous Operation
     session["async_operation_id"] = str(async_operation.id)
 
-    # run external auth in a seperate thread
+    # run external auth in a separate thread
     taskman.add_task(external_auth)
     return redirect(url_for("auth.preloader"))
-
-
-def external_auth():
-    """
-
-    :return:
-    """
 
 
 @auth.route("/get-status")
