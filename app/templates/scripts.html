@@ -15,3 +15,7 @@
 
 <!--Main js-->
 <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+<!--Preloader for authentication-->
+<script src="{{ url_for('static', filename='js/facebookAuthStatus.js')}}"></script>
+<script>runCheckingStatus()</script>

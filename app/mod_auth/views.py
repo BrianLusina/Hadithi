@@ -193,6 +193,27 @@ def external_auth():
     """
 
 
+@auth.route("/get-status")
+def get_status():
+    """
+    checks to see if the status of the async_operation is set to ‘ok’.
+    handles this and retrieves the status of the current async_operation.
+    :return:
+    """
+    if "async_operation_id" in session:
+        async_operation_id = session["async_operation_id"]
+
+        # retrieve from the db the status of the store session async operation
+        async_operation = AsyncOperation.query.filter_by(id=async_operation_id).join(AsyncOperationStatus).first()
+
+        status = str(async_operation.status.code)
+        print(status)
+    else:
+        print("async operation not in session")
+        return redirect(url_for(error))
+    return status
+
+
 # renders a loader page
 @auth.route('/preloader')
 def preloader():
