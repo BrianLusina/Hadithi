@@ -33,13 +33,17 @@
         </div>
 
         <div class="social-login">
-            <a href="{{ url_for('facebook_authorize') }}">
+            <a href="{{ url_for('auth.facebook_authorize') }}">
                 <i class="fa fa-facebook fa-lg"></i>
                 Login in with facebook
             </a>
-            <a href="{{ url_for('google_authorize') }}">
+            <a href="{{ url_for('auth.google_authorize') }}">
                 <i class="fa fa-google-plus fa-lg"></i>
                 log in with Google
+            </a>
+            <a href="{{ url_for('auth.twitter_authorize') }}">
+                <i class="fa fa-twitter fa-lg"></i>
+                log in with Twitter
             </a>
         </div>
     </div>

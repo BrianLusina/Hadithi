@@ -126,12 +126,24 @@ def forgot_password():
 
 @auth.route("/facebook_authorize")
 def facebook_authorize():
+    """
+    This starts the authorization process with facebook
+    :return:
+    """
+    # if the user is logged in already
     if not current_user.is_anonymous:
         return redirect(url_for("home.home"))
 
 
+
 @auth.route("/google_authorize")
 def google_authorize():
+    if not current_user.is_anonymous:
+        return redirect(url_for("home.home"))
+
+
+@auth.route("/twitter_authorize")
+def twitter_authorize():
     if not current_user.is_anonymous:
         return redirect(url_for("home.home"))
 
