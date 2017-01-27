@@ -40,7 +40,7 @@ class Config(object):
     MAIL_DEFAULT_SENDER = os.environ["MAIL_DEFAULT_SENDER"]
 
     # credentials for external service accounts
-    OATH_CREDENTIALS = {
+    OAUTH_CREDENTIALS = {
         "facebook": {
             "id": os.environ["FACEBOOK_ID"],
             "secret": os.environ["FACEBOOK_SECRET"]

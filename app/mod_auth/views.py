@@ -6,6 +6,7 @@ from flask_login import logout_user, login_required, login_user, current_user
 from app.mod_auth.token import generate_confirmation_token, confirm_token
 from datetime import datetime
 from app.mod_auth.email import send_mail
+from app.mod_auth.facebook_auth import FacebookSignIn
 
 auth = Blueprint(name='auth', url_prefix='/auth', import_name=__name__)
 
@@ -130,22 +131,24 @@ def facebook_authorize():
     This starts the authorization process with facebook
     :return:
     """
-    # if the user is logged in already
+    # if the user is logged in already, redirect them to dashboard
     if not current_user.is_anonymous:
-        return redirect(url_for("home.home"))
-
+        return redirect(url_for("dashboard.user_dashboard", username=current_user.full_name))
+    # if user is anonymous, begin the sign in process
+    oauth = FacebookSignIn()
+    return oauth.authorize()
 
 
 @auth.route("/google_authorize")
 def google_authorize():
     if not current_user.is_anonymous:
-        return redirect(url_for("home.home"))
+        return redirect(url_for("dashboard.user_dashboard", username=current_user.full_name))
 
 
 @auth.route("/twitter_authorize")
 def twitter_authorize():
     if not current_user.is_anonymous:
-        return redirect(url_for("home.home"))
+        return redirect(url_for("dashboard.user_dashboard", username=current_user.full_name))
 
 
 @auth.route('/logout')
