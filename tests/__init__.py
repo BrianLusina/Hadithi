@@ -1,6 +1,6 @@
 import unittest
 from app import create_app, db
-from app.models import Author, Story
+from app.models import AuthorAccount, Story
 from sqlalchemy.exc import IntegrityError
 from flask import url_for
 from datetime import datetime
@@ -63,11 +63,11 @@ class BaseTestCase(ContextTestCase):
         Create a fictional Author for testing
         :return:
         """
-        author = Author.query.filter_by(email="guydemaupassant@hadithi.com").first()
+        author = AuthorAccount.query.filter_by(email="guydemaupassant@hadithi.com").first()
         if author is None:
             try:
-                author = Author(full_name="Guy De Maupassant", email="guydemaupassant@hadithi.com",
-                                password="password", registered_on=datetime.now())
+                author = AuthorAccount(full_name="Guy De Maupassant", email="guydemaupassant@hadithi.com",
+                                       password="password", registered_on=datetime.now())
                 db.session.add(author)
             except IntegrityError as ie:
                 print(ie)

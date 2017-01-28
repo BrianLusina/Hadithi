@@ -2,7 +2,7 @@ from sqlalchemy import Column, String, Integer, DateTime, func, ForeignKey, Bool
 from sqlalchemy.orm import relationship
 from abc import ABCMeta, abstractmethod
 import uuid
-from werkzeug.security import generate_password_hash, check_password_hash, gen_salt
+from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.ext.declarative import declared_attr
 from flask_login import UserMixin
 from . import db, login_manager
@@ -28,7 +28,7 @@ class Base(db.Model):
         pass
 
 
-class Author(Base, UserMixin):
+class AuthorAccount(Base, UserMixin):
     """
     Table for authors of Hadithi
     Sets the properties for attributes that are sensitive to the user, their profile
@@ -36,6 +36,7 @@ class Author(Base, UserMixin):
     :cvar uuid the unique user id, that will be auto generated
     :cvar full_name, the full name of the user
     :cvar email, the email of the user
+    :cvar username: Author's username
     :cvar password_hash, the password that will be hashed and hidden from other users
     :cvar admin, whether this user is an admin, default is false
     :cvar registered_on, date this account was registered
@@ -47,6 +48,7 @@ class Author(Base, UserMixin):
     uuid = Column(String(250), default=str(uuid.uuid4()), nullable=False)
     full_name = Column(String(100), nullable=False)
     email = Column(String(250), nullable=False, unique=True)
+    username = Column(String(250), nullable=False, default=email)
     password_hash = Column(String(250), nullable=False)
     admin = Column(Boolean, nullable=True, default=False)
     registered_on = Column(DateTime, nullable=False)
@@ -80,44 +82,10 @@ class Author(Base, UserMixin):
         return "<UserId:%r Name :%r, Email: %r>" % (self.uuid, self.full_name, self.email)
 
 
-class AuthorAccount(db.Model):
-    """
-    Will handle authentication book keeping for the author account
-    :cvar author_account_id: author account id which is a Foreign key, relating to author profile
-    :cvar username: Author's username
-    :cvar email, author's email address
-    :cvar password, the author's password
-    :cvar password_salt, the password salt that will be added to the hash to increase security
-    :cvar email_confirmation_token, author's confirmation token fo the email address
-    :cvar account_status_id, status of the account
-    :cvar admin, whether this user is an admin, default is false
-    :cvar registered_on, date this account was registered
-    :cvar confirmed, whether this identity has been verified by the user
-    :cvar confirmed_on, the date this account was confirmed
-    """
-    __tablename = "author_account"
-
-    author_account_id = Column(Integer, ForeignKey(Author.id), primary_key=True)
-    uuid = Column(String(250), default=str(uuid.uuid4()), nullable=False)
-    username = Column(String(250), nullable=False)
-    email = Column(String(250), nullable=False, unique=True)
-    admin = Column(Boolean, nullable=True, default=False)
-    password = Column(String(500), nullable=False)
-    password_salt = Column(String(500))
-    email_confirmation_token = Column(String(500), nullable=False, default=None)
-    account_status_id = Column(Integer)
-    registered_on = Column(DateTime, nullable=False)
-    confirmed = Column(Boolean, nullable=False, default=False)
-    confirmed_on = Column(DateTime, nullable=True)
-
-    def __repr__(self):
-        pass
-
-
 # This callback is used to reload the user object from the user ID stored in the session
 @login_manager.user_loader
 def load_author(user_id):
-    return Author.query.get(int(user_id))
+    return AuthorAccount.query.get(int(user_id))
 
 
 class Story(Base):
@@ -132,9 +100,9 @@ class Story(Base):
     tagline = Column(String(50), default=title)
     category = Column(String(100), default="Other")
     content = Column(String(10000), nullable=False)
-    author_id = Column(Integer, ForeignKey(Author.id))
+    author_id = Column(Integer, ForeignKey(AuthorAccount.id))
 
-    author = relationship(Author)
+    author = relationship(AuthorAccount)
 
     def __init__(self, title, tagline, category, content, author_id):
         """
@@ -174,12 +142,12 @@ class ExternalServiceAccount(db.Model):
         self.last_name = last_name
 
     @declared_attr
-    def author_profile_id(self):
+    def author_account_id(self):
         """
         This is a declared attr, that will be used in all external accounts
         :return: Author profile id that is a foreign and primary key
         """
-        return Column(Integer, ForeignKey(AuthorAccount.author_account_id), primary_key=True)
+        return Column(Integer, ForeignKey(AuthorAccount.id), primary_key=True)
 
 
 class FacebookAccount(ExternalServiceAccount):
@@ -205,6 +173,10 @@ class TwitterAccount(ExternalServiceAccount):
     __tablename__ = "twitter_account"
     twitter_id = Column(String(100), nullable=True, unique=True)
 
+    def __init__(self, twitter_id, email, first_name, last_name):
+        super().__init__(email, first_name, last_name)
+        self.twitter_id = twitter_id
+
 
 class GoogleAccount(ExternalServiceAccount):
     """
@@ -214,6 +186,10 @@ class GoogleAccount(ExternalServiceAccount):
     """
     __tablename__ = "google_account"
     google_id = Column(String(100), nullable=True, unique=True)
+
+    def __init__(self, google_id, email, first_name, last_name):
+        super().__init__(email, first_name, last_name)
+        self.google_id = google_id
 
 
 class AsyncOperationStatus(Base):
@@ -233,7 +209,7 @@ class AsyncOperation(Base):
     """
     __tablename__ = "async_operation"
     async_operation_status_id = Column(Integer, ForeignKey(AsyncOperationStatus.id))
-    author_profile_id = Column(Integer, ForeignKey(Author.id))
+    author_profile_id = Column(Integer, ForeignKey(AuthorAccount.id))
 
     status = relationship("AsyncOperationStatus", foreign_keys=async_operation_status_id)
     author_profile = relationship("Author", foreign_keys=author_profile_id)

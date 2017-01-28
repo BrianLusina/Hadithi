@@ -23,7 +23,7 @@ server = Server(host="127.0.0.1", port=5555)
 
 
 def make_shell_context():
-    return dict(app=app, db=db, Author=Author, Story=Story)
+    return dict(app=app, db=db, Author=AuthorAccount, Story=Story)
 
 manager.add_command('shell', Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
@@ -65,7 +65,7 @@ def create_admin():
     """
     Creates an admin account for Hadithi adds it to the database
     """
-    db.session.add(Author(
+    db.session.add(AuthorAccount(
         full_name="story teller",
         email="storyteller@hadithi.com",
         password="stories",

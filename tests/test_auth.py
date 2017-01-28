@@ -3,7 +3,7 @@ from flask import url_for
 from flask_login import current_user
 from tests import BaseTestCase
 from app.mod_auth.token import generate_confirmation_token, confirm_token
-from app.models import Author
+from app.models import AuthorAccount
 from datetime import datetime
 from app import db
 
@@ -88,7 +88,7 @@ class TestUserViews(BaseTestCase):
 
             # self.assertIn(b'You have confirmed your account', response.data)
             # self.assertTemplateUsed('main/index.html')
-            author = Author.query.filter_by(email='guydemaupassant@hadithi.com').first()
+            author = AuthorAccount.query.filter_by(email='guydemaupassant@hadithi.com').first()
             self.assertTrue(response.status_code == 200)
             # todo: confirmed on tests keeps failing
             # self.assertIsInstance(author.confirmed_on, datetime)
@@ -108,8 +108,8 @@ class TestUserViews(BaseTestCase):
 
     def test_confirm_token_route_expired_token(self):
         # Ensure user cannot confirm account with expired token.
-        author = Author(full_name="Test Hadithi", email="test@hadithi.com",
-                        password="password", registered_on=datetime.now())
+        author = AuthorAccount(full_name="Test Hadithi", email="test@hadithi.com",
+                               password="password", registered_on=datetime.now())
         db.session.add(author)
         db.session.commit()
         token = generate_confirmation_token('test@hadithi.com')

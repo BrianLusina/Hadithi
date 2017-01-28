@@ -1,6 +1,6 @@
 from flask import render_template, Blueprint, request
 from flask_login import current_user
-from app.models import Story, Author
+from app.models import Story, AuthorAccount
 from app.forms import ContactForm
 home_module = Blueprint(name='home', url_prefix='/', import_name=__name__)
 
@@ -10,7 +10,7 @@ home_module = Blueprint(name='home', url_prefix='/', import_name=__name__)
 @home_module.route('home')
 def home():
     stories = Story.query.all()
-    author = Author
+    author = AuthorAccount
     user = current_user
     return render_template('home/index.html', stories=stories, author=author, user=user)
 

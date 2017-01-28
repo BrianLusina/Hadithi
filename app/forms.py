@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
-from app.models import Author
+from app.models import AuthorAccount
 
 
 class LoginForm(FlaskForm):
@@ -40,7 +40,7 @@ class RegisterForm(FlaskForm):
         initial_validation = super(RegisterForm, self).validate()
         if not initial_validation:
             return False
-        user = Author.query.filter_by(email=self.email.data).first()
+        user = AuthorAccount.query.filter_by(email=self.email.data).first()
         if user:
             self.email.errors.append("Email already registered")
             return False

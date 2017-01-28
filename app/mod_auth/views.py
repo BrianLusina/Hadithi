@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app, session
 from app.forms import LoginForm, RegisterForm, ForgotPassword
-from app.models import Author, AsyncOperationStatus, AsyncOperation
+from app.models import AuthorAccount, AsyncOperationStatus, AsyncOperation
 from app import db
 from flask_login import logout_user, login_required, login_user, current_user
 from app.mod_auth.token import generate_confirmation_token, confirm_token
@@ -22,7 +22,7 @@ def login():
     login_form = LoginForm(request.form, prefix="login-form")
     if request.method == "POST":
         if login_form.validate_on_submit():
-            author = Author.query.filter_by(email=login_form.email.data).first()
+            author = AuthorAccount.query.filter_by(email=login_form.email.data).first()
 
             if author is not None and author.verify_password(login_form.password.data):
                 # login the user
@@ -47,9 +47,9 @@ def register():
     register_form = RegisterForm(request.form, prefix="register-form")
     if request.method == "POST":
         if register_form.validate_on_submit():
-            author = Author(full_name=register_form.full_name.data, email=register_form.email.data,
-                            password=register_form.password.data, confirmed=False,
-                            registered_on=datetime.now())
+            author = AuthorAccount(full_name=register_form.full_name.data, email=register_form.email.data,
+                                   password=register_form.password.data, confirmed=False,
+                                   registered_on=datetime.now())
             db.session.add(author)
             db.session.commit()
 
@@ -102,7 +102,7 @@ def confirm_email(token):
     email = confirm_token(token)
 
     # get the author or throw an error
-    author = Author.query.filter_by(email=current_user.email).first_or_404()
+    author = AuthorAccount.query.filter_by(email=current_user.email).first_or_404()
 
     if author.email == email:
         author.confirmed = True
@@ -230,7 +230,7 @@ def success():
     if "async_operation_id" in session:
         async_operation_id = session["async_operation_id"]
         async_operation = AsyncOperation.query.filter_by(id=async_operation_id).first()
-        author = Author.query.filter_by(id=async_operation.author_profile_id).first()
+        author = AuthorAccount.query.filter_by(id=async_operation.author_profile_id).first()
         login_user(author, True)
     return redirect(url_for("dashboard.user_dashboard", user_name=author.full_name))
 

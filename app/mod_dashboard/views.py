@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_required
-from app.models import Author, Story
+from app.models import AuthorAccount, Story
 from app.forms import StoryForm
 from app.utils.decorators import check_confirmed
 from app import db
