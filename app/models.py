@@ -44,16 +44,16 @@ class AuthorAccount(Base, UserMixin):
     :cvar confirmed_on, the date this account was confirmed
     """
 
-    __tablename__ = "author"
+    __tablename__ = "author_account"
     uuid = Column(String(250), default=str(uuid.uuid4()), nullable=False)
     full_name = Column(String(100), nullable=False)
     email = Column(String(250), nullable=False, unique=True)
-    username = Column(String(250), nullable=False, default=email)
     password_hash = Column(String(250), nullable=False)
     admin = Column(Boolean, nullable=True, default=False)
     registered_on = Column(DateTime, nullable=False)
     confirmed = Column(Boolean, nullable=False, default=False)
     confirmed_on = Column(DateTime, nullable=True)
+    username = Column(String(250), nullable=True, default=email, unique=True)
 
     @property
     def registered(self):
@@ -212,7 +212,7 @@ class AsyncOperation(Base):
     author_profile_id = Column(Integer, ForeignKey(AuthorAccount.id))
 
     status = relationship("AsyncOperationStatus", foreign_keys=async_operation_status_id)
-    author_profile = relationship("Author", foreign_keys=author_profile_id)
+    author_profile = relationship("AuthorAccount", foreign_keys=author_profile_id)
 
     def __repr__(self):
         pass
