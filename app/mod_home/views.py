@@ -34,4 +34,4 @@ def about():
 
 @home_module.route("google-site-verification: google2f512247f9616fa3.html")
 def google_verification():
-    return render_template("google-site-verification: google2f512247f9616fa3.html")
+    return render_template("google2f512247f9616fa3.html")

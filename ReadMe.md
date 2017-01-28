@@ -29,14 +29,14 @@ $ heroku pg:promote HEROKU_POSTGRESQL_<COLOR>_URL
 Initialize the database locally
 
 ``` sh
-$ python manage.py init_app
+$ python manage.py create_db
 ```
 > this will initialize the application's db with Postgres
 
 Initialize the db on Heroku
 
 ``` sh
-$ heroku run python manage.py init_app
+$ heroku run python manage.py create_db
 ```
 > creates an initial db on Heroku
 
