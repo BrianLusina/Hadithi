@@ -44,6 +44,10 @@ class Config(object):
         "facebook": {
             "id": os.environ["FACEBOOK_ID"],
             "secret": os.environ["FACEBOOK_SECRET"]
+        },
+        "google": {
+            "id": os.environ["GOOGLE_ID"],
+            "secret": os.environ["GOOGLE_SECRET"]
         }
     }
 
