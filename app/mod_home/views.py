@@ -2,7 +2,6 @@ from flask import render_template, Blueprint, request
 from flask_login import current_user
 from app.models import Story, Author
 from app.forms import ContactForm
-from app import db
 home_module = Blueprint(name='home', url_prefix='/', import_name=__name__)
 
 
@@ -33,3 +32,6 @@ def about():
     return render_template('home/about.html', user=user)
 
 
+@home_module.route("google-site-verification: google2f512247f9616fa3.html")
+def google_verification():
+    return render_template("google-site-verification: google2f512247f9616fa3.html")
