@@ -1,37 +1,29 @@
 language: python
-
 sudo: false
-
 env:
   matrix: 
   globals: 
 
 python:
-- '2.7'
 - '3.5'
 
 install: pip install -r requirements.txt
 
 script:
 - python manage.py test
-# submit coverage report to codacy
 - python-codacy-coverage -r coverage.xml
 - codecov
 
 after_success:
 - bash <(curl -s https://codecov.io/bash)
 
-allow_failures:
-  python:
-    - "2.7"
-
 deploy:
   provider: heroku
   buildpack: python
   api_key:
-    secure: I+h573AMveb8NXXx1zNpRYSgNfmL6h3W3Ignh67j5bkEOuJP+FQVfYT6huVoe9FNZ0du/j2YaBtr/OHURBL/NbDfQH+V7M2vQbSgLEZxxRiHioCI1dRtrWwLRNTlS6YGTpUOOf5qtz7kzU9bllV1B2e74lBhloUK1nw5iVnc9d0dVEsXG35WMTUCKZ8/gnidG8zrNVJr+3wb+Xg9+se+cZLzytp6vvWrDxVUIt892gSv0oNZo3IJ8IC1MnCB3BGLVH9TGgP4YoeyiOBfip/5yRW6p8kNpC4mj0OarXfJGNyHMgKTxH1SwVE9VwbpRkLXPKayR32lgbcB7eTcH0IJQkSqfj3OZsPaO6BAaTgYqdL1kznoOl7fp1UBHZ0olgiLxfb0wwCzFmje59PEK/6RTj9Sym5y3mpVPkHNWovD1FRJQ9fUfTSyP1gwzJRhj+cMT+++faxppKhRero4Qxp+0ZTsDPPqka6JRtZFFP3Y+xLQViRV7eBv7XOEbok/DihkVVTlgCGFgzRskwz2rxfeHooAosapiQ3xodQAwOMyrg9CcUxMHjRH7nDQD0qdGuNJttQ50IYfspKnwQzFkqasIlFiKs6F6k1xGtoaBIuzN2c5f0r52AYKbkU855CA7eF4sQivzHhOH10CkII+2mgF+Tp/RiYT7O3yIxLDt004NoU=
+    secure: Fyl5HEf/ba+R5AdLpFDzi6WKQjFdItlGFNMjE6+AnDqvsjpb34tbMhQz0ZAH6CTIcXpJCEwmFlNcqX1tfQuE1SSVa0giSvFP5YYec5rZmHrra+33/Nbe9BPkO/XJZPf9sefH4fU/hNQsowQ9rLJrs+pShQ+xCbeZlUCvCBy4pJZTURf5LI3qU+E5v6NWvErl3LDjy+d0eJ0Jh42sQf4QCuhri4ZiHHhxPDKcAHiPNuY0WYDSoTA9AcnzjPAu0WaJMjVIUcbIX7ExcYns9nlHNbk9ty85k2mjPvGjgfwOGQgPk/yG0qRQieVdR4ccBL8+W9KeUxPrjKUoCihbggut7DPQlVBNdU8JfxUTtXgatTJFRzgIKejSs5XwyhcH6S1r6kiIti2Qu/VOJDH4ZDN4Npp5g+ImglxsewqlUE5rjn71mW/xyF6a3X2L9JwQauLjtjStVWdl8kc9r8oUgvOlg3D4z1Isvp/+Sud2sB8OVqvaDbXUsQypG2MvUebT2FiRPtzlKLA1VhYBwOjJcCvrkqRtva6rxYDnC10u6J92ry1s85LGIicrxDE3DVreFbZ+kHeitap82qVbVp18hE4A9wvEgJVD1ftmUZbaCShUryxGJVh/bczIDZJi3xmKE83l29yIJZzoJ2F0dQpBJfJSz8DI8KsjONiK/pHiSPXvrag=
     app: hadithi
-    # deploy on master branch for python version 3.5.1
     on:
       branch: master
       python: 3.5.1
+      
