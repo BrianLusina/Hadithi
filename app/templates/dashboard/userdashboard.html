@@ -25,7 +25,7 @@
         {% endfor %}
     {% else %}
         <p>Nothing to show here...write a new story</p>
-        <a href="{{url_for('dashboard.write_story')}}">New Story</a>
+        <a href="{{url_for('dashboard.write_story', username=user.username)}}">New Story</a>
     {% endif %}
         
 {% endblock %}

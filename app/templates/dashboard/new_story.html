@@ -2,7 +2,7 @@
 {% block content %}
 
     <h1>New story</h1>
-    <form method="POST", action="{{ url_for('dashboard.write_story')}}">
+    <form method="POST", action="{{ url_for('dashboard.write_story', username=user.username)}}">
         {{ story_form.csrf_token }}
         {{ story_form.story_title(required_="required") }}
         {{ story_form.tagline(required_="required") }}

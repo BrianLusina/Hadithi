@@ -67,9 +67,9 @@ def user_dashboard(username):
     return render_template("dashboard/userdashboard.html", user=user, stories=stories)
 
 
-@dashboard.route("/new-story", methods=["POST", "GET"])
+@dashboard.route("/<string:username>/new-story", methods=["POST", "GET"])
 @login_required
-def write_story():
+def write_story(username):
     """
     Allows Author to write a new story
     :return new story template

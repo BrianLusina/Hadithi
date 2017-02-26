@@ -15,7 +15,7 @@ class Base(db.Model):
     """
     __metaclass__ = ABCMeta
     __abstract__ = True
-
+    id = Column(Integer, primary_key=True, autoincrement=True)
     date_created = Column(DateTime, default=func.current_timestamp())
     date_modified = Column(DateTime, default=func.current_timestamp(), onupdate=func.current_timestamp())
 
@@ -46,7 +46,7 @@ class AuthorAccount(Base, UserMixin):
 
     __tablename__ = "author_table"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    
     uuid = Column(String(250), default=str(uuid.uuid4()), nullable=False)
     first_name = Column(String(100), nullable=False)
     last_name = Column(String(100), nullable=False)
@@ -100,7 +100,6 @@ class Story(Base):
 
     __tablename__ = 'story_table'
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String, nullable=False)
     tagline = Column(String(50), default=title)
     category = Column(String(100), default="Other")
@@ -203,7 +202,6 @@ class AsyncOperationStatus(Base):
     """
     __tablename__ = "async_operation_status"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
     code = Column("code", String(20), nullable=True)
 
     def __repr__(self):
@@ -216,7 +214,6 @@ class AsyncOperation(Base):
     """
     __tablename__ = "async_operation"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
     async_operation_status_id = Column(Integer, ForeignKey(AsyncOperationStatus.id))
     author_profile_id = Column(Integer, ForeignKey(AuthorAccount.id))
 
