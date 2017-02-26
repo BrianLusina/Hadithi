@@ -26,4 +26,4 @@ deploy:
     on:
       branch: master
       python: 3.5.1
-      
+
