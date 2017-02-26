@@ -7,8 +7,7 @@ env:
   globals: 
 
 python:
-- '2.7'
-- '3.5'
+  - '3.5'
 
 install: pip install -r requirements.txt
 
