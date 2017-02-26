@@ -28,7 +28,8 @@ class InitDatabase(object):
         author_story = list(zip(loaded_authors, loaded_stories))
 
         for au_st in author_story:
-            author = AuthorAccount(full_name=au_st[0]["full_name"], email=au_st[0]["email"],
+            author = AuthorAccount(first_name=au_st[0]["first_name"], last_name=au_st[0]["last_name"],
+                                   email=au_st[0]["email"], username=au_st[0]["username"],
                                    password=au_st[0]["password"], registered_on=datetime.now())
             
             story = Story(title=au_st[1]["title"], tagline=au_st[1]["tagline"],

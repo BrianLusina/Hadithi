@@ -58,15 +58,15 @@ class BaseTestCase(ContextTestCase):
     def create_author_account():
         """
         Create a fictional Author for testing
-        :return:
+        :return: an author account
         """
-        author = AuthorAccount.query.filter_by(email="guydemaupassant@hadithi.com").first()
+        author = AuthorAccount.query.filter_by(first_name="Guy De").first()
         if author is None:
             try:
-                author = AuthorAccount(full_name="Guy De Maupassant", email="guydemaupassant@hadithi.com",
+                author = AuthorAccount(first_name="Guy De", last_name="Maupassant",
+                                       username="guydemaupassant", email="guydemaupassant@hadithi.com",
                                        password="password", registered_on=datetime.now())
                 db.session.add(author)
-                # db.session.commit()
             except IntegrityError as ie:
                 print(ie)
                 db.session.rollback()
@@ -78,7 +78,7 @@ class BaseTestCase(ContextTestCase):
         :return: The authenticated user for the test app
         """
         return self.client.post(
-            url_for("auth.login"),
+            "auth/login",
             data=dict(email='guydemaupassant@hadithi.com', password='password', confirm='password'),
             follow_redirects=True
         )

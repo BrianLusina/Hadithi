@@ -97,6 +97,7 @@ def create_db():
     upgrade()
 
     print("Migrations completed" + "." * 10)
+
     # initialize database with default records
     from app.utils import InitDatabase
     init_db = InitDatabase()

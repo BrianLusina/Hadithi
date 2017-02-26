@@ -1,62 +1,85 @@
 [
   {
-    "full_name":"Mathew Walters",
+    "first_name":"Mathew",
+    "last_name":"Walters",
     "email":"mathewwalters@hadithi.com",
+    "username":"mathewwalters",
     "password":"mathewwalters"
   },
   {
-    "full_name":"Christian Belverde",
+    "first_name":"Christian",
+    "last_name":"Belverde",
     "email":"christianbelverde@hadithi.com",
+    "username":"christianbelverde",
     "password":"christianbelverde"
   },
   {
-    "full_name":"Carol Freeman",
+    "first_name":"Carol",
+    "last_name":"Freeman",
     "email":"carolfreeman@hadithi.com",
+    "username":"carolfreeman",
     "password":"carolfreeman"
   },
   {
-    "full_name":"Sandra Paulson",
+    "first_name":"Sandra",
+    "last_name":"Paulson",
     "email":"sandrapaulson@hadithi.com",
+    "username":"sandrapaulson",
     "password":"sandrapaulson"
   },
   {
-    "full_name":"Leila Nastafi",
+    "first_name":"Leila",
+    "last_name":"Nastafi",
     "email":"leilanastafi@hadithi.com",
+    "username":"leilanastafi",
     "password":"leilanastafi"
   },
   {
-    "full_name":"William Green",
+    "first_name":"William",
+    "last_name":"Green",
     "email":"williamgreen@hadithi.com",
+    "username":"williamgreen",
     "password":"williamgreen"
   },
   {
-    "full_name":"Peter M. Schuster",
+    "first_name":"Peter M.",
+    "last_name":"Schuster",
     "email":"petermschuster@hadithi.com",
+    "username":"petermschuster",
     "password":"petermschuster"
   },
   {
-    "full_name":"Brian Lusina",
+    "first_name":"Brian",
+    "last_name":"Lusina",
     "email":"brianlusina@hadithi.com",
+    "username":"brianlusina",
     "password":"brianlusina"
   },
   {
-    "full_name":"Brian Ombito",
+    "first_name":"Brian Ombito",
+    "last_name":"Ombito",
     "email":"brianombito@hadithi.com",
+    "username":"brianombito",
     "password":"brianombito"
   },
   {
-    "full_name":"Ryan Lucas",
+    "first_name":"Ryan Lucas",
+    "last_name":"Lucas",
     "email":"ryanlucas@hadithi.com",
+    "username":"ryanlucas",
     "password":"ryanlucas"
   },
   {
-    "full_name":"Erick Newman",
+    "first_name":"Erick Newman",
+    "last_name":"Newman",
     "email":"ericknewman@hadithi.com",
+    "username":"ericknewman",
     "password":"ericknewman"
   },
   {
-    "full_name":"Mark Holder",
+    "first_name":"Mark Holder",
+    "last_name":"Holder",
     "email":"markholder@hadithi.com",
-    "password":"markholder"
+    "username":"markholder", "password":"markholder"
   }
 ]

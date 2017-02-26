@@ -16,7 +16,6 @@ class Base(db.Model):
     __metaclass__ = ABCMeta
     __abstract__ = True
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
     date_created = Column(DateTime, default=func.current_timestamp())
     date_modified = Column(DateTime, default=func.current_timestamp(), onupdate=func.current_timestamp())
 
@@ -45,12 +44,14 @@ class AuthorAccount(Base, UserMixin):
     :cvar confirmed_on, the date this account was confirmed
     """
 
-    __tablename__ = "author_account"
+    __tablename__ = "author_table"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
     uuid = Column(String(250), default=str(uuid.uuid4()), nullable=False)
     first_name = Column(String(100), nullable=False)
     last_name = Column(String(100), nullable=False)
     email = Column(String(250), nullable=False, unique=True)
-    username = Column(String(250), nullable=True, default=email, unique=True)
+    username = Column(String(250), nullable=False, unique=True)
     password_hash = Column(String(250), nullable=False)
     admin = Column(Boolean, nullable=True, default=False)
     registered_on = Column(DateTime, nullable=False)
@@ -81,7 +82,8 @@ class AuthorAccount(Base, UserMixin):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return "<UserId:%r Name :%r, Email: %r>" % (self.uuid, self.full_name, self.email)
+        return "<UserId:%r Name :<%r %r>, Email: %r>" % (self.uuid, self.first_name, self.last_name,
+                                                         self.email)
 
 
 # This callback is used to reload the user object from the user ID stored in the session
@@ -98,6 +100,7 @@ class Story(Base):
 
     __tablename__ = 'story_table'
 
+    id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String, nullable=False)
     tagline = Column(String(50), default=title)
     category = Column(String(100), default="Other")
@@ -199,6 +202,8 @@ class AsyncOperationStatus(Base):
     Dictionary table that stores 3 available statuses, pending, ok, error
     """
     __tablename__ = "async_operation_status"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
     code = Column("code", String(20), nullable=True)
 
     def __repr__(self):
@@ -210,6 +215,8 @@ class AsyncOperation(Base):
 
     """
     __tablename__ = "async_operation"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
     async_operation_status_id = Column(Integer, ForeignKey(AsyncOperationStatus.id))
     author_profile_id = Column(Integer, ForeignKey(AuthorAccount.id))
 
@@ -220,7 +227,8 @@ class AsyncOperation(Base):
         pass
 
 
-event.listen(
-    AsyncOperationStatus.__table__, "after_create",
-    DDL(""" INSERT INTO async_operation_status (id,code) VALUES(1,'pending'),(2, 'ok'),(3, 'error'); """)
-)
+# todo add events
+# event.listen(
+#     AsyncOperationStatus.__table__, "after_create",
+#     DDL(""" INSERT INTO async_operation_status (id,code) VALUES(1,'pending'),(2, 'ok'),(3, 'error'); """)
+# )
