@@ -46,6 +46,7 @@ def register():
     """
     register_form = RegisterForm(request.form, prefix="register-form")
     if request.method == "POST":
+        # todo: warn user of short password entries
         if register_form.validate_on_submit():
             author = AuthorAccount(full_name=register_form.full_name.data, email=register_form.email.data,
                                    password=register_form.password.data, confirmed=False,
@@ -141,12 +142,14 @@ def facebook_authorize():
     return oauth.authorize()
 
 
+# todo google auth
 @auth.route("/google_authorize")
 def google_authorize():
     if not current_user.is_anonymous:
         return redirect(url_for("dashboard.user_dashboard", username=current_user.full_name))
 
 
+# todo twitter auth
 @auth.route("/twitter_authorize")
 def twitter_authorize():
     if not current_user.is_anonymous:

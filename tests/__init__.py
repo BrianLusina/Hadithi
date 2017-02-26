@@ -8,7 +8,6 @@ from flask_testing import TestCase
 
 
 class ContextTestCase(TestCase):
-
     render_templates = True
 
     def create_app(self):
@@ -19,8 +18,6 @@ class ContextTestCase(TestCase):
     def _pre_setup(self):
         self.app = create_app('testing')
         self.client = self.app.test_client()
-        self._ctx = self.app.test_request_context()
-        self._ctx.push()
 
     def __call__(self, result=None):
         try:
@@ -29,10 +26,10 @@ class ContextTestCase(TestCase):
         finally:
             self._post_teardown()
 
-    # def _post_teardown(self):
-    #     if getattr(self, '_ctx') and self._ctx is not None:
-    #         self._ctx.pop()
-    #     del self._ctx
+    def _post_teardown(self):
+        if getattr(self, '_ctx', None) and self._ctx is not None:
+            self._ctx.pop()
+            del self._ctx
 
 
 class BaseTestCase(ContextTestCase):
@@ -69,6 +66,7 @@ class BaseTestCase(ContextTestCase):
                 author = AuthorAccount(full_name="Guy De Maupassant", email="guydemaupassant@hadithi.com",
                                        password="password", registered_on=datetime.now())
                 db.session.add(author)
+                # db.session.commit()
             except IntegrityError as ie:
                 print(ie)
                 db.session.rollback()
