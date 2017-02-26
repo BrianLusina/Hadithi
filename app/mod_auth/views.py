@@ -28,9 +28,9 @@ def login():
                 # login the user
                 login_user(author, login_form.remember_me.data)
 
-                flash(message="Welcome back {}!".format(author.full_name), category="success")
+                flash(message="Welcome back {}!".format(author.username), category="success")
 
-                return redirect(url_for('dashboard.user_dashboard', username=author.full_name))
+                return redirect(url_for('dashboard.user_dashboard', username=author.username))
             flash(message="Invalid email and/or password", category="error")
     return render_template('auth/login.html', login_form=login_form, user=current_user)
 
@@ -48,8 +48,12 @@ def register():
     if request.method == "POST":
         # todo: warn user of short password entries
         if register_form.validate_on_submit():
-            author = AuthorAccount(full_name=register_form.full_name.data, email=register_form.email.data,
-                                   password=register_form.password.data, confirmed=False,
+            author = AuthorAccount(first_name=register_form.first_name.data,
+                                   last_name=register_form.last_name.data,
+                                   username=register_form.username.data,
+                                   email=register_form.email.data,
+                                   password=register_form.password.data, 
+                                   confirmed=False,
                                    registered_on=datetime.now())
             db.session.add(author)
             db.session.commit()
@@ -136,7 +140,7 @@ def facebook_authorize():
     """
     # if the user is logged in already, redirect them to dashboard
     if not current_user.is_anonymous:
-        return redirect(url_for("dashboard.user_dashboard", username=current_user.full_name))
+        return redirect(url_for("dashboard.user_dashboard", username=current_user.username))
     # if user is anonymous, begin the sign in process
     oauth = FacebookSignIn()
     return oauth.authorize()
@@ -146,14 +150,14 @@ def facebook_authorize():
 @auth.route("/google_authorize")
 def google_authorize():
     if not current_user.is_anonymous:
-        return redirect(url_for("dashboard.user_dashboard", username=current_user.full_name))
+        return redirect(url_for("dashboard.user_dashboard", username=current_user.username))
 
 
 # todo twitter auth
 @auth.route("/twitter_authorize")
 def twitter_authorize():
     if not current_user.is_anonymous:
-        return redirect(url_for("dashboard.user_dashboard", username=current_user.full_name))
+        return redirect(url_for("dashboard.user_dashboard", username=current_user.username))
 
 
 @auth.route("/callback")
@@ -174,7 +178,7 @@ def show_preloader_start_auth():
 
     """
     if not current_user.is_anonymous:
-        return redirect(url_for("dashboard.user_dashboard", username=current_user.full_name))
+        return redirect(url_for("dashboard.user_dashboard", username=current_user.username))
 
     # store in the session id of the asynchronous operation
     status_pending = AsyncOperationStatus.query.filter_by(code="pending").first()
@@ -235,7 +239,7 @@ def success():
         async_operation = AsyncOperation.query.filter_by(id=async_operation_id).first()
         author = AuthorAccount.query.filter_by(id=async_operation.author_profile_id).first()
         login_user(author, True)
-    return redirect(url_for("dashboard.user_dashboard", user_name=author.full_name))
+    return redirect(url_for("dashboard.user_dashboard", user_name=author.username))
 
 
 @auth.route('/logout')

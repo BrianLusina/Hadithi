@@ -1,5 +1,4 @@
 import unittest
-from flask import url_for
 from flask_login import current_user
 from tests import BaseTestCase
 from app.mod_auth.token import generate_confirmation_token, confirm_token
