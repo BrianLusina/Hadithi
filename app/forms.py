@@ -70,7 +70,8 @@ class StoryForm(FlaskForm):
     tagline = StringField(validators=[DataRequired(), Length(min=1, max=50)])
     category = StringField(validators=[DataRequired()])
     content = TextAreaField(validators=[DataRequired()])
-    save = SubmitField("SAVE")
+    publish = SubmitField("PUBLISH")
+    save_draft = SubmitField("SAVE DRAFT")
 
 
 class ContactForm(FlaskForm):

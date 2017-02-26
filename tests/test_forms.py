@@ -144,6 +144,7 @@ class TestStoryForm(BaseTestCase):
         )
         self.assertFalse(form.validate())
 
+    # todo: add tests for saving as a draft
 
 if __name__ == "__main__":
     unittest.main()

@@ -8,6 +8,7 @@
         {{ story_form.tagline(required_="required") }}
         {{ story_form.category(required_="required") }}
         {{ story_form.content(required_="required") }}
-        {{ story_form.save }}
+        {{ story_form.publish }}
+        {{ story_form.save_draft }}
     </form>
 {% endblock %}
