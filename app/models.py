@@ -34,7 +34,8 @@ class AuthorAccount(Base, UserMixin):
     Sets the properties for attributes that are sensitive to the user, their profile
     :cvar __tablename__ name of this table in the database
     :cvar uuid the unique user id, that will be auto generated
-    :cvar full_name, the full name of the user
+    :cvar first_name, the first name of the user
+    :cvar last_name, last name of user
     :cvar email, the email of the user
     :cvar username: Author's username
     :cvar password_hash, the password that will be hashed and hidden from other users
@@ -46,14 +47,15 @@ class AuthorAccount(Base, UserMixin):
 
     __tablename__ = "author_account"
     uuid = Column(String(250), default=str(uuid.uuid4()), nullable=False)
-    full_name = Column(String(100), nullable=False)
+    first_name = Column(String(100), nullable=False)
+    last_name = Column(String(100), nullable=False)
     email = Column(String(250), nullable=False, unique=True)
+    username = Column(String(250), nullable=True, default=email, unique=True)
     password_hash = Column(String(250), nullable=False)
     admin = Column(Boolean, nullable=True, default=False)
     registered_on = Column(DateTime, nullable=False)
     confirmed = Column(Boolean, nullable=False, default=False)
     confirmed_on = Column(DateTime, nullable=True)
-    username = Column(String(250), nullable=True, default=email, unique=True)
 
     @property
     def registered(self):

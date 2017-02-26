@@ -21,12 +21,14 @@ class LoginForm(FlaskForm):
 class RegisterForm(FlaskForm):
     """
     Register form for authors to register with the site
-    :cvar full_name: Full name of registering author
+    :cvar first_name: First name of registering author
+    :cvar last_name: last name/surname of user
     :cvar username: username to identify author
     :cvar email: email Author will use to register account
     :cvar password: password the Author will use to login/ perform tasks
     """
-    full_name = StringField(validators=[DataRequired()])
+    first_name = StringField(validators=[DataRequired()])
+    last_name = StringField(validators=[DataRequired()])
     username = StringField(validators=[DataRequired(), Length(min=5, max=15)])
     email = StringField(validators=[DataRequired(), Email()])
     password = PasswordField(validators=[DataRequired(),

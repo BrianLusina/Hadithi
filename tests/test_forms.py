@@ -11,7 +11,8 @@ class TestRegisterForm(BaseTestCase):
     def test_validate_success_register_form(self):
         """Test the correct data is validated"""
         form = RegisterForm(
-            full_name="Janus Cascade",
+            first_name="Janus",
+            last_name="Cascade",
             username="janus",
             email="januscascade@hadithi.com",
             password="januscascade",
@@ -22,7 +23,8 @@ class TestRegisterForm(BaseTestCase):
     def test_checks_for_invalid_password_lengths(self):
         """Tests for incorrect password lengths"""
         form = RegisterForm(
-            full_name="Janus Cascade",
+            first_name="Janus",
+            last_name="Cascade",
             username="janus",
             email="januscascade@hadithi.com",
             password="janus",
@@ -33,7 +35,8 @@ class TestRegisterForm(BaseTestCase):
     def test_validate_email_already_registered(self):
         """Tests that register form can't validate an email that already exists"""
         form = RegisterForm(
-            full_name="Guy De Maupassant",
+            first_name="Guy De",
+            last_name="Maupassant",
             username="guydemaupassant",
             email="guydemaupassant@hadithi.com",
             password="password",
