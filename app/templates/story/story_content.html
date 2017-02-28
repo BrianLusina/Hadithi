@@ -7,7 +7,8 @@
 				<div class="meta meta--full">
 					<img class="meta__avatar" src="img/authors/1.png" alt="author01" />
 					<span class="meta__author">
-						{{ author.query.filter_by(id=story.author_id).first().full_name }}
+						{{ author.query.filter_by(id=story.author_id).first().first_name }}
+						{{ author.query.filter_by(id=story.author_id).first().last_name }}
 					</span>
 					<span class="meta__date"><i class="fa fa-calendar-o"></i>
 						{{ story.date_created.day }} {{ story.date_created.strftime("%b") }}

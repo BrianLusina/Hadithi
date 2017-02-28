@@ -1,8 +1,8 @@
-from flask import render_template, Blueprint, request
+from . import home_module
+from flask import render_template, request
 from flask_login import current_user
 from app.models import Story, AuthorAccount
 from app.forms import ContactForm
-home_module = Blueprint(name='home', url_prefix='/', import_name=__name__)
 
 
 @home_module.route('/')
