@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, DateTime, func, ForeignKey, Boolean, DDL, event
+from sqlalchemy import Column, String, Integer, DateTime, func, ForeignKey, Boolean, LargeBinary
 from sqlalchemy.orm import relationship
 from abc import ABCMeta, abstractmethod
 import uuid
@@ -45,13 +45,13 @@ class AuthorAccount(Base, UserMixin):
     """
 
     __tablename__ = "author_table"
-
     
     uuid = Column(String(250), default=str(uuid.uuid4()), nullable=False)
     first_name = Column(String(100), nullable=False)
     last_name = Column(String(100), nullable=False)
     email = Column(String(250), nullable=False, unique=True)
     username = Column(String(250), nullable=False, unique=True)
+    image = Column(LargeBinary, nullable=True)
     password_hash = Column(String(250), nullable=False)
     admin = Column(Boolean, nullable=True, default=False)
     registered_on = Column(DateTime, nullable=False)

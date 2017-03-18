@@ -1,3 +1,4 @@
+from . import dashboard
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_required
 from app.models import AuthorAccount, Story
@@ -6,8 +7,6 @@ from app.utils.decorators import check_confirmed
 from app import db
 from app.mod_auth.token import generate_confirmation_token
 from app.mod_auth.email import send_mail
-
-dashboard = Blueprint(name="dashboard", url_prefix="/dashboard", import_name=__name__)
 
 
 @dashboard.route('/unconfirmed')
