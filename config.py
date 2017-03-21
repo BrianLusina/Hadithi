@@ -20,6 +20,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SECURITY_PASSWORD_SALT = os.environ.get("SECURITY_PASSWORD_SALT") or 'my_precious_two'
     ROOT_DIR = APP_ROOT
+    WTF_CSRF_ENABLED = True
     CSRF_ENABLED = True
     CSRF_SESSION_KEY = os.environ.get("CSRF_SESSION_KEY")
     THREADS_PER_PAGE = 2
