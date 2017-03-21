@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, Integer, DateTime, func, ForeignKey, Boolean, LargeBinary
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref, dynamic
 from abc import ABCMeta, abstractmethod
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -47,16 +47,18 @@ class AuthorAccount(Base, UserMixin):
     __tablename__ = "author_table"
     
     uuid = Column(String(250), default=str(uuid.uuid4()), nullable=False)
-    first_name = Column(String(100), nullable=False)
-    last_name = Column(String(100), nullable=False)
-    email = Column(String(250), nullable=False, unique=True)
-    username = Column(String(250), nullable=False, unique=True)
+    first_name = Column(String(100), nullable=False, index=True)
+    last_name = Column(String(100), nullable=False, index=True)
+    email = Column(String(250), nullable=False, unique=True, index=True)
+    username = Column(String(250), nullable=False, unique=True, index=True)
     image = Column(LargeBinary, nullable=True)
     password_hash = Column(String(250), nullable=False)
     admin = Column(Boolean, nullable=True, default=False)
     registered_on = Column(DateTime, nullable=False)
     confirmed = Column(Boolean, nullable=False, default=False)
     confirmed_on = Column(DateTime, nullable=True)
+
+    stories = relationship("Story", backref="author", lazy="dynamic")
 
     @property
     def registered(self):
@@ -104,9 +106,7 @@ class Story(Base):
     tagline = Column(String(50), default=title)
     category = Column(String(100), default="Other")
     content = Column(String(10000), nullable=False)
-    author_id = Column(Integer, ForeignKey(AuthorAccount.id))
-
-    author = relationship(AuthorAccount)
+    author_id = Column(Integer, ForeignKey("author_table.id"))
 
     def __init__(self, title, tagline, category, content, author_id):
         """
