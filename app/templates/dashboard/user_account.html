@@ -1,12 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
+    <div>
+        <p>First Name: {{ user.first_name }}</p>
+        <p>Last name: {{ user.last_name }}</p>
+        <p>Email: {{ user.email }}</p><br/>
+        <p>Username: {{ user.username }}</p><br/>
+        {% if user.about_me %}
+            <p>About Me: {{ user.about_me }}</p><br/>
+        {% endif %}
+        {% if user.last_seen %}
+            <p>Last seen on {{ user.last_seen }}</p><br>
+        {% endif %}
+        {# Avatar #}
+        <img src="{{ user.avatar(64) }}"><br>
+    </div>
 
-    <p>First Name: {{ user.first_name }}</p>
-    <p>Last name: {{ user.last_name }}</p>
-    <p>Email: {{ user.email }}</p>
-    <p>Username: {{ user.username }}</p>
-    <p>About Me: {{ user.about_me }}</p>
-    {# Avatar #}
-    <img src="{{ user.avatar(64) }}">
-
+    {#  Add user posts here  #}
 {% endblock %}
