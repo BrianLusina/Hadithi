@@ -1,6 +1,7 @@
 from sqlalchemy import Column, String, Integer, DateTime, func, ForeignKey, Boolean, LargeBinary
 from sqlalchemy.orm import relationship, backref, dynamic
 from abc import ABCMeta, abstractmethod
+from hashlib import md5
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.ext.declarative import declared_attr
@@ -51,7 +52,6 @@ class AuthorAccount(Base, UserMixin):
     last_name = Column(String(100), nullable=False, index=True)
     email = Column(String(250), nullable=False, unique=True, index=True)
     username = Column(String(250), nullable=False, unique=True, index=True)
-    image = Column(LargeBinary, nullable=True)
     about_me = Column(String(250), nullable=True)
     last_seen = Column(DateTime)
     password_hash = Column(String(250), nullable=False)
@@ -61,6 +61,20 @@ class AuthorAccount(Base, UserMixin):
     confirmed_on = Column(DateTime, nullable=True)
 
     stories = relationship("Story", backref="author", lazy="dynamic")
+
+    def avatar(self, size):
+        """
+        responsible for getting a user avatar. will reduce load on server by getting avatar image from Gravatar
+        This creates an md5 hash of the user email and then incorporates it into the specially crafted URL
+        After the md5 of the email you can provide a number of options to customize the avatar.
+        The d=mm determines what placeholder image is returned when a user does not have an Gravatar account.
+        The mm option returns the "mystery man" image, a gray silhouette of a person.
+        The s=N option requests the avatar scaled to the given size in pixels.
+        More information -> https://en.gravatar.com/site/implement/images
+        :param size: size of the image
+        :return: link to user's avatar
+        """
+        return 'http://www.gravatar.com/avatar/%s?d=mm&s=%d' % (md5(self.email.encode("utf-8")).hexdigest(), size)
 
     @property
     def registered(self):

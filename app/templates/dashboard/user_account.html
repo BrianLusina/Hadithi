@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <h1>{{ user.full_name }}</h1>
-        
+    <p>First Name: {{ user.first_name }}</p>
+    <p>Last name: {{ user.last_name }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Username: {{ user.username }}</p>
+    <p>About Me: {{ user.about_me }}</p>
+    {# Avatar #}
+    <img src="{{ user.avatar(64) }}">
+
 {% endblock %}

@@ -66,7 +66,7 @@ def user_dashboard(username):
     return render_template("dashboard/userdashboard.html", user=user, stories=stories)
 
 
-@dashboard.route("/<string:username>")
+@dashboard.route("/<string:username>/account")
 @login_required
 def user_account(username):
     """

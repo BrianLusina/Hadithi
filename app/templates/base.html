@@ -18,8 +18,8 @@
 				<div class="related">
 					{% if user.is_authenticated and user.confirmed %}
                         Hello {{ user.first_name }}
-                        <a href="{{ url_for('dashboard.user_dashboard', username=user.username)}}">Dashboard</a>
-                        <a href="#">Account</a>
+                        <a href="{{ url_for('dashboard.user_dashboard', username=user.username) }}">Dashboard</a>
+                        <a href="{{ url_for('dashboard.user_account', username=user.username) }}">Account</a>
 						<a href="{{ url_for('auth.logout') }}">Logout</a>
 				    {% elif user.is_authenticated %}
 						<a href="{{ url_for('dashboard.unconfirmed') }}">Confirm</a>
