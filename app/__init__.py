@@ -3,6 +3,7 @@ from config import config
 from flask_login import LoginManager, current_user
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
+from datetime import datetime
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -31,6 +32,7 @@ def create_app(config_name):
     mail.init_app(app)
 
     error_handlers(app)
+    request_handlers(app, db)
     register_blueprints(app)
     return app
 
@@ -59,6 +61,34 @@ def error_handlers(app):
         return render_template('errorpages/400.html', user=current_user)
 
 
+def request_handlers(app, db):
+    """
+    Handles requests sent by the application
+    :param app: the current application
+    :return:
+    """
+
+    @app.before_request
+    def before_request():
+        """
+        Before submitting the request, change the currently logged in user 'last seen' status to now
+        """
+        if current_user.is_authenticated:
+            current_user.last_seen = datetime.now()
+            db.session.add(current_user)
+            db.session.commit()
+
+    # @app.after_request
+    # def after_request(response):
+    #     for query in get_debug_queries():
+    #         if query.duration >= DATABASE_QUERY_TIMEOUT:
+    #             app.logger.warning(
+    #                 "SLOW QUERY: %s\nParameters: %s\nDuration: %fs\nContext: %s\n" %
+    #                 (query.statement, query.parameters, query.duration,
+    #                  query.context))
+    #     return response
+
+
 def register_blueprints(app):
     """
     Registers tall blueprints in the app
@@ -67,7 +97,7 @@ def register_blueprints(app):
     """
     from app.mod_home import home_module
     from app.mod_story.views import story_module
-    from app.mod_auth.views import auth
+    from app.mod_auth import auth
     from app.mod_dashboard import dashboard
 
     app.register_blueprint(home_module)
