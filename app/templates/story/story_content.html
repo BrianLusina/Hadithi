@@ -5,7 +5,11 @@
 				<span class="category category--full">{{ story.category }}</span>
 				<h2 class="title title--full">{{ story.title }}</h2>
 				<div class="meta meta--full">
-					<img class="meta__avatar" src="img/authors/1.png" alt="author01" />
+                {% if author.query.filter_by(id=story.author_id).first() %}
+                    <img class="meta__avatar" src="{{ author.query.filter_by(id=story.author_id).first().avatar(64) }}" alt="{{ author.query.filter_by(id=story.author_id).first().username }}" />
+                {% else %}
+                    <img class="meta__avatar" src="" alt="{{ author.query.filter_by(id=story.author_id).first().username}}" />
+                {% endif %}
 					<span class="meta__author">
 						{{ author.query.filter_by(id=story.author_id).first().first_name }}
 						{{ author.query.filter_by(id=story.author_id).first().last_name }}

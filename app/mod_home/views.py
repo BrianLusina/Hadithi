@@ -11,8 +11,7 @@ from app.forms import ContactForm
 def home():
     stories = Story.query.all()
     author = AuthorAccount
-    user = current_user
-    return render_template('home/index.html', stories=stories, author=author, user=user)
+    return render_template('home/index.html', stories=stories, author=author, user=current_user)
 
 
 @home_module.route('contact')
