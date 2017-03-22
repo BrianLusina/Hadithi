@@ -24,6 +24,7 @@ def login():
             author = AuthorAccount.query.filter_by(email=login_form.email.data).first()
 
             if author is not None and author.verify_password(login_form.password.data):
+
                 # login the user
                 login_user(author, login_form.remember_me.data)
 

@@ -14,9 +14,11 @@ mail = Mail()
 
 def create_app(config_name):
     """
-    Defines a new application WSGI
-    :param config_name:
-    :return: the WSGI Flask object
+    Defines a new application WSGI. Creates the flask application object that will be used to define and
+    create the whole application
+    :param config_name: the configuration to use when creating a new application
+    :return: the newly created and configured WSGI Flask object
+    :rtype: Flask
     """
     app = Flask(__name__, template_folder='templates', static_folder="static")
 
@@ -24,16 +26,15 @@ def create_app(config_name):
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
-    # initialize the db and login manager
+    # initialize the db and login manager, flask mail
     db.init_app(app)
     login_manager.init_app(app)
-
-    # initialize the app with flask mail
     mail.init_app(app)
 
     error_handlers(app)
     request_handlers(app, db)
     register_blueprints(app)
+
     return app
 
 
@@ -61,10 +62,11 @@ def error_handlers(app):
         return render_template('errorpages/400.html', user=current_user)
 
 
-def request_handlers(app, db):
+def request_handlers(app, db_):
     """
     Handles requests sent by the application
     :param app: the current application
+    :param db_: current database
     :return:
     """
 
@@ -72,11 +74,13 @@ def request_handlers(app, db):
     def before_request():
         """
         Before submitting the request, change the currently logged in user 'last seen' status to now
+        this will update the database last_seen column and every time the user makes a request (refreshes the
+        page), the last seen will be updated. this is called before any request is ma
         """
         if current_user.is_authenticated:
             current_user.last_seen = datetime.now()
-            db.session.add(current_user)
-            db.session.commit()
+            db_.session.add(current_user)
+            db_.session.commit()
 
     # @app.after_request
     # def after_request(response):
@@ -93,7 +97,6 @@ def register_blueprints(app):
     """
     Registers tall blueprints in the app
     :param app: The current flask application
-    :return:
     """
     from app.mod_home import home_module
     from app.mod_story.views import story_module
