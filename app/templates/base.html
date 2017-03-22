@@ -5,7 +5,9 @@
 	</head>
     <body>
         <div class="container">
-            <button id="menu-toggle" class="menu-toggle"><span>Menu</span></button>
+            <button id="menu-toggle" class="menu-toggle">
+                <span>Menu</span>
+            </button>
 			<div id="theSidebar" class="sidebar">
 				<button class="close-button fa fa-fw fa-close"></button>
 				<!--todo: put logo-->
@@ -16,10 +18,10 @@
 				<div class="related">
 					{% if user.is_authenticated and user.confirmed %}
                         Hello {{ user.first_name }}
-                        <a href="{{ url_for('dashboard.user_dashboard', username=user.full_name)}}">Dashboard</a>
+                        <a href="{{ url_for('dashboard.user_dashboard', username=user.username)}}">Dashboard</a>
                         <a href="#">Account</a>
 						<a href="{{ url_for('auth.logout') }}">Logout</a>
-				  {% elif user.is_authenticated %}
+				    {% elif user.is_authenticated %}
 						<a href="{{ url_for('dashboard.unconfirmed') }}">Confirm</a>
 						<a href="{{ url_for('auth.logout') }}">Logout</a>
 					{% else %}
@@ -40,13 +42,11 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <div>
-                    <div>
-                        {% for category, message in messages %}
-                            <div {{ category }}">
-                                {{message}}
-                            </div>
-                        {% endfor %}
-                    </div>
+                    {% for category, message in messages %}
+                        <div class="{{ category }}">
+                            {{message}}
+                        </div>
+                    {% endfor %}
                 </div>
             {% endif %}
         {% endwith %}

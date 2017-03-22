@@ -66,6 +66,18 @@ def user_dashboard(username):
     return render_template("dashboard/userdashboard.html", user=user, stories=stories)
 
 
+@dashboard.route("/<string:username>")
+@login_required
+def user_account(username):
+    """
+    View function for user account
+    :param username: current logged in username
+    :return: template view of current logged in account
+    """
+    user = current_user
+    return render_template("dashboard/user_account.html", user=user)
+
+
 @dashboard.route("/<string:username>/new-story", methods=["POST", "GET"])
 @login_required
 def write_story(username):

@@ -52,6 +52,8 @@ class AuthorAccount(Base, UserMixin):
     email = Column(String(250), nullable=False, unique=True, index=True)
     username = Column(String(250), nullable=False, unique=True, index=True)
     image = Column(LargeBinary, nullable=True)
+    about_me = Column(String(250), nullable=True)
+    last_seen = Column(DateTime)
     password_hash = Column(String(250), nullable=False)
     admin = Column(Boolean, nullable=True, default=False)
     registered_on = Column(DateTime, nullable=False)
