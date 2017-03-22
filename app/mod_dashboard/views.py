@@ -1,3 +1,4 @@
+from . import dashboard
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_required
 from app.models import AuthorAccount, Story
@@ -6,8 +7,6 @@ from app.utils.decorators import check_confirmed
 from app import db
 from app.mod_auth.token import generate_confirmation_token
 from app.mod_auth.email import send_mail
-
-dashboard = Blueprint(name="dashboard", url_prefix="/dashboard", import_name=__name__)
 
 
 @dashboard.route('/unconfirmed')
@@ -65,6 +64,18 @@ def user_dashboard(username):
     user = current_user
     stories = Story.query.filter_by(author_id=user.id).all()
     return render_template("dashboard/userdashboard.html", user=user, stories=stories)
+
+
+@dashboard.route("/<string:username>/account")
+@login_required
+def user_account(username):
+    """
+    View function for user account
+    :param username: current logged in username
+    :return: template view of current logged in account
+    """
+    user = current_user
+    return render_template("dashboard/user_account.html", user=user)
 
 
 @dashboard.route("/<string:username>/new-story", methods=["POST", "GET"])

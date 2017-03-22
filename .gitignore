@@ -12,7 +12,7 @@ cleanup.sh
 migrations/
 coverage/
 
-# app.db
+*.db
 # Gradle:
 .idea/gradle.xml
 .idea/libraries

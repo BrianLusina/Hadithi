@@ -18,7 +18,11 @@
 			<span class="category">{{ story.tagline }}</span>
 		{% endif %}
 		<div class="meta meta--preview">
-			<img class="meta__avatar" src="img/authors/1.png" alt="author01" />
+            {% if author.query.filter_by(id=story.author_id).first() %}
+                <img class="meta__avatar" src="{{ author.query.filter_by(id=story.author_id).first().avatar(64) }}" alt="{{ author.query.filter_by(id=story.author_id).first().username }}" />
+            {% else %}
+                <img class="meta__avatar" src="https://dummyimage.com/50x50/000/a7a9c7&text=?" alt="{{author.query.filter_by(id=story.author_id).first().username }}" />
+            {% endif %}
 			<span class="meta__date"><i class="fa fa-calendar-o"></i>
                 {{ story.date_created.day }} {{ story.date_created.strftime("%b") }}
             </span>

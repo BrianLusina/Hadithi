@@ -1,3 +1,4 @@
+from . import auth
 from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app, session
 from app.forms import LoginForm, RegisterForm, ForgotPassword
 from app.models import AuthorAccount, AsyncOperationStatus, AsyncOperation
@@ -9,8 +10,6 @@ from app.mod_auth.email import send_mail
 from app.mod_auth.facebook_auth import FacebookSignIn
 from app.utils.taskmanager import taskman
 from app.mod_auth.controllers import external_auth
-
-auth = Blueprint(name='auth', url_prefix='/auth', import_name=__name__)
 
 
 @auth.route('/login', methods=["POST", "GET"])
@@ -25,6 +24,7 @@ def login():
             author = AuthorAccount.query.filter_by(email=login_form.email.data).first()
 
             if author is not None and author.verify_password(login_form.password.data):
+
                 # login the user
                 login_user(author, login_form.remember_me.data)
 
@@ -52,7 +52,7 @@ def register():
                                    last_name=register_form.last_name.data,
                                    username=register_form.username.data,
                                    email=register_form.email.data,
-                                   password=register_form.password.data, 
+                                   password=register_form.password.data,
                                    confirmed=False,
                                    registered_on=datetime.now())
             db.session.add(author)
