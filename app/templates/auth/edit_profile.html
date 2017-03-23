@@ -1,25 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Edit Your Profile</h1>
-  <form action="" method="post" name="edit">
+  <form action="{{ url_for("dashboard.edit_profile", username=user.username) }}" method="post" name="edit">
       {{form.hidden_tag()}}
       <table>
           <tr>
               <td>First name:</td>
-              <td>{{ form.first_name }}</td>
+              <td>{{ form.first_name(value=user.first_name) }}</td>
           </tr>
           <tr>
               <td>Last name:</td>
-              <td>{{ form.last_name }}</td>
+              <td>{{ form.last_name(value=user.last_name) }}</td>
           </tr>
           <tr>
               <td>Email:</td>
-              <td>{{ form.email }}</td>
+              <td>{{ form.email(value=user.email) }}</td>
           </tr>
           <tr>
-              <td>Your nickname:</td>
-              <td>{{ form.username }}</td>
+              <td>Your username:</td>
+              <td>{{ form.username(value=user.username) }}</td>
           </tr>
           <tr>
               <td>About yourself:</td>

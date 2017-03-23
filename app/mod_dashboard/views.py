@@ -91,7 +91,56 @@ def edit_profile(username):
     """
     form = EditProfileForm(request.form)
 
-    return render_template("auth/edit_profile.html", form=form)
+    # if the form is valid on submission
+    if form.validate_on_submit():
+
+        current_user.first_name = form.first_name.data
+        current_user.last_name = form.last_name.data
+        current_user.username = form.username.data
+        current_user.about_me = form.about_me.data
+
+        # check if the fields have changed, this is done by checking if the form data is different from the
+        # current user data, the email and username are important as we do not want conflict in the db
+        if current_user.email == form.email.data and current_user.username == form.username.data:
+
+            # no need to update the user email and username as they will remain the same
+            # this will update the other user data though
+            db.session.add(current_user)
+            db.session.commit()
+
+            # flash a message and redirect to user account
+            flash(message="Your changes have been saved successfully", category="success")
+            return redirect(url_for(user_account(current_user.username)))
+
+        # if user email and username have changed
+        elif current_user.email != form.email.data and current_user.username != form.username.data:
+            # check if the email and user name already exist in the db
+            author = AuthorAccount.query.filter_by(email=form.email.data, username=form.username.data).first()
+
+            # if there is an account with such an email spit an error
+            if author is not None:
+                flash(message="Email {} already exists".format(form.email.data), category="error")
+
+            # else the user is in the clear and can update their account
+            current_user.email = form.email.data
+            current_user.username = form.username.data
+            db.session.add(current_user)
+            db.session.commit()
+            flash(message="Your changes have been saved successfully", category="success")
+
+        # if the username has changed only, check by the username
+
+        # if the email has changed only
+
+        # flash an error message warning the user
+        # if the about_me data has changed, then update the db with with new data
+        db.session.add(current_user)
+        db.session.commit()
+
+        flash(message="Your changes have been saved successfully", category="success")
+        # if update is successful, redirect to user dashboard
+        return redirect(url_for(user_account(current_user.username)))
+    return render_template("auth/edit_profile.html", form=form, user=current_user)
 
 
 @dashboard.route("/<string:username>/new-story", methods=["POST", "GET"])

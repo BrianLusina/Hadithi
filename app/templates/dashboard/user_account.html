@@ -13,6 +13,7 @@
         {% endif %}
         {# Avatar #}
         <img src="{{ user.avatar(64) }}"><br>
+        <a href="{{ url_for('dashboard.edit_profile', username=user.username) }}">Edit profile</a>
     </div>
 
     {#  Add user posts here  #}
