@@ -1,3 +1,7 @@
+"""
+Forms that will be used in entire application
+"""
+from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
@@ -39,6 +43,12 @@ class RegisterForm(FlaskForm):
     register = SubmitField("REGISTER")
 
     def validate_form(self):
+        """
+        pre-validation of register form. This will check the db if there is a user with the email
+        and warn the user that this email already exists.
+        :return: True if the user email already exists, False otherwise
+        :rtype: bool
+        """
         initial_validation = super(RegisterForm, self).validate()
         if not initial_validation:
             return False
@@ -82,3 +92,24 @@ class ContactForm(FlaskForm):
     sender_email = StringField(validators=[DataRequired(), Email()])
     sender_message = TextAreaField(validators=[DataRequired()])
     send_message = SubmitField("Send Message")
+
+
+class EditProfileForm(FlaskForm):
+    """
+    Form for users to be able to edit the profile accounts
+    Allow users to edit their username, email, first and last names, about me section and password
+    These fields should have defaults that will be populated from the database based on the current user
+    who has logged in
+    :cvar first_name :user can be able to change their first name with this field
+    :cvar last_name :user can change their last name withi this field
+    :cvar user_name :user name as per the current user from the db
+    :cvar email :current user's email, user can change their email address
+    :cvar about_me :text area field where the user will enter text about themselves
+    :cvar edit_profile :submit button to save details about the new profile
+    """
+    first_name = StringField(default=current_user.first_name)
+    last_name = StringField(default=current_user.last_name)
+    user_name = StringField(default=current_user.username)
+    email = StringField(default=current_user.email, validators=[Email()])
+    about_me = TextAreaField(validators=[Length(min=0, max=250)])
+    edit_profile = SubmitField("Update Profile")

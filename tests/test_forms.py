@@ -1,6 +1,11 @@
+"""
+Test cases for forms used in the application.
+Ensure that the forms validate data before submission
+"""
 import unittest
 from tests import BaseTestCase
-from app.forms import RegisterForm, LoginForm, ForgotPassword, ContactForm, StoryForm
+from app.forms import RegisterForm, LoginForm, ForgotPassword, ContactForm, StoryForm, EditProfileForm
+from string import ascii_letters
 
 
 class TestRegisterForm(BaseTestCase):
@@ -145,6 +150,17 @@ class TestStoryForm(BaseTestCase):
         self.assertFalse(form.validate())
 
     # todo: add tests for saving as a draft
+
+
+class TestEditProfileForm(BaseTestCase):
+    """
+    Tests for the edit profile form
+    """
+    def test_validates_length_of_form(self):
+        """>>>> Test that the edit profile form about me section is no more than 250 characters"""
+        form = EditProfileForm(about_me=ascii_letters * 5)
+        self.assertFalse(form.validate_on_submit())
+
 
 if __name__ == "__main__":
     unittest.main()
