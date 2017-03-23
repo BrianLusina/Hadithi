@@ -1,7 +1,6 @@
 """
 Forms that will be used in entire application
 """
-from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
@@ -99,17 +98,20 @@ class EditProfileForm(FlaskForm):
     Form for users to be able to edit the profile accounts
     Allow users to edit their username, email, first and last names, about me section and password
     These fields should have defaults that will be populated from the database based on the current user
-    who has logged in
+    who has logged in.
+    Checks if the entered email, i.e. if the email is altered is already in use in the db and warns the user
+    does the same for user names
     :cvar first_name :user can be able to change their first name with this field
     :cvar last_name :user can change their last name withi this field
-    :cvar user_name :user name as per the current user from the db
+    :cvar username :user name as per the current user from the db
     :cvar email :current user's email, user can change their email address
     :cvar about_me :text area field where the user will enter text about themselves
     :cvar edit_profile :submit button to save details about the new profile
     """
-    first_name = StringField(default=current_user.first_name)
-    last_name = StringField(default=current_user.last_name)
-    user_name = StringField(default=current_user.username)
-    email = StringField(default=current_user.email, validators=[Email()])
-    about_me = TextAreaField(validators=[Length(min=0, max=250)])
+    first_name = StringField()
+    last_name = StringField()
+    username = StringField()
+    email = StringField(validators=[Email()])
+    about_me = TextAreaField(validators=[Length(max=250, message="Maximum characters exceeded")])
     edit_profile = SubmitField("Update Profile")
+

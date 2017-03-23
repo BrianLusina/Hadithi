@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Edit Your Profile</h1>
+  <form action="" method="post" name="edit">
+      {{form.hidden_tag()}}
+      <table>
+          <tr>
+              <td>First name:</td>
+              <td>{{ form.first_name }}</td>
+          </tr>
+          <tr>
+              <td>Last name:</td>
+              <td>{{ form.last_name }}</td>
+          </tr>
+          <tr>
+              <td>Email:</td>
+              <td>{{ form.email }}</td>
+          </tr>
+          <tr>
+              <td>Your nickname:</td>
+              <td>{{ form.username }}</td>
+          </tr>
+          <tr>
+              <td>About yourself:</td>
+              <td>{{ form.about_me }}</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>{{ form.edit_profile }}</td>
+          </tr>
+      </table>
+  </form>
+{% endblock %}

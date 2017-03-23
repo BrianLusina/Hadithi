@@ -161,6 +161,11 @@ class TestEditProfileForm(BaseTestCase):
         form = EditProfileForm(about_me=ascii_letters * 5)
         self.assertFalse(form.validate_on_submit())
 
+    def test_validates_length_of_about_me(self):
+        """>>>> Test that the edit profile form allows for valid about me posts"""
+        form = EditProfileForm(about_me=ascii_letters * 4)
+        self.assertTrue(form.validate)
+
 
 if __name__ == "__main__":
     unittest.main()

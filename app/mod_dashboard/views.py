@@ -1,6 +1,7 @@
 from . import dashboard
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_required
+from app.forms import EditProfileForm
 from app.models import AuthorAccount, Story
 from app.forms import StoryForm
 from app.utils.decorators import check_confirmed
@@ -76,6 +77,21 @@ def user_account(username):
     """
     user = current_user
     return render_template("dashboard/user_account.html", user=user)
+
+
+@dashboard.route("/<string:username>/edit-profile", methods=["POST", "GET"])
+@login_required
+def edit_profile(username):
+    """
+    View function to allow user to edit their profile
+    Form will be pre-filled with data from the current user profile, this is not a necessary form to fill
+      thus the user can exit from this page easily
+    :param username: their currently logged in username
+    :return: edit profile template
+    """
+    form = EditProfileForm(request.form)
+
+    return render_template("auth/edit_profile.html", form=form)
 
 
 @dashboard.route("/<string:username>/new-story", methods=["POST", "GET"])
