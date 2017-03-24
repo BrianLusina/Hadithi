@@ -112,14 +112,40 @@ def edit_profile(username):
             flash(message="Your changes have been saved successfully", category="success")
             return redirect(url_for(user_account(current_user.username)))
 
-        # if user email and username have changed
+        # if BOTH user email and username have changed
         elif current_user.email != form.email.data and current_user.username != form.username.data:
             # check if the email and user name already exist in the db
-            author = AuthorAccount.query.filter_by(email=form.email.data, username=form.username.data).first()
+            author = AuthorAccount.query.filter_by(email=form.email.data).first()
+            author_username = AuthorAccount.query.filter_by(username=form.username.data).first()
 
             # if there is an account with such an email spit an error
-            if author is not None:
-                flash(message="Email {} already exists".format(form.email.data), category="error")
+            if author is not None or author_username is not None:
+                if author:
+                    flash(message="Email {} already exists".format(form.email.data), category="error")
+                if author_username:
+                    flash(message="Username {} already exists".format(form.username.data), category="error")
+
+        # if EITHER the user email has changed
+        elif current_user.email != form.email.data or current_user.username != form.username.data:
+
+            # if email has changed
+            if current_user.email != form.email.data:
+                # check if the email and user name already exist in the db
+                author_email = AuthorAccount.query.filter_by(email=form.email.data).first()
+
+                # if there is an account with such an email spit an error
+                if author_email is not None:
+                    if author_email:
+                        flash(message="Email {} already exists".format(form.email.data), category="error")
+
+            # if username has changed
+            if current_user.username != form.username.data:
+                author_username = AuthorAccount.query.filter_by(username=form.username.data).first()
+
+                # if there is an account with such an email spit an error
+                if author_username is not None:
+                    if author_username:
+                        flash(message="Username {} already exists".format(form.username.data), category="error")
 
             # else the user is in the clear and can update their account
             current_user.email = form.email.data
@@ -128,16 +154,12 @@ def edit_profile(username):
             db.session.commit()
             flash(message="Your changes have been saved successfully", category="success")
 
-        # if the username has changed only, check by the username
-
-        # if the email has changed only
-
-        # flash an error message warning the user
         # if the about_me data has changed, then update the db with with new data
         db.session.add(current_user)
         db.session.commit()
 
         flash(message="Your changes have been saved successfully", category="success")
+
         # if update is successful, redirect to user dashboard
         return redirect(url_for(user_account(current_user.username)))
     return render_template("auth/edit_profile.html", form=form, user=current_user)
