@@ -158,12 +158,15 @@ class TestEditProfileForm(BaseTestCase):
     """
     def test_validates_length_of_form(self):
         """>>>> Test that the edit profile form about me section is no more than 250 characters"""
-        form = EditProfileForm(about_me=ascii_letters * 5)
+
+        form = EditProfileForm(new_email=self.test_author_email, new_username=self.test_author_username,
+                               about_me=ascii_letters * 5)
         self.assertFalse(form.validate_on_submit())
 
     def test_validates_length_of_about_me(self):
         """>>>> Test that the edit profile form allows for valid about me posts"""
-        form = EditProfileForm(about_me=ascii_letters * 4)
+        form = EditProfileForm(new_email=self.test_author_email, new_username=self.test_author_username,
+                               about_me=ascii_letters * 4)
         self.assertTrue(form.validate)
 
 

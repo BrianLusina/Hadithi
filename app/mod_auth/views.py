@@ -84,10 +84,10 @@ def register():
             else:
                 # display the appropriate error message based on what is a duplicate
                 if author_email is not None:
-                    register_form.email.errors = "Email already registered"
+                    register_form.email.errors.append("Email already registered")
                     flash(message="Email already registered", category="error")
                 if author_username is not None:
-                    register_form.email.errors = "Username already registered"
+                    register_form.email.errors.append("Username already registered")
                     flash(message="Username already registered", category="error")
 
             # redirect the unconfirmed users to their dashboard, but to the unconfirmed view

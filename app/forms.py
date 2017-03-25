@@ -115,3 +115,29 @@ class EditProfileForm(FlaskForm):
     about_me = TextAreaField(validators=[Length(max=250, message="Maximum characters exceeded")])
     edit_profile = SubmitField("Update Profile")
 
+    def __init__(self, new_username, new_email, **kwargs):
+        """
+        creates a new EditForm object
+        """
+        super().__init__(**kwargs)
+        self.new_username = new_username
+        self.new_email = new_email
+
+    def validate(self):
+        """
+        Validates the edit profile form before submission
+        This will check the database for any similar usernames and if there is already a username in use
+        inform the user and display an error
+        :return: True if the credentials are ok, false otherwise
+        :rtype: bool
+        """
+        initial_validation = super(EditProfileForm, self).validate()
+        if not initial_validation:
+            return False
+        if self.username.data == self.new_username:
+            return True
+        author = AuthorAccount.query.filter_by(username=self.username.data).first()
+        if author is not None:
+            self.username.errors.append("This username is already in use, please pick another")
+            return False
+        return True

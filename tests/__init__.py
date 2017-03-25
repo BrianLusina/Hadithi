@@ -36,6 +36,8 @@ class BaseTestCase(ContextTestCase):
     """
     Base test case for application
     """
+    test_author_email = "guydemaupassant@hadithi.com"
+    test_author_username = "guydemaupassant"
 
     def setUp(self):
         self.app_context = self.app.app_context()
