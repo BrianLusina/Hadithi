@@ -136,8 +136,28 @@ class EditProfileForm(FlaskForm):
             return False
         if self.username.data == self.new_username:
             return True
-        author = AuthorAccount.query.filter_by(username=self.username.data).first()
-        if author is not None:
+
+        author_username = AuthorAccount.query.filter_by(username=self.username.data).first()
+        author_email = AuthorAccount.query.filter_by(email=self.email.data).first()
+
+        # if both exist in the db, return false
+        if author_username is not None and author_email is not None:
             self.username.errors.append("This username is already in use, please pick another")
+            self.email.errors.append("This email is already in use")
             return False
+
+        # if either the username/email already exists in the db, return False
+        if author_username is not None or author_email is not None:
+
+            # if the username is already taken
+            if author_username is not None:
+                self.username.errors.append("This username is already in use, please pick another")
+                return False
+
+            # if the author email is already taken
+            if author_email is not None:
+                self.email.errors.append("This email is already in use")
+                return False
+
+        # else, all is well, return true
         return True

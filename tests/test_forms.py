@@ -169,6 +169,12 @@ class TestEditProfileForm(BaseTestCase):
                                about_me=ascii_letters * 4)
         self.assertTrue(form.validate)
 
+    def test_validate_user_can_not_edit_existing_usernama(self):
+        """>>>> Test the user can not register with an already taken username"""
+        form = EditProfileForm(new_email=self.test_author_email, new_username=self.test_author2_username,
+                               about_me=ascii_letters * 4)
+        self.assertFalse(form.validate)
+
 
 if __name__ == "__main__":
     unittest.main()
