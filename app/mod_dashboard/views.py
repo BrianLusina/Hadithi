@@ -90,7 +90,7 @@ def edit_profile(username):
     :return: edit profile template
     """
 
-    form = EditProfileForm(request.form)
+    form = EditProfileForm(new_username=username)
 
     # if the form is valid on submission
     if form.validate_on_submit():
@@ -100,8 +100,6 @@ def edit_profile(username):
             current_user.last_name = form.last_name.data
             current_user.username = form.username.data
             current_user.about_me = form.about_me.data
-            current_user.email = form.email.data
-            current_user.username = form.username.data
 
             db.session.add(current_user)
             db.session.commit()

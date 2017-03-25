@@ -6,6 +6,7 @@ from flask_mail import Mail
 from datetime import datetime
 import os
 
+
 db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'

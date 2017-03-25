@@ -111,17 +111,15 @@ class EditProfileForm(FlaskForm):
     first_name = StringField()
     last_name = StringField()
     username = StringField()
-    email = StringField(validators=[Email()])
     about_me = TextAreaField(validators=[Length(max=250, message="Maximum characters exceeded")])
     edit_profile = SubmitField("Update Profile")
 
-    # def __init__(self, new_username, new_email, **kwargs):
-    #     """
-    #     creates a new EditForm object
-    #     """
-    #     super().__init__(**kwargs)
-    #     self.new_username = new_username
-    #     self.new_email = new_email
+    def __init__(self, new_username, *args, **kwargs):
+        """
+        creates a new EditForm object
+        """
+        super().__init__(*args, **kwargs)
+        self.new_username = new_username
 
     def validate_form(self):
         """
@@ -132,33 +130,17 @@ class EditProfileForm(FlaskForm):
         :rtype: bool
         """
         initial_validation = super(EditProfileForm, self).validate()
-        # if not initial_validation:
-        #    return False
-
-        # if self.username.data == self.new_username and self.email.data == self.new_email:
-        #     return True
-
-        author_username = AuthorAccount.query.filter_by(username=self.username.data).first()
-        author_email = AuthorAccount.query.filter_by(email=self.email.data).first()
-
-        # if both exist in the db, return false
-        if author_username is not None and author_email is not None:
-            self.username.errors.append("This username is already in use, please pick another")
-            self.email.errors.append("This email is already in use")
+        if not initial_validation:
             return False
+        if self.username.data == self.new_username:
+            return True
 
-        # if either the username/email already exists in the db, return False
-        if author_username is not None or author_email is not None:
+        author = AuthorAccount.query.filter_by(username=self.username.data).first()
 
-            # if the username is already taken
-            if author_username is not None:
-                self.username.errors.append("This username is already in use, please pick another")
-                return False
-
-            # if the author email is already taken
-            if author_email is not None:
-                self.email.errors.append("This email is already in use")
-                return False
+        # if author already exists return false
+        if author is not None:
+            self.username.errors.append("This username is already in use, please pick another")
+            return False
 
         # else, all is well, return true
         return True

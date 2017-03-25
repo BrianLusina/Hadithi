@@ -13,16 +13,15 @@
               <td>{{ form.last_name(value=user.last_name) }}</td>
           </tr>
           <tr>
-              <td>Email:</td>
-              <td>{{ form.email(value=user.email) }}</td>
-          </tr>
-          <tr>
               <td>Your username:</td>
               <td>{{ form.username(value=user.username) }}</td>
+              {% for error in form.errors.username %}
+                  <span style="color: red;">[{{ error }}]</span>
+              {% endfor %}
           </tr>
           <tr>
               <td>About yourself:</td>
-              <td>{{ form.about_me }}</td>
+              <td>{{ form.about_me(value=user.about_me) }}</td>
           </tr>
           <tr>
               <td></td>
