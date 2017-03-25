@@ -115,13 +115,13 @@ class EditProfileForm(FlaskForm):
     about_me = TextAreaField(validators=[Length(max=250, message="Maximum characters exceeded")])
     edit_profile = SubmitField("Update Profile")
 
-    def __init__(self, new_username, new_email, **kwargs):
-        """
-        creates a new EditForm object
-        """
-        super().__init__(**kwargs)
-        self.new_username = new_username
-        self.new_email = new_email
+    # def __init__(self, new_username, new_email, **kwargs):
+    #     """
+    #     creates a new EditForm object
+    #     """
+    #     super().__init__(**kwargs)
+    #     self.new_username = new_username
+    #     self.new_email = new_email
 
     def validate_form(self):
         """
@@ -131,12 +131,12 @@ class EditProfileForm(FlaskForm):
         :return: True if the credentials are ok, false otherwise
         :rtype: bool
         """
-        # initial_validation = super(EditProfileForm, self).validate()
+        initial_validation = super(EditProfileForm, self).validate()
         # if not initial_validation:
-        #     return False
+        #    return False
 
-        if self.username.data == self.new_username and self.email.data == self.new_email:
-            return True
+        # if self.username.data == self.new_username and self.email.data == self.new_email:
+        #     return True
 
         author_username = AuthorAccount.query.filter_by(username=self.username.data).first()
         author_email = AuthorAccount.query.filter_by(email=self.email.data).first()

@@ -89,28 +89,29 @@ def edit_profile(username):
     :param username: their currently logged in username
     :return: edit profile template
     """
-    form = EditProfileForm(request.form, new_username=username, new_email=current_user.email )
+
+    form = EditProfileForm(request.form)
 
     # if the form is valid on submission
-    if form.validate_form():
+    if form.validate_on_submit():
+        if form.validate_form():
 
-        current_user.first_name = form.first_name.data
-        current_user.last_name = form.last_name.data
-        current_user.username = form.username.data
-        current_user.about_me = form.about_me.data
-        current_user.email = form.email.data
-        current_user.username = form.username.data
+            current_user.first_name = form.first_name.data
+            current_user.last_name = form.last_name.data
+            current_user.username = form.username.data
+            current_user.about_me = form.about_me.data
+            current_user.email = form.email.data
+            current_user.username = form.username.data
 
-        db.session.add(current_user)
-        db.session.commit()
-        flash(message="Your changes have been saved successfully", category="success")
+            db.session.add(current_user)
+            db.session.commit()
+            flash(message="Your changes have been saved successfully", category="success")
 
-        # if the about_me data has changed, then update the db with with new data
-        db.session.add(current_user)
-        db.session.commit()
-
-        # if update is successful, redirect to user dashboard
-        return redirect(url_for(user_account(username)))
+            # if update is successful, redirect to user dashboard
+            return redirect(url_for("dashboard.user_account", username=username))
+        else:
+            flash(message="Profile not updated", category="error")
+            return render_template("auth/edit_profile.html", form=form, user=current_user)
     return render_template("auth/edit_profile.html", form=form, user=current_user)
 
 
