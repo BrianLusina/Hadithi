@@ -92,7 +92,7 @@ def edit_profile(username):
     form = EditProfileForm(request.form, new_username=username, new_email=current_user.email )
 
     # if the form is valid on submission
-    if form.validate_on_submit():
+    if form.validate_form():
 
         current_user.first_name = form.first_name.data
         current_user.last_name = form.last_name.data

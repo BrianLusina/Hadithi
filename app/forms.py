@@ -123,7 +123,7 @@ class EditProfileForm(FlaskForm):
         self.new_username = new_username
         self.new_email = new_email
 
-    def validate(self):
+    def validate_form(self):
         """
         Validates the edit profile form before submission
         This will check the database for any similar usernames and if there is already a username in use
@@ -131,10 +131,11 @@ class EditProfileForm(FlaskForm):
         :return: True if the credentials are ok, false otherwise
         :rtype: bool
         """
-        initial_validation = super(EditProfileForm, self).validate()
-        if not initial_validation:
-            return False
-        if self.username.data == self.new_username:
+        # initial_validation = super(EditProfileForm, self).validate()
+        # if not initial_validation:
+        #     return False
+
+        if self.username.data == self.new_username and self.email.data == self.new_email:
             return True
 
         author_username = AuthorAccount.query.filter_by(username=self.username.data).first()
