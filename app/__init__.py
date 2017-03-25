@@ -34,6 +34,7 @@ def create_app(config_name):
     error_handlers(app)
     request_handlers(app, db)
     register_blueprints(app)
+    set_logger(app, config_name)
 
     return app
 
@@ -92,6 +93,35 @@ def request_handlers(app, db_):
     #                  query.context))
     #     return response
 
+
+def set_logger(app, config_name):
+    """
+    Sets logging of error messages in case they occur in the application. This will send an email to
+    any of the administrators, or all of the administrators.
+    This should work when the application is in production
+    :param app: current Flask app
+    :param config_name: the configuration to use this, normally in Production
+    """
+    if config_name == "production":
+        MAIL_SERVER = app.config.get("MAIL_SERVER")
+        if not app.debug and MAIL_SERVER != "":
+            import logging
+            from logging.handlers import SMTPHandler
+            credentials = None
+
+            MAIL_USERNAME = app.config.get("MAIL_USERNAME")
+            MAIL_PASSWORD = app.config.get("MAIL_PASSWORD")
+
+            if MAIL_USERNAME or MAIL_PASSWORD:
+                credentials = (MAIL_USERNAME, MAIL_PASSWORD)
+
+            mail_handler = SMTPHandler(mailhost=(MAIL_SERVER, app.config.get("MAIL_HOST")),
+                                       fromaddr="no-reply@" + MAIL_SERVER,
+                                       toaddrs=app.config.get("ADMINS"),
+                                       subject="Hadithi app failure",
+                                       credentials=credentials)
+            mail_handler.setLevel(logging.ERROR)
+            app.logger.addHandler(mail_handler)
 
 def register_blueprints(app):
     """
