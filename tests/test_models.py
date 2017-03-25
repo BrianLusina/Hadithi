@@ -2,7 +2,6 @@ import unittest
 from tests import BaseTestCase
 from app.models import AuthorAccount
 from datetime import datetime
-from flask_login import current_user
 from werkzeug.security import check_password_hash
 
 
@@ -61,7 +60,7 @@ class ModelsTestCases(BaseTestCase):
             # self.assertIn(b"Invalid email and/or password", response.data)
 
     def test_password_verification(self):
-        """_____Successfull password decryption should equal entered password"""
+        """_____Successful password decryption should equal entered password"""
         author = AuthorAccount(password='cat')
         self.assertTrue(author.verify_password('cat'))
         self.assertFalse(author.verify_password('dog'))
@@ -82,6 +81,13 @@ class ModelsTestCases(BaseTestCase):
         author = AuthorAccount(password='cat')
         user2 = AuthorAccount(password='cat')
         self.assertTrue(author.password_hash != user2.password_hash)
+
+    def test_author_avatar(self):
+        """>>>> Test that author avatar is generated"""
+        author = AuthorAccount.query.filter_by(email='guydemaupassant@hadithi.com').first()
+        avatar = author.avatar(128)
+        expected = "http://www.gravatar.com/avatar/fed209f2d62f792377bbdf5ee864ee9b"
+        self.assertEqual(avatar[0: len(expected)], expected)
 
 
 if __name__ == '__main__':

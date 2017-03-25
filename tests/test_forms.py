@@ -173,8 +173,19 @@ class TestEditProfileForm(BaseTestCase):
         """>>>> Test the user can not register with an already taken username"""
         form = EditProfileForm(new_email=self.test_author_email, new_username=self.test_author2_username,
                                about_me=ascii_letters * 4)
-        self.assertFalse(form.validate)
+        self.assertFalse(form.validate_on_submit())
 
+    def test_validate_user_should_not_edit_existing_email(self):
+        """>>>> Test user should not be able to edit an already existing email"""
+        form = EditProfileForm(new_email=self.test_author2_email, new_username=self.test_author_username,
+                               about_me=ascii_letters * 4)
+        self.assertFalse(form.validate_on_submit())
+
+    def test_validate_user_should_not_edit_existing_email_and_username(self):
+        """>>>> Test user should not be able to edit an already existing email"""
+        form = EditProfileForm(new_email=self.test_author2_email, new_username=self.test_author2_username,
+                               about_me=ascii_letters * 4)
+        self.assertFalse(form.validate_on_submit())
 
 if __name__ == "__main__":
     unittest.main()
