@@ -82,6 +82,7 @@ class ProductionConfig(Config):
     Production configuration
     """
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    ADMINS = [os.environ.get("ADMIN_EMAIL_1")]
 
 config = {
     'development': DevelopmentConfig,

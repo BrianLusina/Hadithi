@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <form action="{{ url_for("dashboard.edit_profile", username=user.username) }}" method="post" name="edit">
+      {{form.hidden_tag()}}
+      <table>
+          <tr>
+              <td>First name:</td>
+              <td>{{ form.first_name(value=user.first_name) }}</td>
+          </tr>
+          <tr>
+              <td>Last name:</td>
+              <td>{{ form.last_name(value=user.last_name) }}</td>
+          </tr>
+          <tr>
+              <td>Your username:</td>
+              <td>{{ form.username(value=user.username) }}</td>
+              {% for error in form.errors.username %}
+                  <span style="color: red;">[{{ error }}]</span>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>About yourself:</td>
+              <td>{{ form.about_me(value=user.about_me) }}</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>{{ form.edit_profile }}</td>
+          </tr>
+      </table>
+  </form>
+{% endblock %}

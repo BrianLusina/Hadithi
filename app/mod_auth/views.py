@@ -24,7 +24,6 @@ def login():
             author = AuthorAccount.query.filter_by(email=login_form.email.data).first()
 
             if author is not None and author.verify_password(login_form.password.data):
-
                 # login the user
                 login_user(author, login_form.remember_me.data)
 
@@ -46,35 +45,50 @@ def register():
     """
     register_form = RegisterForm(request.form, prefix="register-form")
     if request.method == "POST":
-        # todo: warn user of short password entries
         if register_form.validate_on_submit():
-            author = AuthorAccount(first_name=register_form.first_name.data,
-                                   last_name=register_form.last_name.data,
-                                   username=register_form.username.data,
-                                   email=register_form.email.data,
-                                   password=register_form.password.data,
-                                   confirmed=False,
-                                   registered_on=datetime.now())
-            db.session.add(author)
-            db.session.commit()
 
-            # generate token for email verification
-            token = generate_confirmation_token(author.email)
+            # check if the email already exists
+            author_email = AuthorAccount.query.filter_by(email=register_form.email.data).first()
+            author_username = AuthorAccount.query.filter_by(username=register_form.username.data).first()
 
-            # _external adds the full absolute URL that includes the hostname and port
-            confirm_url = url_for('auth.confirm_email', token=token, _external=True)
+            # if no author exists with such an email or username, then register them
+            if author_email is None and author_username is None:
+                author_email = AuthorAccount(first_name=register_form.first_name.data,
+                                             last_name=register_form.last_name.data,
+                                             username=register_form.username.data,
+                                             email=register_form.email.data,
+                                             password=register_form.password.data,
+                                             confirmed=False,
+                                             registered_on=datetime.now())
+                db.session.add(author_email)
+                db.session.commit()
 
-            # build the message
-            html = render_template('auth/confirm_email.html', confirm_url=confirm_url,
-                                   user=current_user)
-            subject = "Please confirm your email"
+                # generate token for email verification
+                token = generate_confirmation_token(author_email.email)
 
-            # send the user an email
-            send_mail(author.email, subject, html)
+                # _external adds the full absolute URL that includes the hostname and port
+                confirm_url = url_for('auth.confirm_email', token=token, _external=True)
 
-            # login the user
-            login_user(author)
-            flash(message='A confirmation email has been sent via email.', category='success')
+                # build the message
+                html = render_template('auth/confirm_email.html', confirm_url=confirm_url,
+                                       user=current_user)
+                subject = "Please confirm your email"
+
+                # send the user an email
+                send_mail(author_email.email, subject, html)
+
+                # login the user
+                login_user(author_email)
+                flash(message='A confirmation email has been sent via email.', category='success')
+
+            else:
+                # display the appropriate error message based on what is a duplicate
+                if author_email is not None:
+                    register_form.email.errors.append("Email already registered")
+                    flash(message="Email already registered", category="error")
+                if author_username is not None:
+                    register_form.email.errors.append("Username already registered")
+                    flash(message="Username already registered", category="error")
 
             # redirect the unconfirmed users to their dashboard, but to the unconfirmed view
             return redirect(url_for('dashboard.unconfirmed'))

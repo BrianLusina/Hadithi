@@ -1,6 +1,11 @@
+"""
+Test cases for forms used in the application.
+Ensure that the forms validate data before submission
+"""
 import unittest
 from tests import BaseTestCase
-from app.forms import RegisterForm, LoginForm, ForgotPassword, ContactForm, StoryForm
+from app.forms import RegisterForm, LoginForm, ForgotPassword, ContactForm, StoryForm, EditProfileForm
+from string import ascii_letters
 
 
 class TestRegisterForm(BaseTestCase):
@@ -145,6 +150,36 @@ class TestStoryForm(BaseTestCase):
         self.assertFalse(form.validate())
 
     # todo: add tests for saving as a draft
+
+
+class TestEditProfileForm(BaseTestCase):
+    """
+    Tests for the edit profile form
+    """
+    def test_validates_length_of_form(self):
+        """>>>> Test that the edit profile form about me section is no more than 250 characters"""
+        form = EditProfileForm(new_username=self.test_author_username,
+                               about_me=ascii_letters * 5)
+        self.assertFalse(form.validate_on_submit())
+
+    def test_validates_length_of_about_me(self):
+        """>>>> Test that the edit profile form allows for valid about me posts"""
+        form = EditProfileForm(new_username=self.test_author_username,
+                               about_me=ascii_letters * 4)
+        self.assertTrue(form.validate)
+
+    def test_validate_user_can_not_edit_existing_username(self):
+        """>>>> Test the user can not register with an already taken username"""
+        form = EditProfileForm(new_username=self.test_author2_username,
+                               about_me=ascii_letters * 4)
+        self.assertFalse(form.validate_on_submit())
+
+    def test_validate_user_should_be_able_to_edit_profile_with_unique_username(self):
+        """>>>> Test that user can edit their account with unique username and password"""
+        form = EditProfileForm(new_username="someguy",
+                               about_me=ascii_letters * 3)
+
+        self.assertTrue(form.validate_form())
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, DateTime, func, ForeignKey, Boolean, LargeBinary
+from sqlalchemy import Column, String, Integer, DateTime, func, ForeignKey, Boolean, Table
 from sqlalchemy.orm import relationship, backref, dynamic
 from abc import ABCMeta, abstractmethod
 from hashlib import md5
@@ -28,10 +28,26 @@ class Base(db.Model):
         pass
 
 
+# This is not a model but an association table to allow for a many to many relationship
+# where a user can have many followers and can follow many other users
+followers = Table("followers",
+                  db.metadata,
+                  Column("follower_id", Integer, ForeignKey("author.id")),
+                  Column("followed_id", Integer, ForeignKey("author.id"))
+                  )
+
+
 class AuthorAccount(Base, UserMixin):
     """
     Table for authors of Hadithi
     Sets the properties for attributes that are sensitive to the user, their profile
+
+    We will be linking AuthorAccount instances to other AuthorAccount instances,
+    so as a convention let's say that for a pair of linked users in this relationship the left side user
+    is following the right side user. We define the relationship as seen from the left side entity with the
+    name followed, because when we query this relationship from the left side we will get the list of
+    followed users.
+
     :cvar __tablename__ name of this table in the database
     :cvar uuid the unique user id, that will be auto generated
     :cvar first_name, the first name of the user
@@ -45,8 +61,8 @@ class AuthorAccount(Base, UserMixin):
     :cvar confirmed_on, the date this account was confirmed
     """
 
-    __tablename__ = "author_table"
-    
+    __tablename__ = "author"
+    id = Column(Integer, primary_key=True, autoincrement=True)
     uuid = Column(String(250), default=str(uuid.uuid4()), nullable=False)
     first_name = Column(String(100), nullable=False, index=True)
     last_name = Column(String(100), nullable=False, index=True)
@@ -62,6 +78,14 @@ class AuthorAccount(Base, UserMixin):
 
     stories = relationship("Story", backref="author", lazy="dynamic")
 
+    followed = relationship("AuthorAccount",
+                            secondary=followers,
+                            primaryjoin=(followers.c.follower_id == id),
+                            secondaryjoin=(followers.c.followed_id == id),
+                            backref=backref("followers", lazy="dynamic"),
+                            lazy="dynamic"
+                            )
+
     def avatar(self, size):
         """
         responsible for getting a user avatar. will reduce load on server by getting avatar image from Gravatar
@@ -75,6 +99,19 @@ class AuthorAccount(Base, UserMixin):
         :return: link to user's avatar
         """
         return 'http://www.gravatar.com/avatar/%s?d=mm&s=%d' % (md5(self.email.encode("utf-8")).hexdigest(), size)
+
+    def follow(self, user):
+        if not self.is_following(user):
+            self.followed.append(user)
+            return self
+
+    def unfollow(self, user):
+        if self.is_following(user):
+            self.followed.remove(user)
+            return self
+
+    def is_following(self, user):
+        return self.followed.filter(followers.c.followed_id == user.id).count() > 0
 
     @property
     def registered(self):
@@ -116,13 +153,13 @@ class Story(Base):
     :cvar __tablename__ Name of class as a table in SQL db
     """
 
-    __tablename__ = 'story_table'
+    __tablename__ = 'story'
 
     title = Column(String, nullable=False)
     tagline = Column(String(50), default=title)
     category = Column(String(100), default="Other")
     content = Column(String(10000), nullable=False)
-    author_id = Column(Integer, ForeignKey("author_table.id"))
+    author_id = Column(Integer, ForeignKey("author.id"))
 
     def __init__(self, title, tagline, category, content, author_id):
         """
@@ -162,7 +199,7 @@ class ExternalServiceAccount(db.Model):
         self.last_name = last_name
 
     @declared_attr
-    def author_account_id(self):
+    def author_id(self):
         """
         This is a declared attr, that will be used in all external accounts
         :return: Author profile id that is a foreign and primary key
@@ -238,7 +275,6 @@ class AsyncOperation(Base):
 
     def __repr__(self):
         pass
-
 
 # todo add events
 # event.listen(

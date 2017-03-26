@@ -1,6 +1,7 @@
 from . import dashboard
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_required
+from app.forms import EditProfileForm
 from app.models import AuthorAccount, Story
 from app.forms import StoryForm
 from app.utils.decorators import check_confirmed
@@ -76,6 +77,40 @@ def user_account(username):
     """
     user = current_user
     return render_template("dashboard/user_account.html", user=user)
+
+
+@dashboard.route("/<string:username>/edit-profile", methods=["POST", "GET"])
+@login_required
+def edit_profile(username):
+    """
+    View function to allow user to edit their profile
+    Form will be pre-filled with data from the current user profile, this is not a necessary form to fill
+    thus the user can exit from this page easily
+    :param username: their currently logged in username
+    :return: edit profile template
+    """
+
+    form = EditProfileForm(new_username=username)
+
+    # if the form is valid on submission
+    if form.validate_on_submit():
+        if form.validate_form():
+
+            current_user.first_name = form.first_name.data
+            current_user.last_name = form.last_name.data
+            current_user.username = form.username.data
+            current_user.about_me = form.about_me.data
+
+            db.session.add(current_user)
+            db.session.commit()
+            flash(message="Your changes have been saved successfully", category="success")
+
+            # if update is successful, redirect to user dashboard
+            return redirect(url_for("dashboard.user_account", username=username))
+        else:
+            flash(message="Profile not updated", category="error")
+            return render_template("auth/edit_profile.html", form=form, user=current_user)
+    return render_template("auth/edit_profile.html", form=form, user=current_user)
 
 
 @dashboard.route("/<string:username>/new-story", methods=["POST", "GET"])

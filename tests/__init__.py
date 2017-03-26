@@ -36,6 +36,11 @@ class BaseTestCase(ContextTestCase):
     """
     Base test case for application
     """
+    test_author_email = "guydemaupassant@hadithi.com"
+    test_author_username = "guydemaupassant"
+
+    test_author2_email = "lusinabrian@hadithi.com"
+    test_author2_username = "lusinabrian"
 
     def setUp(self):
         self.app_context = self.app.app_context()
@@ -60,13 +65,19 @@ class BaseTestCase(ContextTestCase):
         Create a fictional Author for testing
         :return: an author account
         """
-        author = AuthorAccount.query.filter_by(first_name="Guy De").first()
+        author = AuthorAccount.query.filter_by(email="guydemaupassant@hadithi.com").first()
         if author is None:
             try:
                 author = AuthorAccount(first_name="Guy De", last_name="Maupassant",
                                        username="guydemaupassant", email="guydemaupassant@hadithi.com",
                                        password="password", registered_on=datetime.now())
+
+                author_2 = AuthorAccount(first_name="brian", last_name="lusina",
+                                         username="lusinabrian", email="lusinabrian@hadithi.com",
+                                         password="password", registered_on=datetime.now())
+
                 db.session.add(author)
+                db.session.add(author_2)
             except IntegrityError as ie:
                 print(ie)
                 db.session.rollback()
