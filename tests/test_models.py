@@ -108,15 +108,6 @@ class ModelsTestCases(BaseTestCase):
         db.session.add(author2)
         db.session.commit()
 
-        return author1, author2
-
-    def create_stories(self):
-        """
-        creates dummy stories
-        :return: 
-        """
-        author1, author2 = self.create_authors()
-
         story1 = Story(title="Some random story", tagline="Dark city catches fire",
                        category="Fiction", content="", author_id=author1.id)
 
@@ -127,7 +118,7 @@ class ModelsTestCases(BaseTestCase):
         db.session.add(story2)
         db.session.commit()
 
-        return story1, story2
+        return author1, author2
 
     def test_new_users_can_not_unfollow_user_they_do_not_follow(self):
         """>>>> Test that a new user can not unfollow a user they do not follow"""
@@ -181,7 +172,6 @@ class ModelsTestCases(BaseTestCase):
     def test_followed_stories(self):
         """>>>> Test that we can query the followed stories"""
         a1, a2 = self.create_authors()
-        # s1, s2 = self.create_stories()
 
         # add followers
         u11 = a1.follow(a1)  # a1 follows themselves
@@ -199,11 +189,17 @@ class ModelsTestCases(BaseTestCase):
         s11 = a1.followed_stories().all()
         s22 = a2.followed_stories().all()
 
-        # check that all posts followed by a1 are 2
-        self.assertEqual(len(s11), 2)
+        # check that all posts followed by a1 and a2 are 1
+        self.assertEqual(len(s11), 1)
 
-        #
-        self.assertEqual(len(s22), 2)
+        self.assertEqual(len(s22), 1)
 
+        s1 = Story.query.filter_by(author_id=a1.id).first()
+        self.assertEqual(s11, [s1])
+
+        s2 = Story.query.filter_by(author_id=a2.id).first()
+        self.assertEqual(s22, [s2])
+        
 if __name__ == '__main__':
     unittest.main()
+
