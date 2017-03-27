@@ -36,11 +36,6 @@ class BaseTestCase(ContextTestCase):
     """
     Base test case for application
     """
-    test_author1_email = "guydemaupassant@hadithi.com"
-    test_author1_username = "guydemaupassant"
-
-    test_author2_email = "lusinabrian@hadithi.com"
-    test_author2_username = "lusinabrian"
 
     def setUp(self):
         self.app_context = self.app.app_context()
@@ -49,7 +44,7 @@ class BaseTestCase(ContextTestCase):
 
         db.create_all()
 
-        self.create_author_account()
+        self.create_author_accounts()
         self.add_story()
 
         db.session.commit()
@@ -59,28 +54,39 @@ class BaseTestCase(ContextTestCase):
         db.drop_all()
         self.app_context.pop()
 
-    def create_author_account(self):
+    @staticmethod
+    def create_author_accounts():
         """
-        Create a fictional Author for testing
-        :return: an author account
+        Creates new users for testing follow feature
+        :return: 2 new unique users to test follow and unfollow feature
         """
-        author = AuthorAccount.query.filter_by(email="guydemaupassant@hadithi.com").first()
-        if author is None:
-            try:
-                author = AuthorAccount(first_name="Guy De", last_name="Maupassant",
-                                       username=self.test_author1_username, email=self.test_author1_email,
-                                       password="password", registered_on=datetime.now())
 
-                author_2 = AuthorAccount(first_name="brian", last_name="lusina",
-                                         username=self.test_author2_username, email=self.test_author2_email,
-                                         password="password", registered_on=datetime.now())
+        author1 = AuthorAccount(first_name="test1", last_name="hadithi1",
+                                username="test1hadithi", email="test1hadithi@hadithi.com",
+                                password="password", registered_on=datetime.now())
+        author2 = AuthorAccount(first_name="test", last_name="hadithi",
+                                username="testhadithi", email="testhadithi@hadithi.com",
+                                password="password", registered_on=datetime.now())
 
-                db.session.add(author)
-                db.session.add(author_2)
-            except IntegrityError as ie:
-                print(ie)
-                db.session.rollback()
-        return author
+        author3 = AuthorAccount(first_name="Guy De", last_name="Maupassant",
+                                username="guydemaupassant", email="guydemaupassant@hadithi.com",
+                                password="password", registered_on=datetime.now())
+
+        author4 = AuthorAccount(first_name="brian", last_name="lusina",
+                                username="lusinabrian", email="lusinabrian@hadithi.com",
+                                password="password", registered_on=datetime.now())
+
+        try:
+            db.session.add(author1)
+            db.session.add(author2)
+            db.session.add(author3)
+            db.session.add(author4)
+            db.session.commit()
+        except IntegrityError as ie:
+            print("Integrity Error: ", ie)
+            db.session.rollback()
+
+        return author1, author2, author3, author4
 
     def login(self):
         """
@@ -98,12 +104,12 @@ class BaseTestCase(ContextTestCase):
         Adds a dummy story to the database
         :return:
         """
-        author = self.create_author_account()
-        story = Story.query.filter_by(author_id=author.id).first()
+        author1, author2, author3, author4 = self.create_author_accounts()
+        story = Story.query.filter_by(author_id=author1.id).first()
         if story is None:
             try:
                 story = Story(title="Gotham in flames", tagline="Dark city catches fire",
-                              category="Fiction", content="", author_id=author.id)
+                              category="Fiction", content="", author_id=author1.id)
                 db.session.add(story)
             except IntegrityError as e:
                 print(e)

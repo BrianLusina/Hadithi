@@ -90,33 +90,15 @@ class ModelsTestCases(BaseTestCase):
         expected = "http://www.gravatar.com/avatar/fed209f2d62f792377bbdf5ee864ee9b"
         self.assertEqual(avatar[0: len(expected)], expected)
 
-    @staticmethod
-    def add_and_fetch_new_users():
-        """
-        Creates new users for testing follow feature
-        :return: 2 new unique users to test follow and unfollow feature
-        """
-        author1 = AuthorAccount(first_name="test1", last_name="hadithi1",
-                                username="test1hadithi", email="test1hadithi@hadithi.com",
-                                password="password", registered_on=datetime.now())
-        author2 = AuthorAccount(first_name="test", last_name="hadithi",
-                                username="testhadithi", email="testhadithi@hadithi.com",
-                                password="password", registered_on=datetime.now())
-        db.session.add(author1)
-        db.session.add(author2)
-        db.session.commit()
-
-        return author1, author2
-
     def test_new_users_can_not_unfollow_user_they_do_not_follow(self):
         """>>>> Test that a new user can not unfollow a user they do not follow"""
-        author1, author2 = self.add_and_fetch_new_users()
+        author1, author2 = self.create_author_accounts()
 
         self.assertIsNone(author2.unfollow(author1))
 
     def test_new_one_author_can_follow_another(self):
         """>>>> Test that author 1 can follow author 2"""
-        author1, author2 = self.add_and_fetch_new_users()
+        author1, author2 = self.create_author_accounts()
         user = author1.follow(author2)
 
         db.session.add(user)
@@ -156,6 +138,8 @@ class ModelsTestCases(BaseTestCase):
         # test that author2 has no followers
         self.assertEqual(author2.followers.count(), 0)
 
+    def test_followed_stories(self):
+        """>>>> Test that we can query the followed stories"""
 
 if __name__ == '__main__':
     unittest.main()
