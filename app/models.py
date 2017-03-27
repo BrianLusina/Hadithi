@@ -100,6 +100,21 @@ class AuthorAccount(Base, UserMixin):
         """
         return 'http://www.gravatar.com/avatar/%s?d=mm&s=%d' % (md5(self.email.encode("utf-8")).hexdigest(), size)
 
+    def followed_stories(self):
+        """
+        This returns all the stories this Author is following
+        Will fetch the posts and order them by the time the stories were created in descending order
+        the join operation will create a temporary table with data from the followers and data from the
+        story table and merge them based on whether the author id matches
+        
+        Filter will return only stories that this particular user follows
+        
+        after that we sort the results of the new temp table in descending order by time
+        :return: All the stories this user follows, this is based on the authors this user follows
+        """
+        return Story.query.join(followers, (followers.c.followed_id == Story.author_id)).filter(
+            followers.c.followed_id == self.id).order_by(Story.date_created.desc())
+
     def follow(self, user):
         """
         this has been structured such that it returns a new object or None if the operation fails
