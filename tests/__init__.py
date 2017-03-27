@@ -36,8 +36,8 @@ class BaseTestCase(ContextTestCase):
     """
     Base test case for application
     """
-    test_author_email = "guydemaupassant@hadithi.com"
-    test_author_username = "guydemaupassant"
+    test_author1_email = "guydemaupassant@hadithi.com"
+    test_author1_username = "guydemaupassant"
 
     test_author2_email = "lusinabrian@hadithi.com"
     test_author2_username = "lusinabrian"
@@ -59,8 +59,7 @@ class BaseTestCase(ContextTestCase):
         db.drop_all()
         self.app_context.pop()
 
-    @staticmethod
-    def create_author_account():
+    def create_author_account(self):
         """
         Create a fictional Author for testing
         :return: an author account
@@ -69,11 +68,11 @@ class BaseTestCase(ContextTestCase):
         if author is None:
             try:
                 author = AuthorAccount(first_name="Guy De", last_name="Maupassant",
-                                       username="guydemaupassant", email="guydemaupassant@hadithi.com",
+                                       username=self.test_author1_username, email=self.test_author1_email,
                                        password="password", registered_on=datetime.now())
 
                 author_2 = AuthorAccount(first_name="brian", last_name="lusina",
-                                         username="lusinabrian", email="lusinabrian@hadithi.com",
+                                         username=self.test_author2_username, email=self.test_author2_email,
                                          password="password", registered_on=datetime.now())
 
                 db.session.add(author)
