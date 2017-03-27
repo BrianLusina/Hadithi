@@ -64,8 +64,9 @@ class BaseTestCase(ContextTestCase):
         author1 = AuthorAccount(first_name="test1", last_name="hadithi1",
                                 username="test1hadithi", email="test1hadithi@hadithi.com",
                                 password="password", registered_on=datetime.now())
-        author2 = AuthorAccount(first_name="test", last_name="hadithi",
-                                username="testhadithi", email="testhadithi@hadithi.com",
+
+        author2 = AuthorAccount(first_name="test2", last_name="hadithi2",
+                                username="test2hadithi", email="test2hadithi@hadithi.com",
                                 password="password", registered_on=datetime.now())
 
         author3 = AuthorAccount(first_name="Guy De", last_name="Maupassant",
@@ -75,7 +76,6 @@ class BaseTestCase(ContextTestCase):
         author4 = AuthorAccount(first_name="brian", last_name="lusina",
                                 username="lusinabrian", email="lusinabrian@hadithi.com",
                                 password="password", registered_on=datetime.now())
-
         try:
             db.session.add(author1)
             db.session.add(author2)
