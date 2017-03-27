@@ -199,7 +199,7 @@ class ModelsTestCases(BaseTestCase):
 
         s2 = Story.query.filter_by(author_id=a2.id).first()
         self.assertEqual(s22, [s2])
-        
+
 if __name__ == '__main__':
     unittest.main()
 

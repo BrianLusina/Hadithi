@@ -60,7 +60,10 @@ def register():
                                              password=register_form.password.data,
                                              confirmed=False,
                                              registered_on=datetime.now())
+
                 db.session.add(author_email)
+                # make the user follow themselves
+                db.session.add(author_email.follow(author_email))
                 db.session.commit()
 
                 # generate token for email verification
