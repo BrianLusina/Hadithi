@@ -18,12 +18,12 @@
         {% if user.id == g.user.id%}
             <a href="{{ url_for('dashboard.edit_profile', username=user.username) }}">Edit profile</a>
         {% elif not g.user.is_following(user) %}
-              <a href="{{ url_for('author.follow', nickname=user.nickname) }}">Follow</a>
+              <a href="{{ url_for('author.follow', username=user.username) }}">Follow</a>
         {% else %}
-              <a href="{{ url_for('author.unfollow', nickname=user.nickname) }}">Unfollow</a>
+              <a href="{{ url_for('author.unfollow', username=user.username) }}">Unfollow</a>
         {% endif %}
     </div>
 
     {#  Add user posts here  #}
-    
+
 {% endblock %}
