@@ -151,8 +151,10 @@ def register_blueprints(app):
     from app.mod_story.views import story_module
     from app.mod_auth import auth
     from app.mod_dashboard import dashboard
+    from app.mod_user import author
 
     app.register_blueprint(home_module)
     app.register_blueprint(story_module)
     app.register_blueprint(auth)
     app.register_blueprint(dashboard)
+    app.register_blueprint(author)
