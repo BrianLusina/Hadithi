@@ -62,9 +62,8 @@ def user_dashboard(username):
     Checks if the user has been confirmed and display the dashboard if they have
     :return user dashboard
     """
-    user = current_user
-    stories = Story.query.filter_by(author_id=user.id).all()
-    return render_template("dashboard/userdashboard.html", user=user, stories=stories)
+    stories = Story.query.filter_by(author_id=current_user.id).all()
+    return render_template("dashboard/userdashboard.html", user=current_user, stories=stories)
 
 
 @dashboard.route("/<string:username>/account")

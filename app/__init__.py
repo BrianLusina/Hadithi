@@ -1,4 +1,4 @@
-from flask import render_template, Flask
+from flask import render_template, Flask, g
 from config import config
 from flask_login import LoginManager, current_user
 from flask_sqlalchemy import SQLAlchemy
@@ -80,8 +80,10 @@ def request_handlers(app, db_):
         this will update the database last_seen column and every time the user makes a request (refreshes the
         page), the last seen will be updated. this is called before any request is ma
         """
+        g.user = current_user
         if current_user.is_authenticated:
             current_user.last_seen = datetime.now()
+            db.session.add(g.user)
             db_.session.add(current_user)
             db_.session.commit()
 
