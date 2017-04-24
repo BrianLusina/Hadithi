@@ -4,7 +4,7 @@ from flask_script import Manager, Shell, Server
 from flask_migrate import MigrateCommand, Migrate
 from scripts.setup_envvar import setup_env_variables
 
-# this will setup the environment variables
+# this will setup the environment variables before the application is setup
 setup_env_variables()
 
 cov = None

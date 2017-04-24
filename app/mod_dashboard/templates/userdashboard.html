@@ -4,7 +4,7 @@
     <h1>{{ user.full_name }}</h1>
     {% if stories %}
         {% for story in stories %}
-            {% include "story/story.html" %}
+            {% include "../../mod_story/story/story.html" %}
         {% endfor %}
     {% else %}
         <p>Nothing to show here...write a new story</p>
