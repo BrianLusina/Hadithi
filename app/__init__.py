@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from datetime import datetime
 import os
-
+import jinja2
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -14,15 +14,41 @@ login_manager.login_view = 'auth.login'
 mail = Mail()
 
 
+class HadithiApp(Flask):
+    """
+    Custom flask application for the entire application
+    """
+
+    def __init__(self):
+        """
+        jinja_loader object (a FileSystemLoader pointing to the global templates folder) 
+        is being replaced with a ChoiceLoader object that will first search the normal
+        FileSystemLoader and then check a PrefixLoader that we create
+        """
+        Flask.__init__(self, template_folder="templates", static_folder="static")
+        self.jinja_loader = jinja2.ChoiceLoader([
+            self.jinja_loader,
+            jinja2.PrefixLoader({}, delimiter=".")
+        ])
+
+    def create_global_jinja_loader(self):
+        return self.jinja_loader
+
+    def register_blueprint(self, blueprint, **options):
+        Flask.register_blueprint(self, blueprint, **options)
+        self.jinja_loader.loaders[1].mapping[blueprint.name] = blueprint.jinja_loader
+
+
 def create_app(config_name):
     """
-    Defines a new application WSGI. Creates the flask application object that will be used to define and
-    create the whole application
+    Defines a new application WSGI. Creates the flask application object that will be used
+    to define and create the whole application
     :param config_name: the configuration to use when creating a new application
     :return: the newly created and configured WSGI Flask object
     :rtype: Flask
     """
-    app = Flask(__name__, template_folder='templates', static_folder="static")
+    app = HadithiApp()
+    # app = Flask(__name__, template_folder='templates', static_folder="static")
 
     # configurations
     app.config.from_object(config[config_name])
@@ -87,15 +113,15 @@ def request_handlers(app, db_):
             db_.session.add(current_user)
             db_.session.commit()
 
-    # @app.after_request
-    # def after_request(response):
-    #     for query in get_debug_queries():
-    #         if query.duration >= DATABASE_QUERY_TIMEOUT:
-    #             app.logger.warning(
-    #                 "SLOW QUERY: %s\nParameters: %s\nDuration: %fs\nContext: %s\n" %
-    #                 (query.statement, query.parameters, query.duration,
-    #                  query.context))
-    #     return response
+            # @app.after_request
+            # def after_request(response):
+            #     for query in get_debug_queries():
+            #         if query.duration >= DATABASE_QUERY_TIMEOUT:
+            #             app.logger.warning(
+            #                 "SLOW QUERY: %s\nParameters: %s\nDuration: %fs\nContext: %s\n" %
+            #                 (query.statement, query.parameters, query.duration,
+            #                  query.context))
+            #     return response
 
 
 def set_logger(app, config_name):
