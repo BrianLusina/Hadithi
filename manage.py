@@ -2,6 +2,10 @@ import os
 from app import create_app, db
 from flask_script import Manager, Shell, Server
 from flask_migrate import MigrateCommand, Migrate
+from scripts.setup_envvar import setup_env_variables
+
+# this will setup the environment variables
+setup_env_variables()
 
 cov = None
 if os.environ.get('FLASK_COVERAGE'):

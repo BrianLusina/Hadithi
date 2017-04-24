@@ -2,17 +2,18 @@
 Sets up the environment variables from .env file in the project root
 """
 import os
+import click
 
 env_file = "./.env"
 
 
-def setup_envvariables():
+def setup_env_variables():
     """
     This will setup the environment variables
     :return: 
     """
     if os.path.exists(env_file):
-        print("Importing environment variables")
+        click.echo(click.style(">>>> Importing environment variables", fg="cyan", bold=True))
         for line in open(env_file):
             var = line.strip().split("=")
             if len(var) == 2:
@@ -20,4 +21,4 @@ def setup_envvariables():
 
 
 if __name__ == "__main__":
-    setup_envvariables()
+    setup_env_variables()
