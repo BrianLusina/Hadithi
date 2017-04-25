@@ -48,7 +48,6 @@ def create_app(config_name):
     :rtype: Flask
     """
     app = HadithiApp()
-    # app = Flask(__name__, template_folder='templates', static_folder="static")
 
     # configurations
     app.config.from_object(config[config_name])
