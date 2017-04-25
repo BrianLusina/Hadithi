@@ -1,6 +1,7 @@
 import unittest
 from tests import BaseTestCase
-from app.models import AuthorAccount
+from app import db
+from app.models import AuthorAccount, Story
 from datetime import datetime
 from werkzeug.security import check_password_hash
 
@@ -89,6 +90,116 @@ class ModelsTestCases(BaseTestCase):
         expected = "http://www.gravatar.com/avatar/fed209f2d62f792377bbdf5ee864ee9b"
         self.assertEqual(avatar[0: len(expected)], expected)
 
+    @staticmethod
+    def create_authors():
+        """
+        creates dummy users and stories for this model test cases
+        :return: new 
+        """
+        author1 = AuthorAccount(first_name="test11", last_name="hadithi11",
+                                username="test11hadithi", email="test11hadithi@hadithi.com",
+                                password="password", registered_on=datetime.now())
+
+        author2 = AuthorAccount(first_name="test22", last_name="hadithi22",
+                                username="test22hadithi", email="test22hadithi@hadithi.com",
+                                password="password", registered_on=datetime.now())
+
+        db.session.add(author1)
+        db.session.add(author2)
+        db.session.commit()
+
+        story1 = Story(title="Some random story", tagline="Dark city catches fire",
+                       category="Fiction", content="", author_id=author1.id)
+
+        story2 = Story(title="Anther Random story", tagline="Dark city catches fire",
+                       category="Fiction", content="", author_id=author2.id)
+
+        db.session.add(story1)
+        db.session.add(story2)
+        db.session.commit()
+
+        return author1, author2
+
+    def test_new_users_can_not_unfollow_user_they_do_not_follow(self):
+        """>>>> Test that a new user can not unfollow a user they do not follow"""
+        author1, author2 = self.create_authors()
+
+        self.assertIsNone(author2.unfollow(author1))
+
+    def test_new_one_author_can_follow_another(self):
+        """>>>> Test that author 1 can follow author 2"""
+        author1, author2 = self.create_authors()
+
+        u = author1.follow(author2)
+
+        db.session.add(u)
+        db.session.commit()
+
+        # test that the follow feature does not return an object after adding to session
+        self.assertIsNone(author1.follow(author2))
+
+        # check that author 1 is following author2
+        self.assertTrue(author1.is_following(author2))
+
+        # test that we can count how many authors author1 is following
+        self.assertEqual(author1.following.count(), 1)
+
+        # test that we can get the details of who author1 is following
+        self.assertEqual(author1.following.first().first_name, "test22")
+
+        # test that we can get count of author2 followers
+        self.assertEqual(author2.followers.count(), 1)
+
+        # test that we can get details of author2 followers
+        self.assertEqual(author2.followers.first().username, "test11hadithi")
+
+        # un-follow author2
+        u = author1.unfollow(author2)
+        # test that an object is returned
+        self.assertIsNotNone(u)
+
+        db.session.add(u)
+        db.session.commit()
+
+        self.assertFalse(author1.is_following(author2))
+
+        # author1 is not following anyone
+        self.assertEqual(author1.following.count(), 0)
+
+        # test that author2 has no followers
+        self.assertEqual(author2.followers.count(), 0)
+
+    def test_followed_stories(self):
+        """>>>> Test that we can query the followed stories"""
+        a1, a2 = self.create_authors()
+
+        # add followers
+        u11 = a1.follow(a1)  # a1 follows themselves
+        u12 = a1.follow(a2)
+        u22 = a2.follow(a2)
+        u21 = a2.follow(a1)
+
+        db.session.add(u11)
+        db.session.add(u12)
+        db.session.add(u22)
+        db.session.add(u21)
+        db.session.commit()
+
+        # get the followed stories
+        s11 = a1.followed_stories().all()
+        s22 = a2.followed_stories().all()
+
+        # check that all posts followed by a1 and a2 are 1
+        self.assertEqual(len(s11), 1)
+
+        self.assertEqual(len(s22), 1)
+
+        s1 = Story.query.filter_by(author_id=a1.id).first()
+        self.assertEqual(s11, [s1])
+
+        s2 = Story.query.filter_by(author_id=a2.id).first()
+        self.assertEqual(s22, [s2])
 
 if __name__ == '__main__':
     unittest.main()
+

@@ -78,13 +78,13 @@ class AuthorAccount(Base, UserMixin):
 
     stories = relationship("Story", backref="author", lazy="dynamic")
 
-    followed = relationship("AuthorAccount",
-                            secondary=followers,
-                            primaryjoin=(followers.c.follower_id == id),
-                            secondaryjoin=(followers.c.followed_id == id),
-                            backref=backref("followers", lazy="dynamic"),
-                            lazy="dynamic"
-                            )
+    following = relationship("AuthorAccount",
+                             secondary=followers,
+                             primaryjoin=(followers.c.follower_id == id),
+                             secondaryjoin=(followers.c.followed_id == id),
+                             backref=backref("followers", lazy="dynamic"),
+                             lazy="dynamic"
+                             )
 
     def avatar(self, size):
         """
@@ -100,18 +100,59 @@ class AuthorAccount(Base, UserMixin):
         """
         return 'http://www.gravatar.com/avatar/%s?d=mm&s=%d' % (md5(self.email.encode("utf-8")).hexdigest(), size)
 
+    def followed_stories(self):
+        """
+        This returns all the stories this Author is following
+        Will fetch the posts and order them by the time the stories were created in descending order
+        the join operation will create a temporary table with data from the followers and data from the
+        story table and merge them based on whether the author id matches
+        
+        Filter will return only stories that this particular user follows
+        
+        after that we sort the results of the new temp table in descending order by time
+        :return: All the stories this user follows, this is based on the authors this user follows
+        """
+        return Story.query.join(followers, (followers.c.followed_id == Story.author_id)).filter(
+            followers.c.followed_id == self.id).order_by(Story.date_created.desc())
+
     def follow(self, user):
+        """
+        this has been structured such that it returns a new object or None if the operation fails
+        Allows this Author to be able to follow another author
+        :param user: Author to follow
+        :return: object if the follow feature succeeds, None otherwise
+        :rtype: AuthorAccount or None
+        """
         if not self.is_following(user):
-            self.followed.append(user)
+            self.following.append(user)
             return self
 
     def unfollow(self, user):
+        """
+        Author can be able to unfollow a user they follow. Will return None if this user does not follow
+        ther user they would like to unfollow
+        :param user: the user this user would like to unfollow
+        :return: AuthorAccount object or None
+        :rtype: AuthorAccount or None
+        """
         if self.is_following(user):
-            self.followed.remove(user)
+            self.following.remove(user)
             return self
 
     def is_following(self, user):
-        return self.followed.filter(followers.c.followed_id == user.id).count() > 0
+        """
+        We are taking the followed relationship query, which returns all the (follower, followed) pairs that 
+        have our user as the follower, and we filter it by the followed user. 
+        This is possible because the followed relationship has a lazy mode of dynamic, 
+        so instead of being the result of the query, this is the actual query object, before execution.
+        The return from the filter call is the modified query, still without having executed. So we then call 
+        count() on this query, and now the query will execute and return the number of records found. 
+        If we get one, then we know a link between these two uses is already present. 
+        If we get none then we know a link does not exist.        
+        :param user: the user to check against this user
+        :return: Whether there is a link between this user and the user to check whether they are following
+        """
+        return self.following.filter(followers.c.followed_id == user.id).count() > 0
 
     @property
     def registered(self):

@@ -1,11 +1,11 @@
-from flask import render_template, Flask
+from flask import render_template, Flask, g
 from config import config
 from flask_login import LoginManager, current_user
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from datetime import datetime
 import os
-
+import jinja2
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -14,15 +14,40 @@ login_manager.login_view = 'auth.login'
 mail = Mail()
 
 
+class HadithiApp(Flask):
+    """
+    Custom flask application for the entire application
+    """
+
+    def __init__(self):
+        """
+        jinja_loader object (a FileSystemLoader pointing to the global templates folder) 
+        is being replaced with a ChoiceLoader object that will first search the normal
+        FileSystemLoader and then check a PrefixLoader that we create
+        """
+        Flask.__init__(self, __name__, template_folder="templates", static_folder="static")
+        self.jinja_loader = jinja2.ChoiceLoader([
+            self.jinja_loader,
+            jinja2.PrefixLoader({}, delimiter=".")
+        ])
+
+    def create_global_jinja_loader(self):
+        return self.jinja_loader
+
+    def register_blueprint(self, blueprint, **options):
+        Flask.register_blueprint(self, blueprint, **options)
+        self.jinja_loader.loaders[1].mapping[blueprint.name] = blueprint.jinja_loader
+
+
 def create_app(config_name):
     """
-    Defines a new application WSGI. Creates the flask application object that will be used to define and
-    create the whole application
+    Defines a new application WSGI. Creates the flask application object that will be used
+    to define and create the whole application
     :param config_name: the configuration to use when creating a new application
     :return: the newly created and configured WSGI Flask object
     :rtype: Flask
     """
-    app = Flask(__name__, template_folder='templates', static_folder="static")
+    app = HadithiApp()
 
     # configurations
     app.config.from_object(config[config_name])
@@ -37,6 +62,9 @@ def create_app(config_name):
     request_handlers(app, db)
     register_blueprints(app)
     set_logger(app, config_name)
+
+    # increases performance of loading application templates
+    app.jinja_env.cache = {}
 
     return app
 
@@ -80,20 +108,22 @@ def request_handlers(app, db_):
         this will update the database last_seen column and every time the user makes a request (refreshes the
         page), the last seen will be updated. this is called before any request is ma
         """
+        g.user = current_user
         if current_user.is_authenticated:
             current_user.last_seen = datetime.now()
+            db.session.add(g.user)
             db_.session.add(current_user)
             db_.session.commit()
 
-    # @app.after_request
-    # def after_request(response):
-    #     for query in get_debug_queries():
-    #         if query.duration >= DATABASE_QUERY_TIMEOUT:
-    #             app.logger.warning(
-    #                 "SLOW QUERY: %s\nParameters: %s\nDuration: %fs\nContext: %s\n" %
-    #                 (query.statement, query.parameters, query.duration,
-    #                  query.context))
-    #     return response
+            # @app.after_request
+            # def after_request(response):
+            #     for query in get_debug_queries():
+            #         if query.duration >= DATABASE_QUERY_TIMEOUT:
+            #             app.logger.warning(
+            #                 "SLOW QUERY: %s\nParameters: %s\nDuration: %fs\nContext: %s\n" %
+            #                 (query.statement, query.parameters, query.duration,
+            #                  query.context))
+            #     return response
 
 
 def set_logger(app, config_name):
@@ -148,11 +178,13 @@ def register_blueprints(app):
     :param app: The current flask application
     """
     from app.mod_home import home_module
-    from app.mod_story.views import story_module
+    from app.mod_story import story_module
     from app.mod_auth import auth
     from app.mod_dashboard import dashboard
+    from app.mod_user import author
 
     app.register_blueprint(home_module)
     app.register_blueprint(story_module)
     app.register_blueprint(auth)
     app.register_blueprint(dashboard)
+    app.register_blueprint(author)

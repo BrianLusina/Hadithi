@@ -31,7 +31,7 @@ def login():
 
                 return redirect(url_for('dashboard.user_dashboard', username=author.username))
             flash(message="Invalid email and/or password", category="error")
-    return render_template('auth/login.html', login_form=login_form, user=current_user)
+    return render_template('auth.login.html', login_form=login_form, user=current_user)
 
 
 @auth.route('/register', methods=["POST", "GET"])
@@ -60,7 +60,10 @@ def register():
                                              password=register_form.password.data,
                                              confirmed=False,
                                              registered_on=datetime.now())
+
                 db.session.add(author_email)
+                # make the user follow themselves
+                db.session.add(author_email.follow(author_email))
                 db.session.commit()
 
                 # generate token for email verification
@@ -70,7 +73,7 @@ def register():
                 confirm_url = url_for('auth.confirm_email', token=token, _external=True)
 
                 # build the message
-                html = render_template('auth/confirm_email.html', confirm_url=confirm_url,
+                html = render_template('auth.confirm_email.html', confirm_url=confirm_url,
                                        user=current_user)
                 subject = "Please confirm your email"
 
@@ -92,7 +95,7 @@ def register():
 
             # redirect the unconfirmed users to their dashboard, but to the unconfirmed view
             return redirect(url_for('dashboard.unconfirmed'))
-    return render_template('auth/register.html', register_form=register_form, user=current_user)
+    return render_template('auth.register.html', register_form=register_form, user=current_user)
 
 
 @auth.route('/confirm/<token>')
@@ -143,7 +146,7 @@ def confirm_email(token):
 @auth.route('/forgot-password', methods=["GET", "POST"])
 def forgot_password():
     forgot_pass = ForgotPassword(request.form)
-    return render_template('auth/password-recovery.html', forgot_pass=forgot_pass, user=current_user)
+    return render_template('auth.password-recovery.html', forgot_pass=forgot_pass, user=current_user)
 
 
 @auth.route("/facebook_authorize")
@@ -232,13 +235,13 @@ def get_status():
 # renders a loader page
 @auth.route('/preloader')
 def preloader():
-    return render_template('auth/preloader.html')
+    return render_template('auth.preloader.html')
 
 
 # renders an error page
 @auth.route('/error')
 def error():
-    return render_template('auth/error.html')
+    return render_template('auth.error.html')
 
 
 @auth.route("/success")

@@ -21,7 +21,7 @@ def unconfirmed():
     if current_user.confirmed:
         return redirect(url_for('dashboard.user_dashboard', username=current_user.full_name))
     flash(message='Please confirm your account!', category='warning')
-    return render_template('auth/unconfirmed.html', user=current_user)
+    return render_template('auth.unconfirmed.html', user=current_user)
 
 
 @dashboard.route('/resend')
@@ -40,7 +40,7 @@ def resend_confirmation():
     confirm_url = url_for('auth.confirm_email', token=token, _external=True)
 
     # build a message
-    html = render_template('auth/activate.html', confirm_url=confirm_url, user=current_user)
+    html = render_template('auth.activate.html', confirm_url=confirm_url, user=current_user)
     subject = "Please confirm your email"
 
     # send the email
@@ -62,9 +62,8 @@ def user_dashboard(username):
     Checks if the user has been confirmed and display the dashboard if they have
     :return user dashboard
     """
-    user = current_user
-    stories = Story.query.filter_by(author_id=user.id).all()
-    return render_template("dashboard/userdashboard.html", user=user, stories=stories)
+    stories = Story.query.filter_by(author_id=current_user.id).all()
+    return render_template("dashboard.userdashboard.html", user=current_user, stories=stories)
 
 
 @dashboard.route("/<string:username>/account")
@@ -76,7 +75,7 @@ def user_account(username):
     :return: template view of current logged in account
     """
     user = current_user
-    return render_template("dashboard/user_account.html", user=user)
+    return render_template("dashboard.user_account.html", user=user)
 
 
 @dashboard.route("/<string:username>/edit-profile", methods=["POST", "GET"])
@@ -109,8 +108,8 @@ def edit_profile(username):
             return redirect(url_for("dashboard.user_account", username=username))
         else:
             flash(message="Profile not updated", category="error")
-            return render_template("auth/edit_profile.html", form=form, user=current_user)
-    return render_template("auth/edit_profile.html", form=form, user=current_user)
+            return render_template("auth.edit_profile.html", form=form, user=current_user)
+    return render_template("auth.edit_profile.html", form=form, user=current_user)
 
 
 @dashboard.route("/<string:username>/new-story", methods=["POST", "GET"])
@@ -130,4 +129,4 @@ def write_story(username):
             db.session.add(story)
             db.session.commit()
             return redirect(url_for('dashboard.user_dashboard', username=user.full_name))
-    return render_template("dashboard/new_story.html", user=user, story_form=story_form)
+    return render_template("dashboard.new_story.html", user=user, story_form=story_form)

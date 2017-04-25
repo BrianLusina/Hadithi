@@ -2,6 +2,10 @@ import os
 from app import create_app, db
 from flask_script import Manager, Shell, Server
 from flask_migrate import MigrateCommand, Migrate
+from scripts.setup_envvar import setup_env_variables
+
+# this will setup the environment variables before the application is setup
+setup_env_variables()
 
 cov = None
 if os.environ.get('FLASK_COVERAGE'):
@@ -19,7 +23,7 @@ with app.app_context():
 
 manager = Manager(app)
 migrate = Migrate(app, db)
-server = Server(host="127.0.0.1", port=5555)
+server = Server(host="0.0.0.0", port=5555)
 
 
 def make_shell_context():

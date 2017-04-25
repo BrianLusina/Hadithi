@@ -8,17 +8,21 @@ from app.forms import ContactForm
 @home_module.route('/')
 @home_module.route('index')
 @home_module.route('home')
-def home():
-    stories = Story.query.all()
+def index():
+    # stories = Story.query.all()
     author = AuthorAccount
-    return render_template('home/index.html', stories=stories, author=author, user=current_user)
+    context = dict(
+        author=author,
+        user=current_user
+    )
+    return render_template('home.index.html', **context)
 
 
 @home_module.route('contact')
 def contact():
     user = current_user
     contact_form = ContactForm(request.form)
-    return render_template('home/contact.html', user=user, contact_form=contact_form)
+    return render_template('home.contact.html', user=user, contact_form=contact_form)
 
 
 @home_module.route('about')
@@ -28,7 +32,7 @@ def about():
     :return:
     """
     user = current_user
-    return render_template('home/about.html', user=user)
+    return render_template('home.about.html', user=user)
 
 
 @home_module.route("google-site-verification: google2f512247f9616fa3.html")

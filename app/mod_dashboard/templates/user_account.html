@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div>
+        {# Avatar #}
+        <img src="{{ user.avatar(64) }}"><br>
+        <p>First Name: {{ user.first_name }}</p>
+        <p>Last name: {{ user.last_name }}</p>
+        <p>Email: {{ user.email }}</p><br/>
+        <p>Username: {{ user.username }}</p><br/>
+        {% if user.about_me %}
+            <p>About Me: {{ user.about_me }}</p><br/>
+        {% endif %}
+        {% if user.last_seen %}
+            <p>Last seen on {{ user.last_seen }}</p><br>
+        {% endif %}
+        <p> {{ user.followers.count() }} followers</p>
+
+        {% if user.id == g.user.id%}
+            <a href="{{ url_for('dashboard.edit_profile', username=user.username) }}">Edit profile</a>
+        {% elif not g.user.is_following(user) %}
+              <a href="{{ url_for('author.follow', username=user.username) }}">Follow</a>
+        {% else %}
+              <a href="{{ url_for('author.unfollow', username=user.username) }}">Unfollow</a>
+        {% endif %}
+    </div>
+
+    {#  Add user posts here  #}
+
+{% endblock %}
