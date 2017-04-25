@@ -23,7 +23,7 @@ with app.app_context():
 
 manager = Manager(app)
 migrate = Migrate(app, db)
-server = Server(host="127.0.0.1", port=5555)
+server = Server(host="0.0.0.0", port=5555)
 
 
 def make_shell_context():

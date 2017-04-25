@@ -1,7 +1,6 @@
-from flask import Blueprint, render_template
+from . import story_module
+from flask import render_template
 from app.models import Story
-
-story_module = Blueprint(name='story', url_prefix='/story', import_name=__name__)
 
 
 @story_module.route('/<int:story_id>')

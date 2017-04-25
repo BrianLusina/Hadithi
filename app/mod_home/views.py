@@ -9,9 +9,13 @@ from app.forms import ContactForm
 @home_module.route('index')
 @home_module.route('home')
 def index():
-    stories = Story.query.all()
+    # stories = Story.query.all()
     author = AuthorAccount
-    return render_template('home.index.html', stories=stories, author=author, user=current_user)
+    context = dict(
+        author=author,
+        user=current_user
+    )
+    return render_template('home.index.html', **context)
 
 
 @home_module.route('contact')

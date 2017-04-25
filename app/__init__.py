@@ -25,7 +25,7 @@ class HadithiApp(Flask):
         is being replaced with a ChoiceLoader object that will first search the normal
         FileSystemLoader and then check a PrefixLoader that we create
         """
-        Flask.__init__(self, template_folder="templates", static_folder="static")
+        Flask.__init__(self, __name__, template_folder="templates", static_folder="static")
         self.jinja_loader = jinja2.ChoiceLoader([
             self.jinja_loader,
             jinja2.PrefixLoader({}, delimiter=".")
@@ -63,6 +63,9 @@ def create_app(config_name):
     request_handlers(app, db)
     register_blueprints(app)
     set_logger(app, config_name)
+
+    # increases performance of loading application templates
+    app.jinja_env.cache = {}
 
     return app
 
@@ -176,7 +179,7 @@ def register_blueprints(app):
     :param app: The current flask application
     """
     from app.mod_home import home_module
-    from app.mod_story.views import story_module
+    from app.mod_story import story_module
     from app.mod_auth import auth
     from app.mod_dashboard import dashboard
     from app.mod_user import author
