@@ -1,4 +1,11 @@
 {% extends 'base.html' %}
+
+{% block head %}
+    {{ super() }}
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('auth.static', filename='css/auth.css') }}"/>
+{% endblock %}
+
 {% block content %}
     <div class="form-panel">
         <div class="form-header">
@@ -53,4 +60,16 @@
             </a>
         </div>
     </div>
+{% endblock %}
+
+{% block js %}
+    {{ super() }}
+
+    <script type="text/javascript" src="{{ url_for('auth.static', filename='js/auth.js')}}"></script>
+
+    <!--Preloader for authentication-->
+    <script src="{{ url_for('auth.static', filename='js/facebookAuthStatus.js')}}"></script>
+
+    <script>runCheckingStatus()</script>
+
 {% endblock %}

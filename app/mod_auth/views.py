@@ -1,5 +1,5 @@
 from . import auth
-from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app, session
+from flask import render_template, request, flash, redirect, url_for, current_app, session
 from app.forms import LoginForm, RegisterForm, ForgotPassword
 from app.models import AuthorAccount, AsyncOperationStatus, AsyncOperation
 from app import db

@@ -23,8 +23,6 @@
 
     <!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashdemo.css')}}"/>-->
 
-    <!--Auth css-->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/auth.css') }}"/>
     <!--Contact css-->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/contact.css') }}">
     <!--Styles-->
@@ -35,7 +33,12 @@
     <!--About css-->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/about.css')}}"/>
 
+    <!--[if lte IE 8]><script src="{{ url_for('static', filename='js/ie/html5shiv.js') }}"></script><![endif]-->
+
     <!--Modernizr-->
     <script src="{{ url_for('static', filename='js/vendor/modernizr.custom.js')}}"></script>
+
+    <!--[if lte IE 9]><link rel="stylesheet" href="{{ url_for('static', filename='css/ie/ie9.css') }}" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="{{ url_for('static', filename='css/ie/ie8.css') }}" /><![endif]-->
 
 {% endblock %}
