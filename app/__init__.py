@@ -172,7 +172,7 @@ def set_logger(app, config_name):
             app.logger.info("Hadithi Blog")
 
 
-def register_blueprints(app):
+def register_blueprints(app_):
     """
     Registers tall blueprints in the app
     :param app: The current flask application
@@ -183,8 +183,8 @@ def register_blueprints(app):
     from app.mod_dashboard import dashboard
     from app.mod_user import author
 
-    app.register_blueprint(home_module)
-    app.register_blueprint(story_module)
-    app.register_blueprint(auth)
-    app.register_blueprint(dashboard)
-    app.register_blueprint(author)
+    app_.register_blueprint(home_module)
+    app_.register_blueprint(story_module)
+    app_.register_blueprint(auth)
+    app_.register_blueprint(dashboard)
+    app_.register_blueprint(author)

@@ -1,39 +1,45 @@
-<meta charset="UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="google-site-verification" content="3DkMN9aP2LFFTMSu5f43XH7RuzUrWttsxxCXYMl6rHs" />
-{% if title %}
-    <title>{{ title }}</title>
-{% else %}
-    <title>Hadithi</title>
-{% endif %}
-<meta name="description" content="A site for all African stories" />
-<meta name="keywords" content="hadithi, african, stories, short stories, Africa, hadithi za kale" />
-<meta name="author" content="The Lusina" />
-<!--Favicon-->
-<link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.svg')}}">
+{% block head %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="3DkMN9aP2LFFTMSu5f43XH7RuzUrWttsxxCXYMl6rHs" />
+    {% if title %}
+        <title>{{ title }}</title>
+    {% else %}
+        <title>Hadithi</title>
+    {% endif %}
+    <meta name="description" content="A site for all African stories" />
+    <meta name="keywords" content="hadithi, african, stories, short stories, Africa, hadithi za kale" />
+    <meta name="author" content="The Lusina" />
+    <!--Favicon-->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.svg')}}">
 
-<!--Google Fonts-->
-<link href="https://fonts.googleapis.com/css?family=Alegreya+Sans|Cormorant|Cormorant+SC|Cormorant+Upright|Poiret+One|Raleway|Roboto|Cormorant+Infant|Aref+Ruqaa|Lobster|Pacifico|Shadows+Into+Light" rel="stylesheet">
-<!--Normalize css-->
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/normalize.css')}}" />
-<!--Font aweseome-->
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fonts/font-awesome-4.3.0/css/font-awesome.min.css')}}" />
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans|Cormorant|Cormorant+SC|Cormorant+Upright|Poiret+One|Raleway|Roboto|Cormorant+Infant|Aref+Ruqaa|Lobster|Pacifico|Shadows+Into+Light" rel="stylesheet">
+    <!--Normalize css-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/normalize.css')}}" />
+    <!--Font aweseome-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fonts/font-awesome-4.3.0/css/font-awesome.min.css')}}" />
 
-<!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashdemo.css')}}"/>-->
+    <!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashdemo.css')}}"/>-->
 
-<!--Auth css-->
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/auth.css') }}"/>
-<!--Contact css-->
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/contact.css') }}">
-<!--Styles-->
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}" />
-<!--Animate css-->
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/animate.min.css') }}" />
+    <!--Contact css-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/contact.css') }}">
+    <!--Animate css-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/animate.min.css') }}" />
 
-<!--About css-->
-<link rel="stylesheet", type="text/css" href="{{ url_for('static', filename='css/about.css')}}"/>
+    <!--About css-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/about.css')}}"/>
 
-<!--Modernizr-->
-<script src="{{ url_for('static', filename='js/vendor/modernizr.custom.js')}}"></script>
+    <!--[if lte IE 8]><script src="{{ url_for('static', filename='js/ie/html5shiv.js') }}"></script><![endif]-->
 
+    <!--Index styles-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='sass/index.css') }}" />
+
+    <!--[if lte IE 9]><link rel="stylesheet" href="{{ url_for('static', filename='css/ie/ie9.css') }}" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="{{ url_for('static', filename='css/ie/ie8.css') }}" /><![endif]-->
+
+    <!--Modernizr-->
+    <script src="{{ url_for('static', filename='js/vendor/modernizr.custom.js')}}"></script>
+
+{% endblock %}

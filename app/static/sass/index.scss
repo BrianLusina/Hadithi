@@ -1,0 +1,15 @@
+// helpers, mixins, functions, variables
+@import "helpers/module";
+
+// vendor
+@import "vendor/module";
+@import "vendor_extensions/module";
+
+//base
+@import "base/module";
+
+// components
+@import "components/module";
+
+// layouts
+@import "layouts/module";

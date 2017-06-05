@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% block head %}
+    {{ super() }}
+
+{% endblock %}
+
 {% block content %}
 <header class="top-bar">
 	<h2 class="top-bar__headline">Latest articles</h2>
@@ -36,4 +41,9 @@
 <footer class="page-meta">
 	<span>Load more...</span>
 </footer>
+{% endblock %}
+
+{% block js %}
+    {{ super() }}
+
 {% endblock %}
