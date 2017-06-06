@@ -3,10 +3,16 @@ import os
 from app import create_app, db
 from flask_script import Manager, Shell, Server
 from flask_migrate import MigrateCommand, Migrate
-from scripts.setup_envvar import setup_env_variables
+from click import echo, style
+from datetime import datetime
 
 # this will setup the environment variables before the application is setup
-setup_env_variables()
+if os.path.exists(".env"):
+    echo(style(text=">>>> Importing environment variables", fg="green", bold=True))
+    for line in open(".env"):
+        var = line.strip().split("=")
+        if len(var) == 2:
+            os.environ[var[0]] = var[1]
 
 cov = None
 if os.environ.get('FLASK_COVERAGE'):
@@ -19,8 +25,8 @@ app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
 # import models with app context
 # this prevents the data from the db from being deleted on every migration
-with app.app_context():
-    from app.models import *
+# with app.app_context():
+#     from app.models import *
 
 manager = Manager(app)
 migrate = Migrate(app, db)
@@ -28,7 +34,7 @@ server = Server(host="0.0.0.0", port=5555)
 
 
 def make_shell_context():
-    return dict(app=app, db=db, Author=AuthorAccount, Story=Story)
+    return dict(app=app, db=db)
 
 manager.add_command('shell', Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
@@ -67,6 +73,7 @@ def test(coverage=False):
 
 @manager.command
 def create_admin():
+    from app.models import AuthorAccount
     """
     Creates an admin account for Hadithi adds it to the database
     """
