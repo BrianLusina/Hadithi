@@ -18,7 +18,7 @@ class Config(object):
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-    SQLALCHEMY_DATABASE_URI = os.environ["DATABASE_URL"]
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
     SECURITY_PASSWORD_SALT = os.environ.get("SECURITY_PASSWORD_SALT") or 'my_precious_two'
     ROOT_DIR = APP_ROOT
     WTF_CSRF_ENABLED = True
@@ -34,20 +34,20 @@ class Config(object):
     MAIL_USE_SSL = True
 
     # gmail authentication
-    MAIL_USERNAME = os.environ['APP_MAIL_USERNAME']
-    MAIL_PASSWORD = os.environ['APP_MAIL_PASSWORD']
+    MAIL_USERNAME = os.environ.get('APP_MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('APP_MAIL_PASSWORD')
 
-    MAIL_DEFAULT_SENDER = os.environ["MAIL_DEFAULT_SENDER"]
+    MAIL_DEFAULT_SENDER = os.environ.get("MAIL_DEFAULT_SENDER")
 
     # credentials for external service accounts
     OAUTH_CREDENTIALS = {
         "facebook": {
-            "id": os.environ["FACEBOOK_ID"],
-            "secret": os.environ["FACEBOOK_SECRET"]
+            "id": os.environ.get("FACEBOOK_ID"),
+            "secret": os.environ.get("FACEBOOK_SECRET")
         },
         "google": {
-            "id": os.environ["GOOGLE_ID"],
-            "secret": os.environ["GOOGLE_SECRET"]
+            "id": os.environ.get("GOOGLE_ID"),
+            "secret": os.environ.get("GOOGLE_SECRET")
         }
     }
 

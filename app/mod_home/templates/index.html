@@ -5,42 +5,92 @@
 {% endblock %}
 
 {% block content %}
-<header class="top-bar">
-	<h2 class="top-bar__headline">Latest articles</h2>
-	<div class="filter">
-		<span>Filter by:</span>
-		<span class="dropdown">Popular</span>
-	</div>
-</header>
+    {# Todo: use for loop to update #}
+    <article class="post">
+        <header>
+            <div class="title">
+                <h2>
+                    <a href="#">Magna sed adipiscing</a>
+                </h2>
 
-{% for story in stories %}
-	<a class="grid__item" href="#">
-		<h2 class="title title--preview">{{ story.title }}</h2>
-		<div class="loader"></div>
-		{% if story.category %}
-			<span class="category">{{ story.category }}</span>
-		{% else %}
-			<span class="category">{{ story.tagline }}</span>
-		{% endif %}
-		<div class="meta meta--preview">
-            {% if author.query.filter_by(id=story.author_id).first() %}
-                <img class="meta__avatar" src="{{ author.query.filter_by(id=story.author_id).first().avatar(64) }}" alt="{{ author.query.filter_by(id=story.author_id).first().username }}" />
-            {% else %}
-                <img class="meta__avatar" src="https://dummyimage.com/50x50/000/a7a9c7&text=?" alt="{{author.query.filter_by(id=story.author_id).first().username }}" />
-            {% endif %}
-			<span class="meta__date"><i class="fa fa-calendar-o"></i>
-                {{ story.date_created.day }} {{ story.date_created.strftime("%b") }}
-            </span>
-			<span class="meta__reading-time"><i class="fa fa-clock-o"></i> 3 min read</span>
-		</div>
-	</a>
-{% endfor %}
+                <p>Lorem ipsum dolor amet nullam consequat etiam feugiat</p>
+            </div>
 
-{% include 'story.story_content.html' %}
+            <div class="meta">
+                <time class="published" datetime="2015-11-01">November 1, 2015</time>
 
-<footer class="page-meta">
-	<span>Load more...</span>
-</footer>
+                <a href="#" class="author">
+                    <span class="name">Jane Doe</span>
+                    <img src="{{ url_for('static', filename='images/avatar.jpg') }}" alt="" />
+                </a>
+            </div>
+
+        </header>
+
+        <a href="#" class="image featured">
+            <img src="{{ url_for('static', filename='images/pic01.jpg') }}" alt="" />
+        </a>
+
+        <p>Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at. Phasellus sed ultricies mi non congue ullam corper. Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
+
+        <footer>
+            <ul class="actions">
+                <li>
+                    <a href="#" class="button big">Continue Reading</a>
+                </li>
+            </ul>
+
+            <ul class="stats">
+                <li><a href="#">General</a></li>
+                <li><a href="#" class="icon fa-heart">28</a></li>
+                <li><a href="#" class="icon fa-comment">128</a></li>
+            </ul>
+        </footer>
+
+    </article>
+
+    <article class="post">
+        <header>
+            <div class="title">
+                <h2>
+                    <a href="#">Magna sed adipiscing</a>
+                </h2>
+
+                <p>Lorem ipsum dolor amet nullam consequat etiam feugiat</p>
+            </div>
+
+            <div class="meta">
+                <time class="published" datetime="2015-11-01">November 1, 2015</time>
+
+                <a href="#" class="author">
+                    <span class="name">Jane Doe</span>
+                    <img src="{{ url_for('static', filename='images/avatar.jpg') }}" alt="" />
+                </a>
+            </div>
+
+        </header>
+
+        <a href="#" class="image featured">
+            <img src="{{ url_for('static', filename='images/pic01.jpg') }}" alt="" />
+        </a>
+
+        <p>Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at. Phasellus sed ultricies mi non congue ullam corper. Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
+
+        <footer>
+            <ul class="actions">
+                <li>
+                    <a href="#" class="button big">Continue Reading</a>
+                </li>
+            </ul>
+
+            <ul class="stats">
+                <li><a href="#">General</a></li>
+                <li><a href="#" class="icon fa-heart">28</a></li>
+                <li><a href="#" class="icon fa-comment">128</a></li>
+            </ul>
+        </footer>
+
+    </article>
 {% endblock %}
 
 {% block js %}

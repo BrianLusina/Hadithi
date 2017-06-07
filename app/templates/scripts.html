@@ -1,14 +1,12 @@
 {% block js %}
-    <script type="text/javascript" src="{{ url_for('static', filename='js/vendor/classie.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/vendor/jquery-3.0.0.min.js') }}"></script>
 
-    <!--Contact js-->
-    <script type="text/javascript" src="{{ url_for('static', filename='js/contact.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/vendor/skel.min.js') }}"></script>
 
-    <!--About js-->
-    <script type="text/javascript" src="{{ url_for('static', filename='js/about.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/util.js') }}"></script>
 
-    <!--Main js-->
+    <!--[if lte IE 8]><script type="text/javascript" src="{{ url_for('static', filename='js/ie/respond.min.js') }}"></script><![endif]-->
+
     <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 {% endblock %}
