@@ -1,6 +1,6 @@
 from . import auth
 from flask import render_template, request, flash, redirect, url_for, current_app, session
-from app.forms import LoginForm, RegisterForm, ForgotPassword
+from .forms import LoginForm, RegisterForm, ForgotPassword
 from app.models import AuthorAccount, AsyncOperationStatus, AsyncOperation
 from app import db
 from flask_login import logout_user, login_required, login_user, current_user
