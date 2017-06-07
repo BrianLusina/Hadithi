@@ -4,7 +4,7 @@ module that will handle following and unfollowing of authors
 
 from . import author
 from flask import redirect, url_for, flash
-from app.models import AuthorAccount
+from app.mod_auth.models import AuthorAccount
 from app import db
 from flask_login import current_user, login_required
 

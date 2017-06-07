@@ -2,8 +2,9 @@ from . import dashboard
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_required
 from app.forms import EditProfileForm
-from app.models import AuthorAccount, Story
-from app.forms import StoryForm
+from app.mod_auth.models import AuthorAccount
+from app.mod_story.models import Story
+from app.mod_story.forms import StoryForm
 from app.utils.decorators import check_confirmed
 from app import db
 from app.mod_auth.token import generate_confirmation_token

@@ -1,7 +1,8 @@
 from . import home_module
 from flask import render_template, request
 from flask_login import current_user
-from app.models import Story, AuthorAccount
+from app.mod_story.models import Story
+from app.mod_auth.models import AuthorAccount
 from app.forms import ContactForm
 
 

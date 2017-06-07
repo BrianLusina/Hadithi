@@ -1,5 +1,6 @@
 from app import db
-from app.models import Story, AuthorAccount
+from app.mod_auth.models import AuthorAccount
+from app.mod_story.models import Story
 import json
 from datetime import datetime
 

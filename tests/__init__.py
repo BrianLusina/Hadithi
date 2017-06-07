@@ -1,6 +1,7 @@
 import unittest
 from app import create_app, db
-from app.models import AuthorAccount, Story
+from app.mod_story.models import Story
+from app.mod_auth.models import AuthorAccount
 from sqlalchemy.exc import IntegrityError
 from flask import url_for
 from datetime import datetime

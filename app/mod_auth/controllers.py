@@ -1,7 +1,7 @@
 from flask import flash, session, redirect, url_for
 from app import db
 from app.mod_auth.facebook_auth import FacebookSignIn
-from app.models import AuthorAccount, FacebookAccount, AsyncOperationStatus, AsyncOperation
+from .models import AuthorAccount, FacebookAccount, AsyncOperationStatus, AsyncOperation
 
 
 def external_auth():

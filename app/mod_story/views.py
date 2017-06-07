@@ -1,6 +1,6 @@
 from . import story_module
 from flask import render_template
-from app.models import Story
+from .models import Story
 
 
 @story_module.route('/<int:story_id>')
