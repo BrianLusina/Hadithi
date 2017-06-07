@@ -2,7 +2,8 @@ import unittest
 import uuid
 from flask import current_app, url_for
 from sqlalchemy.exc import IntegrityError
-from app.models import Author, Story
+from app.mod_auth.models import AuthorAccount
+from app.mod_story.models import Story
 from app import create_app, db
 
 
@@ -32,10 +33,10 @@ class BaseTestCase(ContextTestCase):
     Base test case for Hadithi
     """
     def create_author_account(self):
-        author = Author.query.filter_by(email="johndoe@example.com").first()
+        author = AuthorAccount.query.filter_by(email="johndoe@example.com").first()
         if author is None:
             try:
-                author = Author(fname="John", lname="Doe", email="johndoe@example.com", password="password")
+                author = AuthorAccount(fname="John", lname="Doe", email="johndoe@example.com", password="password")
                 db.session.add(author)
             except IntegrityError as ie:
                 print(ie)
@@ -48,7 +49,7 @@ class BaseTestCase(ContextTestCase):
         if story is None:
             try:
                 story = Story(title="Gotham in flames", tagline="Dark city catches fire", content="",
-                              author_id=author.id)
+                              author_id=author.id, category="")
                 db.session.add(story)
             except IntegrityError as e:
                 print(e)

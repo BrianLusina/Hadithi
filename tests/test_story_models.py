@@ -1,7 +1,7 @@
 import unittest
 from tests import BaseTestCase
 from app import db
-from app.models import AuthorAccount, Story
+from app.mod_story.models import Story
 from datetime import datetime
 from werkzeug.security import check_password_hash
 

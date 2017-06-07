@@ -2,7 +2,7 @@ import unittest
 from flask_login import current_user
 from tests import BaseTestCase
 from app.mod_auth.token import generate_confirmation_token, confirm_token
-from app.models import AuthorAccount
+from app.mod_auth.models import AuthorAccount
 from datetime import datetime
 from app import db
 
