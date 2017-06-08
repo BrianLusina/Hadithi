@@ -1,34 +1,43 @@
+"""
+Twitter authentication file. used to sign in a user with Twitter
+
+Specifies rules to use
+"""
 from flask import current_app, redirect, url_for, request
 from rauth import OAuth2Service
 
 
-class FacebookSignIn(object):
+class TwitterSignIn(object):
     """
-    Class to handle authentication with facebook
+    Twitter sign in class responsible for signing in with Twitter
     """
 
     def __init__(self):
         """
-        Initializes a new facebook auth object to handle authentication with Facebook
-        Because Facebook uses OAuth2 service, we initialize a with OAuth2Service
+        Creates an instance of TwitterSignIn class
+        :return: TwitterSignIn object
+        :rtype: TwitterSignIn
         """
-        # get the credentials for facebook
-        credentials = current_app.config["OAUTH_CREDENTIALS"]["facebook"]
-        self.consumer_id = credentials["id"]
-        self.consumer_secret = credentials["secret"]
+        credentials = current_app.config["OAUTH_CREDENTIALS"]["twitter"]
+        self.consumer_key = credentials["consumer_key"]
+        self.consumer_secret = credentials["consumer_secret"]
 
-        # initialize a new auth2 service with app credentials and urls
-        # authorize_url: URL used to connect during user facebook auth
-        # access_token_url: URL for which a request is made to exchange a code for an access token
-        # base_url: URL, prefix for making Facebook API requests
         self.service = OAuth2Service(
-            name="facebook",
-            client_id=self.consumer_id,
+            name="twitter",
+            client_id=self.consumer_key,
             client_secret=self.consumer_secret,
-            authorize_url='https://www.facebook.com/dialog/oauth',
-            access_token_url='https://graph.facebook.com/oauth/access_token',
-            base_url='https://graph.facebook.com/'
+            authorize_url='https://api.twitter.com/oauth/authenticate',
+            access_token_url='https://api.twitter.com/oauth/access_token',
+            base_url='https://api.twitter.com/1/',
         )
+
+    @staticmethod
+    def get_callback_url():
+        """
+        The redirect uri that will kick off background processes with Facebook
+        :return: A redirect for the pre-loader to start background communication with facebook
+        """
+        return url_for("auth.show_preloader_start_auth", _external=True)
 
     def authorize(self):
         """
@@ -52,14 +61,6 @@ class FacebookSignIn(object):
             redirect_uri=self.get_callback_url()
         ))
 
-    @staticmethod
-    def get_callback_url():
-        """
-        The redirect uri that will kick off background processes with Facebook
-        :return: A redirect for the pre-loader to start background communication with facebook
-        """
-        return url_for("auth.show_preloader_start_auth", _external=True)
-
     def callback(self):
         """
         Checks if the code is in the response and returns the user's, facebook_id, email,
@@ -77,10 +78,10 @@ class FacebookSignIn(object):
                   "redirect_uri": self.get_callback_url()
                   }
         )
-        user_facebook_data = oauth_session.get("me?fields=id,email,first_name,last_name").json()
+        user_twitter_data = oauth_session.get("me?fields=id,email,first_name,last_name").json()
         return (
-            user_facebook_data["id"],
-            user_facebook_data.get("email"),
-            user_facebook_data.get("first_name"),
-            user_facebook_data.get("last_name")
+            user_twitter_data["id"],
+            user_twitter_data.get("email"),
+            user_twitter_data.get("first_name"),
+            user_twitter_data.get("last_name")
         )

@@ -175,6 +175,8 @@ def google_authorize():
 def twitter_authorize():
     if not current_user.is_anonymous:
         return redirect(url_for("dashboard.user_dashboard", username=current_user.username))
+    # user is anonymous
+
 
 
 @auth.route("/callback")
