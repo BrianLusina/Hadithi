@@ -7,7 +7,6 @@ from flask_login import logout_user, login_required, login_user, current_user
 from app.mod_auth.token import generate_confirmation_token, confirm_token
 from datetime import datetime
 from app.mod_auth.email import send_mail
-from app.mod_auth.facebook_auth import FacebookSignIn
 from app.utils.taskmanager import taskman
 from app.mod_auth.controllers import external_auth
 from .oauth import OAuthSignIn
@@ -160,15 +159,6 @@ def oauth_authorize(provider):
 
 
 @auth.route("/callback/<provider>")
-def oauth_callback(provider):
-    """
-
-    :param provider:
-    :return:
-    """
-
-
-@auth.route("/callback/<provider>")
 def show_preloader_start_auth(provider):
     """
     Send user to the page with a preloader
@@ -212,35 +202,6 @@ def show_preloader_start_auth(provider):
 def forgot_password():
     forgot_pass = ForgotPassword(request.form)
     return render_template('auth.password-recovery.html', forgot_pass=forgot_pass, user=current_user)
-
-
-@auth.route("/facebook_authorize")
-def facebook_authorize():
-    """
-    This starts the authorization process with facebook
-    :return:
-    """
-    # if the user is logged in already, redirect them to dashboard
-    if not current_user.is_anonymous:
-        return redirect(url_for("dashboard.user_dashboard", username=current_user.username))
-    # if user is anonymous, begin the sign in process
-    oauth = FacebookSignIn()
-    return oauth.authorize()
-
-
-# todo google auth
-@auth.route("/google_authorize")
-def google_authorize():
-    if not current_user.is_anonymous:
-        return redirect(url_for("dashboard.user_dashboard", username=current_user.username))
-
-
-# todo twitter auth
-@auth.route("/twitter_authorize")
-def twitter_authorize():
-    if not current_user.is_anonymous:
-        return redirect(url_for("dashboard.user_dashboard", username=current_user.username))
-        # user is anonymous
 
 
 @auth.route("/get-status")

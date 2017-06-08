@@ -1,6 +1,7 @@
 from flask import current_app, redirect, url_for, request
 from rauth import OAuth2Service
 from .oauth import OAuthSignIn
+import json
 
 
 class FacebookSignIn(OAuthSignIn):
@@ -42,14 +43,24 @@ class FacebookSignIn(OAuthSignIn):
         return url_for("auth.show_preloader_start_auth", _external=True)
 
     def callback(self):
+        def decode_json(payload):
+            """
+            Decodes json
+            :param payload:
+            :return: decoded json from payload
+            """
+            return json.loads(payload.decode("utf-8"))
+
         if "code" not in request.args:
             return None, None, None, None
         oauth_session = self.service.get_auth_session(
-            date={"code": request.args["code"],
+            data={"code": request.args["code"],
                   "grant_type": "authorization_code",
                   "redirect_uri": self.get_callback_url()
-                  }
+                  },
+            decoder=decode_json
         )
+
         user_facebook_data = oauth_session.get("me?fields=id,email,first_name,last_name").json()
         return (
             user_facebook_data["id"],

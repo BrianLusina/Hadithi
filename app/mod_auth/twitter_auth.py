@@ -45,18 +45,18 @@ class TwitterSignIn(OAuthSignIn):
         return redirect(self.service.get_authorize_url(request_token[0]))
 
     def callback(self):
-        if "code" not in request.args:
+        request_token = session.pop("request_token")
+
+        if "oauth_verifiere" not in request.args:
             return None, None, None, None
+
         oauth_session = self.service.get_auth_session(
-            date={"code": request.args["code"],
-                  "grant_type": "authorization_code",
-                  "redirect_uri": self.get_callback_url()
-                  }
+            request_token[0], request_token[1],
+            data={"oauth_verifier": request.args["oauth_verifier"],}
         )
-        user_twitter_data = oauth_session.get("me?fields=id,email,first_name,last_name").json()
-        return (
-            user_twitter_data["id"],
-            user_twitter_data.get("email"),
-            user_twitter_data.get("first_name"),
-            user_twitter_data.get("last_name")
-        )
+        twitter_session = oauth_session.get("account/verify_credentials.json").json()
+        twitter_id = "twitter$" + str(twitter_session.get("id"))
+        username = twitter_session.get("screen_name")
+
+        return twitter_id, username, None
+

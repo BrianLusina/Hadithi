@@ -1,7 +1,6 @@
 from flask import flash, session, redirect, url_for
 from app import db
-from app.mod_auth.facebook_auth import FacebookSignIn
-from .models import AuthorAccount, FacebookAccount, AsyncOperationStatus, AsyncOperation
+from .models import AuthorAccount, FacebookAccount, TwitterAccount, AsyncOperationStatus, AsyncOperation
 from datetime import datetime
 from .oauth import OAuthSignIn
 
@@ -71,12 +70,7 @@ def authenticate_with_facebook(provider_id, *args):
         db.session.add(author_facebook)
         db.session.commit()
 
-    status_ok = AsyncOperationStatus.query.filter_by(code="ok").first()
-    async_operation = AsyncOperation.query.filter_by(id=session["async_operation_id"]).first()
-    async_operation.async_operation_status_id = status_ok.id
-    async_operation.user_profile_id = author_facebook.id
-    db.session.add(async_operation)
-    db.session.commit()
+        update_async_operation_status(author_facebook.id)
 
 
 def authenticate_with_twitter(provider_id, *args):
@@ -86,3 +80,41 @@ def authenticate_with_twitter(provider_id, *args):
     :param args variable number of arguments
     :return:
     """
+    # retrieve the user data from db for their facebook account
+    author_twitter = TwitterAccount.query.filter_by(twitter_id=provider_id).first()
+    email, first_name, last_name = args
+
+    # if the author is new, we store their credentials in the database
+    if not author_twitter:
+        # first add the author account
+        # the password will be auto-generated, this is because the user is logging in with their
+        # external service account and not with their email and password
+        # TODO: auto-generate password
+        author_account = AuthorAccount(first_name=first_name, last_name=last_name, email=email,
+                                       username=email, confirmed=True,
+                                       registered_on=datetime.now(), password="")
+        db.session.add(author_account)
+        db.session.commit()
+
+        # then create their facebook account which we can then update the author account id
+        author_twitter = TwitterAccount(provider_id, email, first_name, last_name)
+        author_twitter.author_id = author_account.id
+
+        # add to session and commit to db
+        db.session.add(author_twitter)
+        db.session.commit()
+
+        update_async_operation_status(author_twitter.id)
+
+
+def update_async_operation_status(author_provider_id):
+    """
+    updates async operation status
+    :return:
+    """
+    status_ok = AsyncOperationStatus.query.filter_by(code="ok").first()
+    async_operation = AsyncOperation.query.filter_by(id=session["async_operation_id"]).first()
+    async_operation.async_operation_status_id = status_ok.id
+    async_operation.user_profile_id = author_provider_id
+    db.session.add(async_operation)
+    db.session.commit()

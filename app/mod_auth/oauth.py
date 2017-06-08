@@ -4,7 +4,7 @@ This is neccessary as OAuth providers are many and making this generic enables u
 protocol (either 1 or 2) easy to add and maintain
 """
 from flask import current_app, url_for
-from abc import ABCMeta, abstractmethod
+from abc import abstractmethod
 
 
 class OAuthSignIn(object):
