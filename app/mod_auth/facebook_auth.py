@@ -62,8 +62,8 @@ class FacebookSignIn(object):
 
     def callback(self):
         """
-        Checks if the code is in the response and returns the user's, facebook_id, email, first_name,
-        last_name in that order
+        Checks if the code is in the response and returns the user's, facebook_id, email,
+         first_name, last_name in that order
         if code is not in the request args, it will return a 4 element tuple of None
         If the url has a code, we ask for a token using get_auth_session
         :return: User scope as a tuple

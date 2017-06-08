@@ -5,18 +5,18 @@ var trialsNumber = 60000/requestingInterval;
 function doRequest() {
 $.ajax({
         type : "GET",
-        url : "/get-status",
+        url : "/auth/get-status",
         contentType: 'application/json;charset=UTF-8',
         success: function(data) {
-            console.log(data)
+            console.log(data);
 
             /*If the data is ok, the user is redirected to the success endpoint*/
             if (data === 'ok') {
-             console.log(data)
+             console.log(data);
              $.ajax({
                 type: "GET",
                 url: "/"
-             })
+             });
              window.location.replace("/success")
             }
 
@@ -32,7 +32,7 @@ $.ajax({
 
 
             if (data === 'error') {
-                console.log(data)
+                console.log(data);
             window.location.replace("/error")
             }
         }

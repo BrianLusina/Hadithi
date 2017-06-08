@@ -9,7 +9,7 @@ from datetime import datetime
 from app.mod_auth.email import send_mail
 from app.mod_auth.facebook_auth import FacebookSignIn
 from app.utils.taskmanager import taskman
-from app.mod_auth.controllers import external_auth
+from app.mod_auth.controllers import facebook_external_auth
 
 
 @auth.route('/login', methods=["POST", "GET"])
@@ -199,15 +199,21 @@ def show_preloader_start_auth():
 
     # store in the session id of the asynchronous operation
     status_pending = AsyncOperationStatus.query.filter_by(code="pending").first()
-    async_operation = AsyncOperation(async_operation_status_id=status_pending.id)
-    db.session.add(async_operation)
-    db.session.commit()
 
-    # store in a session the id of Asynchronous Operation
-    session["async_operation_id"] = str(async_operation.id)
+    if status_pending is None:
+        status_pending = AsyncOperation(code="pending")
+        db.session.add(status_pending)
+        db.session.commit()
+
+        async_operation = AsyncOperation(async_operation_status_id=status_pending.id)
+        db.session.add(async_operation)
+        db.session.commit()
+
+        # store in a session the id of Asynchronous Operation
+        session["async_operation_id"] = str(async_operation.id)
 
     # run external auth in a separate thread
-    taskman.add_task(external_auth)
+    taskman.add_task(facebook_external_auth)
     return redirect(url_for("auth.preloader"))
 
 
@@ -256,7 +262,7 @@ def success():
         async_operation = AsyncOperation.query.filter_by(id=async_operation_id).first()
         author = AuthorAccount.query.filter_by(id=async_operation.author_profile_id).first()
         login_user(author, True)
-    return redirect(url_for("dashboard.user_dashboard", user_name=author.username))
+    return redirect(url_for("dashboard.user_dashboard", user_name=current_user.username))
 
 
 @auth.route('/logout')

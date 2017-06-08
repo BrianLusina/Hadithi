@@ -2,9 +2,10 @@ from flask import flash, session, redirect, url_for
 from app import db
 from app.mod_auth.facebook_auth import FacebookSignIn
 from .models import AuthorAccount, FacebookAccount, AsyncOperationStatus, AsyncOperation
+from datetime import datetime
 
 
-def external_auth():
+def facebook_external_auth():
     """
     Will create an instance of FacebookSignIn class that will invoke a callback() method
     That will exchange code for an access token that will receive the user's data
@@ -38,7 +39,21 @@ def external_auth():
 
     # if the author is new, we store their credentials in the database
     if not author_facebook:
+        # first add the author account
+        # the password will be auto-generated, this is because the user is logging in with their
+        # external service account and not with their email and password
+        # TODO: auto-generate password
+        author_account = AuthorAccount(first_name=first_name, last_name=last_name, email=email,
+                                       username=email, confirmed=True,
+                                       registered_on=datetime.now(), password="")
+        db.session.add(author_account)
+        db.session.commit()
+
+        # then create their facebook account which we can then update the author account id
         author_facebook = FacebookAccount(facebook_id, email, first_name, last_name)
+        author_facebook.author_id = author_account.id
+
+        # add to session and commit to db
         db.session.add(author_facebook)
         db.session.commit()
 
