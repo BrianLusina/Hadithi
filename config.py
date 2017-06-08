@@ -40,16 +40,13 @@ class Config(object):
     MAIL_DEFAULT_SENDER = os.environ.get("MAIL_DEFAULT_SENDER")
 
     # credentials for external service accounts
-    OAUTH_CREDENTIALS = {
-        "facebook": {
-            "id": os.environ.get("FACEBOOK_ID"),
-            "secret": os.environ.get("FACEBOOK_SECRET")
-        },
-        "google": {
-            "id": os.environ.get("GOOGLE_ID"),
-            "secret": os.environ.get("GOOGLE_SECRET")
-        }
-    }
+    OAUTH_CREDENTIALS = dict(facebook=dict(id=os.environ.get("FACEBOOK_ID"),
+                                           secret=os.environ.get("FACEBOOK_SECRET")),
+                             google=dict(id=os.environ.get("GOOGLE_ID"),
+                                         secret=os.environ.get("GOOGLE_SECRET")),
+                             twitter=dict(consumer_key=os.environ.get("TWITTER_KEY"),
+                                          consumer_secret=os.environ.get("TWITTER_SECRET"))
+                             )
 
     @staticmethod
     def init_app(app):
