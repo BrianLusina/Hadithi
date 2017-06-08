@@ -10,6 +10,7 @@ from app.mod_auth.email import send_mail
 from app.mod_auth.facebook_auth import FacebookSignIn
 from app.utils.taskmanager import taskman
 from app.mod_auth.controllers import facebook_external_auth
+from .oauth import OAuthSignIn
 
 
 @auth.route('/login', methods=["POST", "GET"])
@@ -143,6 +144,30 @@ def confirm_email(token):
     return redirect(url_for('auth.login'))
 
 
+@auth.route("/authorize/<provider>")
+def oauth_authorize(provider):
+    """
+    This is accessed with the Login with ... button which will pick the provider name and
+    initiate the provider to use in the login process
+    This will initialize the Provider class object and start authorizing the user
+    :param provider: provider name, e.g Google, Github, Facebook, Twitter
+    :return: authorize callback for given provider
+    """
+    if not current_user.is_anonymous:
+        return redirect(url_for("dashboard.user_dashboard", username=current_user.username))
+    oauth = OAuthSignIn.get_provider(provider)
+    return oauth.authorize()
+
+
+@auth.route("/callback/<provider>")
+def oauth_callback(provider):
+    """
+
+    :param provider:
+    :return:
+    """
+
+
 @auth.route('/forgot-password', methods=["GET", "POST"])
 def forgot_password():
     forgot_pass = ForgotPassword(request.form)
@@ -175,8 +200,7 @@ def google_authorize():
 def twitter_authorize():
     if not current_user.is_anonymous:
         return redirect(url_for("dashboard.user_dashboard", username=current_user.username))
-    # user is anonymous
-
+        # user is anonymous
 
 
 @auth.route("/callback")

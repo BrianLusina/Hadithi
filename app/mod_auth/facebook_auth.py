@@ -1,21 +1,20 @@
 from flask import current_app, redirect, url_for, request
 from rauth import OAuth2Service
+from .oauth import OAuthSignIn
 
 
-class FacebookSignIn(object):
+class FacebookSignIn(OAuthSignIn):
     """
     Class to handle authentication with facebook
     """
 
-    def __init__(self):
+    def __init__(self, provider_name):
         """
         Initializes a new facebook auth object to handle authentication with Facebook
         Because Facebook uses OAuth2 service, we initialize a with OAuth2Service
         """
         # get the credentials for facebook
-        credentials = current_app.config["OAUTH_CREDENTIALS"]["facebook"]
-        self.consumer_id = credentials["id"]
-        self.consumer_secret = credentials["secret"]
+        super(FacebookSignIn, self).__init__("facebook")
 
         # initialize a new auth2 service with app credentials and urls
         # authorize_url: URL used to connect during user facebook auth
@@ -31,20 +30,6 @@ class FacebookSignIn(object):
         )
 
     def authorize(self):
-        """
-        Redirects the user to Facebook login page, where they are prompted to accept permissions
-        scope:
-            Will request for specific user permissions, such as public profile and email,
-            public_profile will contain facebook id, first and last names
-            email: will be the user's email signed in with facebook
-        redirect_uri:
-            the url we will redirect the user to
-        state: A unique string created by our app to protect against cross-site request forgery.
-        client_id: This value is automatically added to the requested parameters by the Rauth’s
-         get_authorize_url() method.
-         used to protect our app from accepting a code intended for an application with a different client_id.
-        :return: a redirect to Facebook login page
-        """
         return redirect(self.service.get_authorize_url(
             scope="public_profile,email",
             response_type="code",
@@ -54,21 +39,9 @@ class FacebookSignIn(object):
 
     @staticmethod
     def get_callback_url():
-        """
-        The redirect uri that will kick off background processes with Facebook
-        :return: A redirect for the pre-loader to start background communication with facebook
-        """
         return url_for("auth.show_preloader_start_auth", _external=True)
 
     def callback(self):
-        """
-        Checks if the code is in the response and returns the user's, facebook_id, email,
-         first_name, last_name in that order
-        if code is not in the request args, it will return a 4 element tuple of None
-        If the url has a code, we ask for a token using get_auth_session
-        :return: User scope as a tuple
-        :rtype: tuple
-        """
         if "code" not in request.args:
             return None, None, None, None
         oauth_session = self.service.get_auth_session(

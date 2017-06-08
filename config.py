@@ -44,8 +44,8 @@ class Config(object):
                                            secret=os.environ.get("FACEBOOK_SECRET")),
                              google=dict(id=os.environ.get("GOOGLE_ID"),
                                          secret=os.environ.get("GOOGLE_SECRET")),
-                             twitter=dict(consumer_key=os.environ.get("TWITTER_KEY"),
-                                          consumer_secret=os.environ.get("TWITTER_SECRET"))
+                             twitter=dict(id=os.environ.get("TWITTER_KEY"),
+                                          secret=os.environ.get("TWITTER_SECRET"))
                              )
 
     @staticmethod

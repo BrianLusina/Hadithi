@@ -3,73 +3,48 @@ Twitter authentication file. used to sign in a user with Twitter
 
 Specifies rules to use
 """
-from flask import current_app, redirect, url_for, request
-from rauth import OAuth2Service
+from flask import current_app, request, session, redirect
+from rauth import OAuth1Service
+from .oauth import OAuthSignIn
 
 
-class TwitterSignIn(object):
+class TwitterSignIn(OAuthSignIn):
     """
     Twitter sign in class responsible for signing in with Twitter
     """
 
-    def __init__(self):
+    def __init__(self, provider_name):
         """
         Creates an instance of TwitterSignIn class
         :return: TwitterSignIn object
         :rtype: TwitterSignIn
         """
-        credentials = current_app.config["OAUTH_CREDENTIALS"]["twitter"]
-        self.consumer_key = credentials["consumer_key"]
-        self.consumer_secret = credentials["consumer_secret"]
+        super(TwitterSignIn, self).__init__("twitter")
 
-        self.service = OAuth2Service(
+        self.service = OAuth1Service(
             name="twitter",
-            client_id=self.consumer_key,
-            client_secret=self.consumer_secret,
+            consumer_key=self.consumer_id,
+            consumer_secret=self.consumer_secret,
+            request_token_url="https://api.twitter.com/oauth/request_token",
             authorize_url='https://api.twitter.com/oauth/authenticate',
             access_token_url='https://api.twitter.com/oauth/access_token',
             base_url='https://api.twitter.com/1/',
         )
 
-    @staticmethod
-    def get_callback_url():
-        """
-        The redirect uri that will kick off background processes with Facebook
-        :return: A redirect for the pre-loader to start background communication with facebook
-        """
-        return url_for("auth.show_preloader_start_auth", _external=True)
-
     def authorize(self):
         """
-        Redirects the user to Facebook login page, where they are prompted to accept permissions
-        scope:
-            Will request for specific user permissions, such as public profile and email,
-            public_profile will contain facebook id, first and last names
-            email: will be the user's email signed in with facebook
-        redirect_uri:
-            the url we will redirect the user to
-        state: A unique string created by our app to protect against cross-site request forgery.
-        client_id: This value is automatically added to the requested parameters by the Rauth’s
-         get_authorize_url() method.
-         used to protect our app from accepting a code intended for an application with a different client_id.
-        :return: a redirect to Facebook login page
+        obtaining a request token from the provider, which is a list of two items,
+        the first of which is then used as an argument in the redirect.
+        The entire request token is saved to the user session because it will be needed again in
+         the callback.
+        :return: redirect object
         """
-        return redirect(self.service.get_authorize_url(
-            scope="public_profile,email",
-            response_type="code",
-            state=current_app.config["CSRF_SESSION_KEY"],
-            redirect_uri=self.get_callback_url()
-        ))
+        request_token = self.service.get_request_token(
+            params={"oauth_callback": self.get_callback_url()})
+        session["request_token"] = request_token
+        return redirect(self.service.get_authorize_url(request_token[0]))
 
     def callback(self):
-        """
-        Checks if the code is in the response and returns the user's, facebook_id, email,
-         first_name, last_name in that order
-        if code is not in the request args, it will return a 4 element tuple of None
-        If the url has a code, we ask for a token using get_auth_session
-        :return: User scope as a tuple
-        :rtype: tuple
-        """
         if "code" not in request.args:
             return None, None, None, None
         oauth_session = self.service.get_auth_session(
