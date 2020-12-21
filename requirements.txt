@@ -21,7 +21,7 @@ Flask-User==0.6.9
 Flask-WTF==0.13.1
 gunicorn==19.6.0
 itsdangerous==0.24
-Jinja2==2.8
+Jinja2==2.10.1
 kombu==4.0.2
 Mako==1.0.6
 MarkupSafe==0.23
